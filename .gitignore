@@ -62,3 +62,10 @@ legacy-cdn.html
 # Repo ini publik — jangan pernah di-commit. Lihat apps-script/README.md
 apps-script/Code.gs
 apps-script/*.gs
+apps-script/**/*.gs
+
+# Salinan hidup yang ditarik clasp — seluruh isinya rahasia.
+apps-script/live/
+apps-script/.clasp.json
+apps-script/.deployment-id
+apps-script/.live-hash
