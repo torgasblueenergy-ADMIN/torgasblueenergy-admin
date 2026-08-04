@@ -43,6 +43,11 @@ temp/
 .__*
 __probe.txt
 
+# ── Rem tangan deploy otomatis ──
+# Kalau berkas ini ada, tools/auto-deploy.sh berhenti bekerja.
+# Sifatnya sementara & personal, jadi tidak perlu ikut ke GitHub.
+.deploy-pause
+
 # ── Berkas sementara Vite (muncul saat build, aman dihapus) ──
 vite.config.js.timestamp-*
 vite.config.*.timestamp-*
