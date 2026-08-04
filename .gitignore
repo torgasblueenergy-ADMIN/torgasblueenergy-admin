@@ -51,3 +51,9 @@ vite.config.*.timestamp-*
 ssr-check.mjs
 src/ssr-entry.jsx
 legacy-cdn.html
+
+# ── Backend Apps Script ──
+# Memuat SECRET_KEY, ID Sheet/Drive, dan email pengurus.
+# Repo ini publik — jangan pernah di-commit. Lihat apps-script/README.md
+apps-script/Code.gs
+apps-script/*.gs

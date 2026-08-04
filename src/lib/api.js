@@ -25,6 +25,11 @@ import { WEBAPI_URL } from '../config';
 
 const TIMEOUT_MS = 20000;
 
+/** Penanda unik per pengiriman, agar server bisa menolak kiriman ganda. */
+function buatNonce() {
+  return Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 10);
+}
+
 /* Kata yang menandakan keberhasilan, dari berbagai gaya penulisan skrip. */
 const KATA_SUKSES = ['success', 'sukses', 'ok', 'berhasil', 'true', 'saved', 'tersimpan'];
 
@@ -69,12 +74,17 @@ export async function submitForm(payload) {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
 
+  /* `nonce` dipakai Apps Script untuk menolak kiriman ganda. Kalau browser
+     mengirim ulang permintaan yang sama (mis. karena jaringan tersendat),
+     server membalas ID yang sudah ada alih-alih membuat baris kedua. */
+  const body = { ...payload, nonce: buatNonce() };
+
   try {
     const res = await fetch(WEBAPI_URL, {
       method: 'POST',
       // text/plain menghindari preflight OPTIONS yang tidak bisa dijawab Apps Script
       headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: JSON.stringify(payload),
+      body: JSON.stringify(body),
       redirect: 'follow',
       signal: controller.signal
     });
@@ -105,7 +115,13 @@ export async function submitForm(payload) {
     if (isSukses(data)) {
       return { ok: true, message: data.message || 'Data berhasil dikirim.', data };
     }
-    return { ok: false, message: data.message || 'Server tidak dapat memproses data Anda.' };
+    /* Apps Script Torgas menaruh pesan kegagalan di properti `error`,
+       bukan `message`. Kalau hanya `message` yang dibaca, pengguna dapat
+       pesan gagal kosong tanpa keterangan apa pun. */
+    return {
+      ok: false,
+      message: data.error || data.message || 'Server tidak dapat memproses data Anda.'
+    };
 
   } catch (err) {
     if (err.name === 'AbortError') {

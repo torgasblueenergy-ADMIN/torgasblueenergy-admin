@@ -24,15 +24,13 @@ function InternshipFormPage({ onBackToMain }) {
     setIsSubmitting(true);
     setStatusMsg('Mengirim data pendaftaran...');
 
-    /* CV ikut dikirim sebagai base64. Apps Script yang menyimpannya
-       ke folder Drive. Kalau pelamar tidak melampirkan, ketiga field
-       ini dikirim kosong dan Apps Script cukup melewatinya. */
+    /* CV dikirim sebagai objek `cvFile` — bentuk yang diharapkan
+       Apps Script ({ name, mimeType, data }). Kalau pelamar tidak
+       melampirkan, properti ini tidak dikirim sama sekali. */
     const payload = {
       action: 'internship',
       ...formData,
-      cvFileName: cvFile?.name || '',
-      cvMimeType: cvFile?.mimeType || '',
-      cvBase64: cvFile?.base64 || ''
+      ...(cvFile ? { cvFile: { name: cvFile.name, mimeType: cvFile.mimeType, data: cvFile.base64 } } : {})
     };
 
     const result = await submitForm(payload);

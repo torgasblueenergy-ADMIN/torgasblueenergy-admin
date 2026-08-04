@@ -34,9 +34,8 @@ function PartTimeFormPage({ onBackToMain }) {
     const payload = {
       action: 'part_time_app',
       ...formData,
-      cvFileName: cvFile.name,
-      cvMimeType: cvFile.mimeType,
-      cvBase64: cvFile.base64
+      // Bentuk yang diharapkan Apps Script: { name, mimeType, data }
+      cvFile: { name: cvFile.name, mimeType: cvFile.mimeType, data: cvFile.base64 }
     };
 
     const result = await submitForm(payload);

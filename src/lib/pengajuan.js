@@ -1,63 +1,36 @@
 import { WEBAPI_URL } from '../config';
 
 /* ================================================================
-   MENGAMBIL DAFTAR PENGAJUAN DARI GOOGLE SHEET
+   DAFTAR PENGAJUAN UNTUK TABEL STUDENT PORTAL
    ----------------------------------------------------------------
-   ⚠️ RIWAYAT: tabel di Student Portal dulu berisi 3 baris CONTOH yang
-   ditulis langsung di dalam kode. Pengajuan sungguhan yang dikirim
-   mahasiswa tidak pernah muncul, dan statusnya tidak bisa diubah
-   dari mana pun. Sekarang tabel membaca langsung dari Spreadsheet.
+   ⚠️ RIWAYAT: tabel ini dulu berisi 3 baris CONTOH yang ditulis
+   langsung di dalam kode. Pengajuan sungguhan tidak pernah muncul,
+   dan statusnya tidak bisa diubah dari mana pun.
 
-   Status diubah oleh Pak Tora / Kepala Lab lewat tombol di email —
-   lihat apps-script/Code.gs.
+   Sekarang membaca dari Apps Script:  ?action=submissions
+
+   Apps Script sudah mengembalikan data dalam bentuk siap pakai —
+   lengkap dengan displayDate, statusBadge, dan activityStyle — jadi
+   berkas ini tidak perlu mengolah ulang apa pun.
+
+   Status diubah oleh admin lewat tombol SETUJUI / TOLAK di email.
 ================================================================ */
 
-/** Mengubah nama tab Sheet menjadi label kegiatan di tabel. */
-const LABEL_KEGIATAN = {
-  'Pengajuan':          'RAB & Biaya',
-  'Portal - Booking':   'Booking',
-  'Portal - Progres':   'Progress',
-  'Portal - Mentoring': 'Bimbingan'
-};
-
-/** Warna label kegiatan, disamakan dengan tampilan sebelumnya. */
-const GAYA_KEGIATAN = {
-  'Bimbingan':   'text-[#0096d7] bg-[#0096d7]/10',
-  'Progress':    'text-emerald-600 bg-emerald-50',
-  'RAB & Biaya': 'text-slate-600 bg-slate-100',
-  'Booking':     'text-[#d97706] bg-[#FFAD26]/15'
-};
-
-const GAYA_STATUS = {
-  APPROVED: 'badge-green',
-  PENDING:  'badge-orange',
-  REJECTED: 'badge-red'
-};
-
-const BULAN = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-
-function formatTanggal(iso) {
-  if (!iso) return { rawDate: '', displayDate: '—', time: '—' };
-  const d = new Date(iso);
-  if (isNaN(d)) return { rawDate: '', displayDate: String(iso), time: '—' };
-  const pad = (n) => String(n).padStart(2, '0');
-  return {
-    rawDate: `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`,
-    displayDate: `${d.getDate()} ${BULAN[d.getMonth()]} ${d.getFullYear()}`,
-    time: `${pad(d.getHours())}:${pad(d.getMinutes())} WIB`
-  };
-}
+const TIMEOUT_MS = 15000;
 
 /**
- * Ambil seluruh pengajuan dari Apps Script.
- * @returns {Promise<{ok: boolean, data?: array, message?: string}>}
+ * Ambil daftar pengajuan beserta statistiknya.
+ * @param {object} filter  opsional: { jenis, email, status, limit }
+ * @returns {Promise<{ok: boolean, data?: array, stats?: object, message?: string}>}
  */
-export async function ambilPengajuan() {
+export async function ambilPengajuan(filter = {}) {
   const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), 15000);
+  const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
+
+  const params = new URLSearchParams({ action: 'submissions', ...filter });
 
   try {
-    const res = await fetch(`${WEBAPI_URL}?list=1`, {
+    const res = await fetch(`${WEBAPI_URL}?${params}`, {
       method: 'GET',
       redirect: 'follow',
       signal: controller.signal
@@ -69,33 +42,19 @@ export async function ambilPengajuan() {
     try {
       json = JSON.parse(teks);
     } catch {
-      // Apps Script membalas HTML — biasanya tanda deploy belum "Anyone"
+      // Balasan HTML biasanya tanda deploy Apps Script belum berakses "Anyone"
       return { ok: false, message: 'Server membalas format tak terduga. Periksa pengaturan akses Apps Script.' };
     }
-    if (json.status !== 'success') {
-      return { ok: false, message: json.message || 'Server tidak dapat memuat data.' };
+
+    if (json.success !== true) {
+      return { ok: false, message: json.error || json.message || 'Server tidak dapat memuat data.' };
     }
 
-    const data = (json.data || []).map((r) => {
-      const kegiatan = LABEL_KEGIATAN[r.sheet] || r.sheet || '—';
-      const status = String(r.status || 'PENDING').toUpperCase();
-      const { rawDate, displayDate, time } = formatTanggal(r.Waktu);
-      return {
-        id: r.id || '—',
-        rawDate,
-        displayDate,
-        // Booking punya jam sendiri; jenis lain cukup tanggalnya
-        time: kegiatan === 'Booking' ? time : '—',
-        name: r.fullName || r.nama || r.name || '—',
-        activity: kegiatan,
-        details: r.details || r.keperluan || r.topik || r.catatan || '—',
-        status,
-        statusBadge: GAYA_STATUS[status] || 'badge-orange',
-        activityStyle: GAYA_KEGIATAN[kegiatan] || 'text-slate-600 bg-slate-100'
-      };
-    });
-
-    return { ok: true, data };
+    return {
+      ok: true,
+      data: json.data || [],
+      stats: json.stats || {}
+    };
   } catch (err) {
     if (err.name === 'AbortError') {
       return { ok: false, message: 'Waktu tunggu habis. Periksa koneksi internet Anda.' };
