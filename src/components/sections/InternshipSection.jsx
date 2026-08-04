@@ -1,5 +1,3 @@
-import { SmartImage } from '../SmartImage';
-
 /* ================================================================
    KOMPONEN 9: INTERNSHIP & PART-TIME SECTION
    Diperbarui: Tombol presisi ukuran sama & Ikon Two-Tone Profesional
