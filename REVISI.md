@@ -9,7 +9,7 @@ Status per 4 Agustus 2026. Nomor mengikuti urutan di notulen.
 | # | Poin | Catatan |
 | - | ---- | ------- |
 | 10 | Logo collaborator diperbesar | 112 → 160 px. Susunan tetap 4 per baris (kompromi: notulen minta diperbesar, Mahdan sebelumnya minta diperkecil). |
-| 14 | Research project tambah Salt (Garam) | Deskripsi **sudah terisi** — riset desalinasi berbasis hidrat (judul dari Galuh, 4 Agu). Sisa: **foto masih salah** (menunjuk gambar BIOSENSOR) dan **lokasi perlu dipastikan**. |
+| 14 | Research project tambah Salt (Garam) | **Selesai.** Deskripsi resmi dari tim & diagram alat sudah terpasang. Sisa satu: **lokasi** masih 'Pangandaran' warisan penampung lama — mohon dipastikan. |
 | 11 | Community partner Manado | **Ditunda** — nama organisasi belum diketahui, jadi barisnya dihapus dari `src/data/collaborators.js` agar tidak tampil di situs. Contoh baris penggantinya ada di komentar berkas itu. |
 | 16 | Visitor website | Kode selesai — analitik tanpa cookie, bisa Umami (gratis) atau Plausible. **Perlu Anda daftar akun & isi `.env`**, lihat SETUP.md bagian 5. Kebijakan Privasi sudah diperbarui. |
 | — | *(bonus)* `images/Projects/` → `images/projects/` | Bukan dari notulen. Salah huruf besar — aman di macOS, tapi gambar akan 404 setelah deploy ke server Linux. |

@@ -83,17 +83,18 @@ const PROJECTS = [
         via Hydrate-Based Desalination"
 
      Judul kartunya sengaja tetap pendek — 'Salt (Garam)' — supaya sejajar
-     dengan 'Microplastics' dan lainnya. Judul risetnya yang panjang dipakai
-     sebagai kalimat pembuka deskripsi. Kalau lebih suka judul panjang yang
+     dengan 'Microplastics' dan lainnya. Kalau lebih suka judul panjang yang
      tampil, tinggal tukar isi `title`.
 
-     ⚠️ MASIH KURANG DUA HAL:
-        • image    — sekarang menunjuk gambar teknik BIOSENSOR, tidak
-                     berhubungan dengan riset ini. Perlu foto sungguhan:
-                     taruh di public/images/projects/, lalu buat versi .webp
-        • location — 'Pangandaran' warisan dari penampung lama. Riset ini
-                     memakai reaktor bertekanan, jadi mungkin di Jatinangor.
-                     Mohon dipastikan.
+     Deskripsi di bawah ini KATA PER KATA dari tim (Galuh, 4 Agu 2026) —
+     bukan tulisan Claude. Jangan diubah tanpa persetujuan mereka.
+
+     Gambarnya diagram teknis (tampak depan & samping), bentuknya tegak.
+     Karena itu memakai `fit: 'contain'` — kalau dipotong seperti foto biasa,
+     separuh diagramnya hilang.
+
+     ⚠️ `location` masih 'Pangandaran', warisan dari penampung lama.
+        Mohon dipastikan — riset ini memakai reaktor bertekanan.
      ──────────────────────────────────────────────────────────────── */
   {
     id: 'salt-research',
@@ -101,8 +102,9 @@ const PROJECTS = [
     category: 'Marine Resource Processing',
     status: 'In Development',
     location: 'Pangandaran',
-    desc: 'Engineering Contaminant-Safe Freshwater and Salt via Hydrate-Based Desalination is a research project developing a method to separate freshwater and salt from seawater through gas hydrate formation. Under controlled pressure and temperature, water molecules crystallise into hydrate cages that exclude dissolved salts and contaminants, allowing both clean water and salt to be recovered from a single process. This research examines formation conditions, recovery efficiency, and contaminant rejection to assess its potential as a lower-energy alternative to conventional desalination for coastal communities.',
-    image: 'images/projects/image-1.jpg',
+    desc: 'This project pioneers an interdisciplinary approach that integrates hydrate-based seawater desalination with marine environmental science to address the dual challenges of freshwater scarcity and marine pollution. By coupling hydrate-based desalination with calcium sulfate (CaSO₄) precipitation, the research will optimize freshwater and salt production while, for the first time, investigating the fate of heavy metals and microplastics throughout the desalination process. The study will provide fundamental insights into contaminant exclusion, transport, and accumulation mechanisms at hydrate and crystal interfaces, advancing the scientific understanding of contaminant behavior during desalination. These findings will support the development of next-generation desalination technologies that are energy-efficient, environmentally sustainable, and capable of producing contaminant-safe freshwater and salt. Beyond technological innovation, the project contributes to water security, marine pollution mitigation, and circular resource recovery, supporting the Blue Economy and the Sustainable Development Goals while providing practical solutions for Indonesia and other coastal regions facing increasing environmental and freshwater challenges.',
+    image: 'images/projects/salt-desalination.png',
+    fit: 'contain',
     tags: ['Hydrate Desalination', 'Clean Water', 'Sea Salt']
   }
 ];

@@ -65,12 +65,20 @@ function ProjectsSection() {
             
             {/* Sisi Kiri: Gambar Proyek (Lebih Besar, Tanpa Badge Apapun) */}
             <div className="lg:col-span-7">
-              <div className="w-full h-72 sm:h-80 lg:h-[420px] rounded-2xl overflow-hidden border border-slate-200/50 shadow-inner relative group">
+              {/* Sebagian proyek memakai diagram tegak, bukan foto lanskap.
+                  Diagram tidak boleh dipotong — isinya jadi hilang. Data
+                  proyek bisa meminta `fit: 'contain'` untuk kasus seperti itu,
+                  dengan latar putih supaya sisa ruangnya tidak terlihat kosong. */}
+              <div className={`w-full h-72 sm:h-80 lg:h-[420px] rounded-2xl overflow-hidden border border-slate-200/50 shadow-inner relative group ${
+                currentProj.fit === 'contain' ? 'bg-white' : ''
+              }`}>
                 <SmartImage
                   key={currentProj.id}
                   src={currentProj.image}
                   alt={currentProj.title}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  className={`w-full h-full transition-transform duration-700 group-hover:scale-105 ${
+                    currentProj.fit === 'contain' ? 'object-contain p-3' : 'object-cover'
+                  }`}
                 />
               </div>
             </div>
