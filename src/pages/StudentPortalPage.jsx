@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { ambilPengajuan } from '../lib/pengajuan';
 import { SmartImage } from '../components/SmartImage';
 import { PortalBookingModal } from '../components/modals/PortalBookingModal';
 import { PortalMentoringModal } from '../components/modals/PortalMentoringModal';
@@ -23,12 +24,24 @@ function StudentPortalPage({ onBackToMain }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [filterDate, setFilterDate] = useState('');
 
-  // 1. Data Dummy Interaktif
-  const tableData = [
-    { id: 'BIM-U7RH6', rawDate: '2026-08-17', displayDate: '17 Aug 2026', time: '13:00 WIB', name: 'Mahasiswa Bimbingan', activity: 'Bimbingan', details: 'Tugas Akhir | Analisis Stok Karbon Sedimen Mangrove & SIC', status: 'APPROVED', statusBadge: 'badge-green', activityStyle: 'text-[#0096d7] bg-[#0096d7]/10' },
-    { id: 'PRO-H6NRA', rawDate: '2026-08-14', displayDate: '14 Aug 2026', time: '—', name: 'Peserta Magang', activity: 'Progress', details: 'Magang | Pemodelan Trajektori Partikel Laut (Ocean Parcels)', status: 'PENDING', statusBadge: 'badge-orange', activityStyle: 'text-emerald-600 bg-emerald-50' },
-    { id: 'RAB-T40QR', rawDate: '2026-08-10', displayDate: '10 Aug 2026', time: '—', name: 'Tim Peneliti', activity: 'RAB & Biaya', details: 'Pengadaan reagen lab & operasional visualisasi resolusi FHD', status: 'APPROVED', statusBadge: 'badge-green', activityStyle: 'text-slate-600 bg-slate-100' }
-  ];
+  /* 1. Data pengajuan — dibaca dari Google Sheet lewat Apps Script.
+        Sebelumnya bagian ini berisi 3 baris CONTOH yang ditulis di kode,
+        sehingga pengajuan sungguhan tidak pernah muncul di tabel. */
+  const [tableData, setTableData] = useState([]);
+  const [memuat, setMemuat] = useState(true);
+  const [galat, setGalat] = useState('');
+
+  const muatData = () => {
+    setMemuat(true);
+    setGalat('');
+    ambilPengajuan().then((hasil) => {
+      if (hasil.ok) setTableData(hasil.data);
+      else setGalat(hasil.message);
+      setMemuat(false);
+    });
+  };
+
+  useEffect(() => { muatData(); }, []);
 
   // 2. Fungsi Penyaring Data (Filter Logic)
   const filteredData = tableData.filter(item => {
@@ -243,7 +256,27 @@ function StudentPortalPage({ onBackToMain }) {
               </thead>
               <tbody className="divide-y divide-slate-100 bg-white">
                 
-                {filteredData.length > 0 ? (
+                {/* Tiga keadaan: sedang memuat, gagal memuat, dan data kosong —
+                    supaya pengguna tahu bedanya "belum ada data" dengan "gagal". */}
+                {memuat ? (
+                  <tr>
+                    <td colSpan="6" className="px-6 py-12 text-center text-slate-400 font-bold">
+                      Memuat data pengajuan…
+                    </td>
+                  </tr>
+                ) : galat ? (
+                  <tr>
+                    <td colSpan="6" className="px-6 py-12 text-center">
+                      <p className="text-red-600 font-bold mb-3">❌ {galat}</p>
+                      <button
+                        onClick={muatData}
+                        className="btn-primary text-xs py-2 px-6"
+                      >
+                        Coba Lagi
+                      </button>
+                    </td>
+                  </tr>
+                ) : filteredData.length > 0 ? (
                   filteredData.map((row, index) => (
                     <tr key={index} className="hover:bg-blue-50/50 transition-colors group cursor-default">
                       <td className="px-6 md:px-8 py-5 text-xs font-bold text-slate-400 group-hover:text-[#0096d7]">{row.id}</td>
