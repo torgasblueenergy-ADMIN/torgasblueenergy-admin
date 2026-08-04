@@ -1,0 +1,5 @@
+# Torgas Blue Energy — https://torgasblueenergy.com
+User-agent: *
+Allow: /
+
+Sitemap: https://torgasblueenergy.com/sitemap.xml

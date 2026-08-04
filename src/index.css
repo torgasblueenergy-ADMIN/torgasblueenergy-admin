@@ -1,0 +1,144 @@
+@tailwind base;
+@tailwind components;
+
+/* ================================================================
+   ⚠️ URUTAN INI PENTING — JANGAN DIPINDAH
+   ----------------------------------------------------------------
+   CSS kustom di bawah HARUS berada SEBELUM `@tailwind utilities`.
+
+   Kalau ditaruh sesudahnya, class kustom seperti `.heading-lg`
+   (yang menyetel color) akan MENGALAHKAN utility Tailwind seperti
+   `text-white` — keduanya sama-sama satu class, jadi yang menang
+   adalah yang ditulis belakangan. Akibatnya judul hero yang
+   seharusnya putih malah tampil biru tua di atas foto gelap.
+================================================================ */
+
+/* ================================================================
+   CSS KUSTOM TORGAS — dipindahkan apa adanya dari <style> di index.html
+================================================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  /* Warna Konservasi Indonesia */
+  --blue: #0096d7;
+  --blue-hover: #007bb5;
+  --blue-dark: #041b2e;
+  --orange: #FFAD26;
+  --orange-hover: #e69500;
+  --green: #2ecc71;
+  --red: #e74c3c;
+  
+  /* Surface & Text */
+  --canvas: #ffffff;
+  --surface: #f2f7fb;
+  --surface-card: #ffffff;
+  --hairline: #e2e8f0;
+  --ink: #041b2e;
+  --ink-muted: #52616b;
+  --ink-subtle: #8c9ba5;
+}
+
+html { scroll-behavior: smooth; }
+
+/* <picture> dibuat "transparan" terhadap layout, sehingga <img> di dalamnya
+   tetap berperilaku seperti anak langsung dari kontainernya (flex/grid/absolute
+   tidak berubah sedikit pun saat <img> dibungkus SmartImage). */
+picture { display: contents; }
+
+/* ── SKIP LINK (aksesibilitas keyboard) ──
+   Tersembunyi sampai pengguna menekan Tab, lalu muncul di pojok kiri atas. */
+.skip-link {
+  position: absolute; left: -9999px; top: 0; z-index: 10000;
+  background: var(--blue); color: #ffffff; font-weight: 700; font-size: 14px;
+  padding: 12px 24px; border-radius: 0 0 12px 0; text-decoration: none;
+}
+.skip-link:focus { left: 0; outline: 3px solid var(--orange); outline-offset: 2px; }
+
+/* Fokus terlihat jelas untuk navigasi keyboard */
+a:focus-visible, button:focus-visible, input:focus-visible,
+select:focus-visible, textarea:focus-visible {
+  outline: 3px solid var(--orange); outline-offset: 2px; border-radius: 4px;
+}
+
+/* Hormati preferensi pengguna yang sensitif terhadap animasi */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+body { font-family: 'Manrope', sans-serif; background: var(--canvas); color: var(--ink); -webkit-font-smoothing: antialiased; }
+::selection { background: var(--blue); color: #ffffff; }
+
+/* ── BUTTONS (Gaya Pill Konservasi Indonesia) ── */
+.btn-primary { 
+  background: var(--blue); color: #ffffff; font-weight: 700; font-size: 14px;
+  padding: 12px 28px; border-radius: 50px; border: 1px solid var(--blue);
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.3s ease;
+  cursor: pointer; text-decoration: none;
+}
+.btn-primary:hover { background: var(--blue-hover); border-color: var(--blue-hover); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,150,215,0.3); }
+
+.btn-orange { 
+  background: var(--orange); color: #041b2e; font-weight: 800; font-size: 14px;
+  padding: 12px 28px; border-radius: 50px; border: 1px solid var(--orange);
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.3s ease;
+  cursor: pointer; text-decoration: none;
+}
+.btn-orange:hover { background: var(--orange-hover); border-color: var(--orange-hover); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(255,173,38,0.4); }
+
+.btn-outline {
+  background: transparent; color: var(--blue); font-weight: 700; font-size: 14px;
+  padding: 12px 28px; border-radius: 50px; border: 2px solid var(--blue);
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.3s ease;
+  cursor: pointer; text-decoration: none;
+}
+.btn-outline:hover { background: var(--blue); color: #ffffff; transform: translateY(-2px); }
+
+/* ── CARDS ── */
+.ki-card {
+  background: var(--surface-card); border-radius: 16px; overflow: hidden;
+  border: 1px solid var(--hairline); box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+  transition: all 0.3s ease;
+}
+.ki-card:hover { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(0,0,0,0.08); }
+
+/* ── BADGES ── */
+.pill-badge {
+  display: inline-block; padding: 4px 14px; border-radius: 50px; font-size: 12px; font-weight: 700; letter-spacing: 0.5px;
+}
+.badge-blue { background: rgba(0,150,215,0.1); color: var(--blue); }
+.badge-orange { background: rgba(255,173,38,0.15); color: #d97706; }
+.badge-green { background: rgba(46,204,113,0.15); color: #27ae60; }
+
+/* ── LAYOUT & TYPOGRAPHY ── */
+.max-grid { max-width: 1440px; margin: 0 auto; padding: 0 24px; }
+.section-band { padding: 80px 0; }
+
+.heading-lg { font-size: clamp(28px, 4vw, 44px); font-weight: 800; line-height: 1.2; color: var(--blue-dark); }
+.heading-md { font-size: clamp(22px, 3vw, 32px); font-weight: 700; line-height: 1.3; color: var(--blue-dark); }
+.body-text { font-size: 16px; line-height: 1.6; color: var(--ink-muted); }
+
+/* Top legal bar */
+.top-legal-bar { background: var(--blue-dark); color: #ffffff; font-size: 12px; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.1); }
+
+/* Sticky Nav */
+.top-nav { background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); height: 80px; position: sticky; top: 0; z-index: 90; box-shadow: 0 2px 15px rgba(0,0,0,0.04); }
+
+/* Reveal animation */
+.reveal { opacity: 0; transform: translateY(25px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.reveal.in { opacity: 1; transform: none; }
+
+/* Tambahan Animasi Menu HP */
+.mobile-menu-open { animation: slideDown 0.3s ease-out forwards; }
+@keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
+/* Modal overlay */
+.modal-overlay { position: fixed; inset: 0; background: rgba(4,27,46,0.7); backdrop-filter: blur(5px); z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 20px; }
+.modal-box { background: #ffffff; border-radius: 20px; max-width: 650px; width: 100%; max-height: 90vh; overflow-y: auto; padding: 32px; position: relative; box-shadow: 0 20px 50px rgba(0,0,0,0.2); }
+
+
+/* Utility Tailwind ditaruh PALING AKHIR supaya selalu menang */
+@tailwind utilities;

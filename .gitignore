@@ -1,0 +1,52 @@
+# ── OS ──
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+desktop.ini
+
+# ── Editor ──
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+.idea/
+*.swp
+*~
+
+# ── Node (jika nanti pakai build tool) ──
+node_modules/
+dist/
+dist-check/
+build/
+.cache/
+*.log
+npm-debug.log*
+yarn-error.log*
+
+# ── Environment & rahasia ──
+# .env berisi ID analytics — jangan ikut di-commit
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+
+# ── Sementara ──
+tmp/
+temp/
+*.tmp
+*.bak
+
+# ── Sisa uji coba tooling ──
+.__*
+
+# ── Berkas sementara Vite (muncul saat build, aman dihapus) ──
+vite.config.js.timestamp-*
+vite.config.*.timestamp-*
+
+# ── Skrip verifikasi sementara ──
+ssr-check.mjs
+src/ssr-entry.jsx
+legacy-cdn.html

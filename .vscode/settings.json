@@ -1,0 +1,25 @@
+{
+  "liveServer.settings.port": 5500,
+  "liveServer.settings.root": "/",
+  "liveServer.settings.CustomBrowser": "chrome",
+
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.tabSize": 2,
+  "editor.detectIndentation": false,
+  "editor.wordWrap": "on",
+  "editor.bracketPairColorization.enabled": true,
+  "editor.stickyScroll.enabled": true,
+
+  "files.eol": "\n",
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+  "files.associations": { "*.html": "html" },
+  "files.exclude": { "**/.DS_Store": true },
+
+  "emmet.includeLanguages": { "javascript": "javascriptreact" },
+  "tailwindCSS.includeLanguages": { "html": "html", "javascript": "javascript" },
+  "html.format.wrapLineLength": 0,
+
+  "search.exclude": { "**/node_modules": true, "**/cvs": true }
+}

@@ -1,0 +1,63 @@
+name: Build & Deploy
+
+# Deploy otomatis AKTIF sejak 4/8/2026.
+# Setiap `git push` ke branch main akan membangun ulang dan menerbitkan
+# situs ke torgasblueenergy.com dalam ±2 menit.
+#
+# Untuk mematikan sementara, beri tanda # pada dua baris `push:` dan
+# `branches:` di bawah — workflow tetap bisa dijalankan manual lewat
+# tab Actions → Build & Deploy → Run workflow.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Pasang dependensi
+        run: npm ci
+
+      - name: Build produksi
+        run: npm run build
+
+      # public/images dan public/cvs adalah symlink. Runner Linux mengikutinya
+      # dengan benar, tapi langkah ini memastikan hasilnya memang ikut tersalin.
+      - name: Pastikan aset ikut ter-build
+        run: |
+          test -d dist/images || { echo "::error::dist/images tidak ada"; exit 1; }
+          test -d dist/cvs    || { echo "::error::dist/cvs tidak ada"; exit 1; }
+          echo "Ukuran dist: $(du -sh dist | cut -f1)"
+
+      - uses: actions/configure-pages@v4
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
