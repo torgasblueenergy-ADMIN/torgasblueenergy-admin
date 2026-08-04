@@ -41,6 +41,7 @@ temp/
 
 # ── Sisa uji coba tooling ──
 .__*
+__probe.txt
 
 # ── Berkas sementara Vite (muncul saat build, aman dihapus) ──
 vite.config.js.timestamp-*

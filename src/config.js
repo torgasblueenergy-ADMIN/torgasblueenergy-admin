@@ -9,8 +9,7 @@ const WEBAPI_URL = 'https://script.google.com/macros/s/AKfycbyOiKlR8jksYqNxwkHYC
 
 /* Kode akses Student Portal — ubah di SATU tempat ini saja.
    Lihat catatan keamanan di komponen StudentCodeModal. */
-/* Kode dari Mahdan 4/8/2026: "torgas18jaya".
-   ⚠️ WAJIB huruf kapital semua. StudentCodeModal membandingkan dengan
+/* ⚠️ WAJIB huruf kapital semua. StudentCodeModal membandingkan dengan
       `code.trim().toUpperCase()`, jadi kalau ditulis huruf kecil di sini,
       kode tersebut TIDAK AKAN PERNAH cocok — pengguna selalu ditolak.
       Pengguna tetap boleh mengetik huruf kecil; input mereka otomatis

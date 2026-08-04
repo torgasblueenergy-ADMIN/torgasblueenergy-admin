@@ -117,7 +117,7 @@ Sebuah **logo universitas 776 KB** jelas berlebihan — seharusnya di bawah 30 K
 ### P4 — Kode akses Student Portal tertanam di kode sumber
 
 ```js
-if (code.trim().toUpperCase() === 'TORGAS2026' || code.trim() === '1234')
+if (code.trim().toUpperCase() === '<KODE>' || code.trim() === '1234')
 ```
 
 Siapa pun yang menekan "View Source" bisa membacanya. Kode `1234` juga bisa ditebak dalam sekali coba.
