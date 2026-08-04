@@ -82,9 +82,9 @@ const PROJECTS = [
        "Engineering Contaminant-Safe Freshwater and Salt
         via Hydrate-Based Desalination"
 
-     Judul kartunya sengaja tetap pendek — 'Salt (Garam)' — supaya sejajar
-     dengan 'Microplastics' dan lainnya. Kalau lebih suka judul panjang yang
-     tampil, tinggal tukar isi `title`.
+     Judul resmi risetnya dipakai penuh — bukan 'Salt (Garam)'. Karena jauh
+     lebih panjang dari judul proyek lain, ukuran hurufnya di kartu dibuat
+     menyesuaikan panjang judul (lihat ProjectsSection.jsx).
 
      Deskripsi di bawah ini KATA PER KATA dari tim (Galuh, 4 Agu 2026) —
      bukan tulisan Claude. Jangan diubah tanpa persetujuan mereka.
