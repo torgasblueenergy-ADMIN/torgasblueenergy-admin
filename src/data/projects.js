@@ -78,12 +78,22 @@ const PROJECTS = [
   /* ────────────────────────────────────────────────────────────────
      REVISI PAK TORA 4/8/2026 — poin #14: tambahkan proyek Salt (Garam)
 
-     ⚠️ Isi di bawah ini masih PLACEHOLDER. Mohon lengkapi:
-        • desc     — deskripsi riset garam yang sebenarnya
-        • status   — misal 'Active Lab Experiment' / 'In Development'
-        • location — lokasi kegiatannya
-        • image    — taruh foto di images/projects/ lalu tulis pathnya,
-                     jangan lupa buat versi .webp-nya
+     Judul risetnya dari Galuh (4 Agu 2026):
+       "Engineering Contaminant-Safe Freshwater and Salt
+        via Hydrate-Based Desalination"
+
+     Judul kartunya sengaja tetap pendek — 'Salt (Garam)' — supaya sejajar
+     dengan 'Microplastics' dan lainnya. Judul risetnya yang panjang dipakai
+     sebagai kalimat pembuka deskripsi. Kalau lebih suka judul panjang yang
+     tampil, tinggal tukar isi `title`.
+
+     ⚠️ MASIH KURANG DUA HAL:
+        • image    — sekarang menunjuk gambar teknik BIOSENSOR, tidak
+                     berhubungan dengan riset ini. Perlu foto sungguhan:
+                     taruh di public/images/projects/, lalu buat versi .webp
+        • location — 'Pangandaran' warisan dari penampung lama. Riset ini
+                     memakai reaktor bertekanan, jadi mungkin di Jatinangor.
+                     Mohon dipastikan.
      ──────────────────────────────────────────────────────────────── */
   {
     id: 'salt-research',
@@ -91,9 +101,9 @@ const PROJECTS = [
     category: 'Marine Resource Processing',
     status: 'In Development',
     location: 'Pangandaran',
-    desc: 'PLACEHOLDER — mohon diisi deskripsi riset garam: fokus penelitian, metode, dan tujuannya.',
+    desc: 'Engineering Contaminant-Safe Freshwater and Salt via Hydrate-Based Desalination is a research project developing a method to separate freshwater and salt from seawater through gas hydrate formation. Under controlled pressure and temperature, water molecules crystallise into hydrate cages that exclude dissolved salts and contaminants, allowing both clean water and salt to be recovered from a single process. This research examines formation conditions, recovery efficiency, and contaminant rejection to assess its potential as a lower-energy alternative to conventional desalination for coastal communities.',
     image: 'images/projects/image-1.jpg',
-    tags: ['Sea Salt', 'Marine Resource', 'Coastal Industry']
+    tags: ['Hydrate Desalination', 'Clean Water', 'Sea Salt']
   }
 ];
 
