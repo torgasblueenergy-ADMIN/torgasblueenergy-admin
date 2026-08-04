@@ -25,6 +25,41 @@ import { WEBAPI_URL } from '../config';
 
 const TIMEOUT_MS = 20000;
 
+/* Kata yang menandakan keberhasilan, dari berbagai gaya penulisan skrip. */
+const KATA_SUKSES = ['success', 'sukses', 'ok', 'berhasil', 'true', 'saved', 'tersimpan'];
+
+/**
+ * Deteksi keberhasilan dari berbagai bentuk balasan Apps Script.
+ * Ditulis longgar dengan sengaja — beda orang menulis balasannya beda-beda:
+ *   {"status":"success"}   {"result":"ok"}      {"ok":true}
+ *   {"success":true}       {"status":"sukses"}  {"message":"Data tersimpan"}
+ */
+function isSukses(d) {
+  if (!d || typeof d !== 'object') return false;
+
+  // Bentuk boolean
+  if (d.ok === true || d.success === true || d.berhasil === true) return true;
+
+  // Bentuk teks pada properti status yang umum dipakai
+  const kandidat = [d.status, d.result, d.state, d.hasil, d.success, d.ok]
+    .filter((v) => typeof v === 'string')
+    .map((v) => v.toLowerCase());
+  if (kandidat.some((v) => KATA_SUKSES.includes(v))) return true;
+
+  // Ada tanda kegagalan yang jelas → jangan dianggap sukses
+  const gagal = ['error', 'gagal', 'fail', 'failed', 'false'];
+  if (kandidat.some((v) => gagal.includes(v))) return false;
+
+  /* Tidak ada properti status sama sekali, tapi ada pesan yang berbunyi
+     positif — misalnya {"message":"Pengajuan tersimpan"}. Diperlakukan
+     sebagai sukses supaya pengguna tidak melihat pesan bertentangan. */
+  if (typeof d.message === 'string') {
+    const m = d.message.toLowerCase();
+    if (['tersimpan', 'berhasil', 'success', 'saved', 'terkirim'].some((k) => m.includes(k))) return true;
+  }
+  return false;
+}
+
 /**
  * Kirim satu payload form ke Apps Script.
  * @param {object} payload  Data form, wajib memuat properti `action`.
@@ -60,7 +95,14 @@ export async function submitForm(payload) {
       };
     }
 
-    if (data.status === 'success' || data.ok === true) {
+    /* ⚠️ RIWAYAT BUG — jangan dipersempit lagi:
+       Versi pertama hanya menerima `{"status":"success"}`. Skrip Apps Script
+       yang dipakai Torgas ternyata membalas dengan bentuk lain, sehingga
+       pengiriman yang BERHASIL malah ditandai gagal — pengguna melihat
+       "❌ Pengajuan tersimpan", pesan yang saling bertentangan.
+
+       Sekarang seluruh bentuk balasan sukses yang lazim diterima. */
+    if (isSukses(data)) {
       return { ok: true, message: data.message || 'Data berhasil dikirim.', data };
     }
     return { ok: false, message: data.message || 'Server tidak dapat memproses data Anda.' };
