@@ -85,7 +85,15 @@ function ProjectsSection() {
 
             {/* Sisi Kanan: Detail Informasi Proyek (Dinaikkan ke Atas) */}
             <div className="lg:col-span-5 space-y-4">
-              <h3 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#041b2e] leading-snug">
+              {/* Panjang judul antar proyek jauh berbeda — ada yang satu kata
+                  ('Microplastics'), ada judul riset penuh sembilan kata. Ukuran
+                  huruf tetap akan membuat judul panjang memenuhi kartu dan
+                  menenggelamkan deskripsinya, jadi ukurannya menyesuaikan. */}
+              <h3 className={`font-extrabold text-[#041b2e] leading-snug ${
+                currentProj.title.length > 40
+                  ? 'text-xl sm:text-2xl lg:text-[1.75rem]'
+                  : 'text-2xl sm:text-3xl lg:text-4xl'
+              }`}>
                 {currentProj.title}
               </h3>
 

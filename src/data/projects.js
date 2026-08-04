@@ -98,7 +98,7 @@ const PROJECTS = [
      ──────────────────────────────────────────────────────────────── */
   {
     id: 'salt-research',
-    title: 'Salt (Garam)',
+    title: 'Engineering Safe Freshwater and Salt Through Hydrate Desalination',
     category: 'Marine Resource Processing',
     status: 'In Development',
     location: 'Pangandaran',
