@@ -29,11 +29,15 @@ const UNIV_COLLABORATORS = [
 
 const LSM_COLLABORATORS = [
   { id: 'lsm-1', name: 'POKMASWAS BULAK SETRA' },
-  { id: 'lsm-2', name: 'POKMASWAS PANDANAN' },
+  { id: 'lsm-2', name: 'POKMASWAS PANDANAN' }
 
-  /* REVISI PAK TORA 4/8/2026 — poin #11: tambah 1 community partner di Manado.
-     ⚠️ Nama organisasinya belum disebutkan di notulen — mohon dilengkapi. */
-  { id: 'lsm-3', name: 'MITRA MANADO — MOHON ISI NAMA ORGANISASINYA' }
+  /* MENUNGGU DATA — REVISI PAK TORA 4/8/2026 poin #11
+     Perlu ditambah 1 community partner di Manado, tapi nama organisasinya
+     belum disebutkan di notulen. Baris penampungnya sudah dihapus supaya
+     tidak tampil di situs. Tambahkan kembali begitu namanya diketahui:
+
+       { id: 'lsm-3', name: 'NAMA ORGANISASI DI MANADO' }
+  */
 ];
 
 export { UNIV_COLLABORATORS, LSM_COLLABORATORS };
