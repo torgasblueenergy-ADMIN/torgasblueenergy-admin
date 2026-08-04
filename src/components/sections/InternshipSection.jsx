@@ -15,10 +15,27 @@ function InternshipSection({ onOpenInternshipForm, onOpenPartTimeForm }) {
       <div className="max-grid relative z-10">
         <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-3xl overflow-hidden shadow-2xl">
           
-          <div className="grid grid-cols-1 lg:grid-cols-2 items-stretch">
-            
-            {/* KOLOM KIRI: Teks & Tombol Pendaftaran */}
-            <div className="p-8 sm:p-12 lg:p-16 flex flex-col justify-center order-2 lg:order-1">
+          {/* ────────────────────────────────────────────────────────────────
+              POSTER MAGANG SEDANG DITURUNKAN — 4 Agu 2026
+
+              Dulu bagian ini dua kolom: teks di kiri, poster di kanan.
+              Posternya diturunkan atas permintaan, jadi sekarang satu kolom
+              agar tidak menyisakan ruang kosong yang janggal.
+
+              MENGEMBALIKAN POSTER NANTI:
+                1. Ubah baris di bawah menjadi:
+                   <div className="grid grid-cols-1 lg:grid-cols-2 items-stretch">
+                2. Kembalikan class kolom teks menjadi:
+                   "p-8 sm:p-12 lg:p-16 flex flex-col justify-center order-2 lg:order-1"
+                3. Pasang kembali blok <SmartImage> kolom kanan.
+
+              Berkas gambarnya TIDAK dihapus — masih ada di
+              public/images/activities/, jadi tinggal dipakai lagi.
+          ──────────────────────────────────────────────────────────────── */}
+          <div className="grid grid-cols-1 items-stretch">
+
+            {/* KOLOM TUNGGAL: Teks & Tombol Pendaftaran */}
+            <div className="p-8 sm:p-12 lg:p-16 flex flex-col justify-center max-w-3xl mx-auto w-full">
               <span className="text-[#FFAD26] font-extrabold text-xs uppercase tracking-widest mb-4 block flex items-center gap-2">
                 <span className="w-6 h-px bg-[#FFAD26]"></span> JOIN OUR TEAM
               </span>
@@ -64,21 +81,6 @@ function InternshipSection({ onOpenInternshipForm, onOpenPartTimeForm }) {
                   Part-Time Application Form
                 </button>
 
-              </div>
-            </div>
-
-            {/* KOLOM KANAN: Gambar Pemberitahuan / Poster */}
-            <div className="w-full min-h-[300px] sm:min-h-[400px] lg:min-h-[500px] order-1 lg:order-2 relative bg-black/20 p-6 sm:p-8 lg:p-10 flex items-center justify-center">
-              <div className="w-full h-full rounded-2xl overflow-hidden relative shadow-2xl border border-white/10 group">
-                <SmartImage
-                  src="images/activities/poster-magang-terbaru.jpeg"
-                  alt="Poster program Internship dan Part Time Torgas Blue Energy"
-                  className="w-full h-full object-contain bg-[#0a2339] group-hover:scale-[1.03] transition-transform duration-700"
-                  onError={(e) => {
-                    e.target.onerror = null;
-                    e.target.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23334155'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='1' d='M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z'/%3E%3C/svg%3E";
-                  }}
-                />
               </div>
             </div>
 
