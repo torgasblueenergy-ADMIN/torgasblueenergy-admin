@@ -31,6 +31,22 @@ cd "$REPO" 2>/dev/null || { catat "GAGAL: folder tidak ditemukan — $REPO"; exi
 # mengerjakan perubahan besar dan belum siap tampil di situs.
 [ -f .deploy-pause ] && exit 0
 
+# ── Backend Apps Script ─────────────────────────────────────────────────────
+# apps-script/live/ sengaja tidak masuk Git (memuat SECRET_KEY), jadi git tidak
+# bisa memberi tahu kalau isinya berubah. Perubahannya dikenali lewat sidik
+# jari isi folder — kalau berbeda dari terakhir kali, kirim ke Google.
+if [ -d apps-script/live ]; then
+  sidik=$(find apps-script/live -type f \( -name '*.gs' -o -name '*.js' -o -name '*.json' -o -name '*.html' \) \
+          -not -name '.clasp.json' -exec shasum {} \; 2>/dev/null | sort | shasum | cut -d' ' -f1)
+  lama=$(cat apps-script/.live-hash 2>/dev/null)
+
+  if [ -n "$sidik" ] && [ "$sidik" != "$lama" ]; then
+    if bash tools/push-appsscript.sh; then
+      echo "$sidik" > apps-script/.live-hash
+    fi
+  fi
+fi
+
 # ── Jangan ganggu pekerjaan git yang belum selesai ──────────────────────────
 if [ -d .git/rebase-merge ] || [ -d .git/rebase-apply ] || [ -f .git/MERGE_HEAD ]; then
   catat "DILEWATI: ada rebase/merge yang belum selesai"
