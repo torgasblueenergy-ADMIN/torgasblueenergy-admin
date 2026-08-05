@@ -59,20 +59,79 @@ if [ -f "$REPO/apps-script/.deploy-hold" ]; then
   exit 0
 fi
 
-# ── Perbarui penerbitan ─────────────────────────────────────────────────────
+# ══════════════════════════════════════════════════════════════════════════
+# PERBARUI PENERBITAN
+# ══════════════════════════════════════════════════════════════════════════
 # clasp push hanya mengubah kode di editor. Website memanggil sebuah
 # "deployment" berversi, jadi penerbitannya harus ditunjuk ulang ke kode baru —
 # kalau tidak, perubahan tidak terasa sama sekali dari sisi pengguna.
+#
+# ⚠️ RIWAYAT BUG — 5 Agu 2026, JANGAN DIULANG
+# Versi pertama berkas ini keluar dengan `exit 1` bila deploy gagal. Akibatnya
+# auto-deploy.sh tidak pernah menyimpan sidik jari folder, siklus 30 detik
+# berikutnya menganggap backend berubah lagi, lalu mencoba deploy lagi — terus
+# begitu tanpa henti. Setiap percobaan MEMBUAT VERSI BARU di Apps Script, dan
+# kuota harian pembuatan versi habis dalam hitungan jam:
+#     "Resource has been exhausted (e.g. check quota)"
+#
+# Tiga pengaman sekarang:
+#   1. Berkas ini SELALU keluar dengan 0 setelah push berhasil, supaya sidik
+#      jari tersimpan dan tidak ada pengulangan tanpa henti.
+#   2. Jeda 15 menit antar percobaan deploy.
+#   3. Berhenti mencoba setelah 3 kegagalan berturut-turut, dan menandai bahwa
+#      penerbitan harus dilakukan manual.
 DEP_ID=$(cat "$REPO/apps-script/.deployment-id" 2>/dev/null)
+JEDA="$REPO/apps-script/.deploy-cooldown"
+GAGAL="$REPO/apps-script/.deploy-fails"
 
 if [ -z "$DEP_ID" ]; then
   catat "PERINGATAN: ID penerbitan tidak diketahui — kode terkirim tapi BELUM aktif"
   exit 0
 fi
 
+# Sudah menyerah? Jangan sentuh kuota lagi sampai orang turun tangan.
+if [ -f "$REPO/apps-script/.deploy-manual-needed" ]; then
+  catat "Kode terkirim ke editor. Penerbitan menunggu tindakan manual — lihat apps-script/.deploy-manual-needed"
+  exit 0
+fi
+
+# Jeda antar percobaan
+if [ -f "$JEDA" ] && [ -z "$(find "$JEDA" -mmin +15 2>/dev/null)" ]; then
+  catat "Kode terkirim ke editor. Penerbitan menunggu jeda (percobaan berikutnya ≥15 menit lagi)"
+  exit 0
+fi
+touch "$JEDA"
+
 if clasp deploy -i "$DEP_ID" -d "Otomatis $(date '+%d %b %H:%M')" >>"$LOG" 2>&1; then
   catat "Penerbitan diperbarui — backend baru sudah aktif"
-else
-  catat "GAGAL memperbarui penerbitan — kode terkirim tapi BELUM aktif"
-  exit 1
+  rm -f "$GAGAL" "$JEDA"
+  exit 0
 fi
+
+n=$(( $(cat "$GAGAL" 2>/dev/null || echo 0) + 1 ))
+echo "$n" > "$GAGAL"
+catat "GAGAL memperbarui penerbitan (percobaan ke-$n) — kode ada di editor tapi BELUM aktif"
+
+if [ "$n" -ge 3 ]; then
+  cat > "$REPO/apps-script/.deploy-manual-needed" <<EOF
+Penerbitan otomatis DIHENTIKAN setelah $n kegagalan berturut-turut.
+Terakhir dicoba: $(date '+%d %b %Y %H:%M')
+
+Penyebab tersering: kuota Apps Script untuk membuat versi baru habis
+("Resource has been exhausted"). Kuota ini pulih sendiri setelah sekitar
+24 jam.
+
+Kode BARU sudah ada di editor Apps Script — yang belum hanya penerbitannya.
+
+Terbitkan manual:
+  Apps Script → Deploy → Manage deployments → pilih penerbitan aktif
+  → ikon pensil ✏️ → Version: New version → Deploy
+
+Setelah berhasil, hapus berkas ini supaya penerbitan otomatis jalan lagi.
+EOF
+  catat "BERHENTI mencoba. Penerbitan otomatis dimatikan sampai apps-script/.deploy-manual-needed dihapus."
+fi
+
+# Selalu keluar 0 — push sudah berhasil, jangan sampai siklus berikutnya
+# mengulang seluruh proses dan menghabiskan kuota lagi.
+exit 0
