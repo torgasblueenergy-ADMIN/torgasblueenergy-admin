@@ -5,6 +5,7 @@ import { PortalBookingModal } from '../components/modals/PortalBookingModal';
 import { PortalMentoringModal } from '../components/modals/PortalMentoringModal';
 import { PortalProcurementModal } from '../components/modals/PortalProcurementModal';
 import { PortalProgressModal } from '../components/modals/PortalProgressModal';
+import { ActivityCalendar } from '../components/portal/ActivityCalendar';
 
 /* ================================================================
    HALAMAN KHUSUS STUDENT PORTAL (DASBOR BIMBINGAN & LAB)
