@@ -1,57 +1,61 @@
 /* ================================================================
    DATA PUBLIKASI & BERITA (TANPA SUMMARY)
 ================================================================ */
+/* Judul kedua publikasi ilmiah di bawah SENGAJA dibiarkan berbahasa
+   Indonesia — itu judul resmi karyanya, dan judul karya tidak diterjemahkan.
+   Keterangan di bawahnya tulisan situs sendiri, jadi ikut berbahasa Inggris.
+   (Keputusan Mahdan, 5 Agu 2026) */
 const ARTIKEL_ILMIAH = [
   {
     id: 'pub-1',
     title: 'Pengembangan Telemetri USV Berbasis IoT untuk Pemantauan Kualitas Air Pesisir',
     category: 'artikel-ilmiah',
     categoryLabel: 'Scientific Articles',
-    date: '15 Mei 2026',
-    author: 'Tim Riset TORGAS',
+    date: '15 May 2026',
+    author: 'TORGAS Research Team',
     image: 'images/projects/Biosystem-Engineering.jpg',
-    content: `Publikasi ilmiah mengenai integrasi sensor nirkabel berdaya rendah pada wahana pemantauan otonom untuk akuisisi data hidro-oseanografi real-time.
+    content: `A scientific publication on integrating low-power wireless sensors into an autonomous monitoring vessel for real-time hydro-oceanographic data acquisition.
 
-Sistem telemetri ini dirancang khusus untuk mengukur parameter fisik dan kimia perairan pesisir seperti suhu, salinitas, pH, dan kekeruhan air secara terus-menerus. Data dikirimkan secara nirkabel ke stasiun penerima di darat untuk dianalisis lebih lanjut guna mendukung konservasi ekosistem laut.`
+The telemetry system measures the physical and chemical parameters of coastal waters — temperature, salinity, pH, and turbidity — continuously. Readings are transmitted wirelessly to a shore station for further analysis in support of marine ecosystem conservation.`
   },
   {
     id: 'pub-3',
     title: 'Studi Potensi Rendemen Biogas Murni dari Fermentasi Makroalga Pesisir',
     category: 'artikel-ilmiah',
     categoryLabel: 'Scientific Articles',
-    date: '18 Maret 2026',
-    author: 'Tim Laboratorium Bioenergi',
+    date: '18 March 2026',
+    author: 'Bioenergy Laboratory Team',
     image: 'images/projects/biomassa.jpg',
-    content: `Hasil eksperimen ko-digesti anaerobik sampel rumput laut dan biomassa pesisir dalam mengukur efisiensi produksi CH4 murni.
+    content: `Results from anaerobic co-digestion experiments on seaweed and coastal biomass samples, measuring the efficiency of pure CH4 production.
 
-Penelitian ini berfokus pada optimasi pra-perlakuan biomassa untuk meningkatkan laju pembentukan gas metana sebagai sumber energi terbarukan ramah lingkungan.`
+The study focuses on optimizing biomass pre-treatment to raise the rate of methane formation as a clean, renewable energy source.`
   }
 ];
 
 const NEWS_DATA = [
   {
     id: 'pub-2',
-    title: 'TORGAS Blue Energy Perluas Stasiun Riset Kelautan Pesisir di Pangandaran',
+    title: 'TORGAS Blue Energy Expands Its Coastal Marine Research Station in Pangandaran',
     category: 'news',
     categoryLabel: 'News',
     date: '02 April 2026',
-    author: 'Humas TORGAS',
+    author: 'TORGAS Public Relations',
     image: 'images/Homepage/Homepage-2.jpg',
-    content: `Torgas Blue Energy secara resmi memperluas fasilitas stasiun riset kelautan di Pangandaran.
+    content: `Torgas Blue Energy has officially expanded its marine research station facilities in Pangandaran.
 
-Ekspansi ini ditujukan untuk mendukung kegiatan ekspedisi survei biodiversitas laut, pemantauan stok karbon biru, serta pengujian wahana laut otonom di lingkungan pesisir selatan Jawa.`
+The expansion supports marine biodiversity survey expeditions, blue carbon stock monitoring, and testing of autonomous marine vessels along the southern coast of Java.`
   },
   {
     id: 'pub-4',
-    title: 'Kunjungan Lapangan & Workshop Teknologi Monitoring Laut di Jatinangor',
+    title: 'Field Visit & Marine Monitoring Technology Workshop in Jatinangor',
     category: 'news',
     categoryLabel: 'News',
-    date: '10 Februari 2026',
-    author: 'Humas TORGAS',
+    date: '10 February 2026',
+    author: 'TORGAS Public Relations',
     image: 'images/Homepage/Homepage-3.jpg',
-    content: `Pelaksanaan workshop demonstrasi alat telemetri dan sistem filtrasi air bersama para peneliti muda dan civitas akademika di Laboratorium Terpadu Jatinangor.
+    content: `A workshop demonstrating telemetry instruments and water filtration systems, held with young researchers and the academic community at the Jatinangor Integrated Laboratory.
 
-Kegiatan ini bertujuan memperkuat kolaborasi riset teknologi maritim nasional.`
+The activity aims to strengthen collaboration in national maritime technology research.`
   }
 ];
 
@@ -74,18 +78,18 @@ Kegiatan ini bertujuan memperkuat kolaborasi riset teknologi maritim nasional.`
 const VIDEO_DATA = [
   {
     id: 'vid-1',
-    title: 'Profil Torgas Blue Energy',
+    title: 'Torgas Blue Energy Profile',
     category: 'video',
     categoryLabel: 'Video',
-    date: '3 Agustus 2026',
+    date: '3 August 2026',
     author: 'Torgas Blue Energy',
 
     // ⚠️ GANTI dengan kode video YouTube milik Torgas
     youtubeId: 'GANTI_DENGAN_ID_VIDEO',
 
-    content: `Video profil Torgas Blue Energy — laboratorium riset kelautan terintegrasi di Jatinangor, Sumedang.
+    content: `A profile video of Torgas Blue Energy — an integrated marine research laboratory in Jatinangor, Sumedang.
 
-Ganti judul, tanggal, dan keterangan ini sesuai isi video yang sebenarnya.`
+Replace this title, date, and description with the details of the actual video.`
   }
 ];
 
