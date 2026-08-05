@@ -113,19 +113,19 @@ export async function submitForm(payload) {
 
        Sekarang seluruh bentuk balasan sukses yang lazim diterima. */
     if (isSukses(data)) {
-      return { ok: true, message: data.message || 'Data berhasil dikirim.', data };
+      return { ok: true, message: data.message || 'Your data was sent successfully.', data };
     }
     /* Apps Script Torgas menaruh pesan kegagalan di properti `error`,
        bukan `message`. Kalau hanya `message` yang dibaca, pengguna dapat
        pesan gagal kosong tanpa keterangan apa pun. */
     return {
       ok: false,
-      message: data.error || data.message || 'Server tidak dapat memproses data Anda.'
+      message: data.error || data.message || 'The server could not process your data.'
     };
 
   } catch (err) {
     if (err.name === 'AbortError') {
-      return { ok: false, message: 'Waktu tunggu habis. Periksa koneksi internet Anda, lalu coba lagi.' };
+      return { ok: false, message: 'The request timed out. Please check your internet connection and try again.' };
     }
     // Kegagalan CORS juga mendarat di sini
     return {

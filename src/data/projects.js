@@ -29,7 +29,7 @@ const PROJECTS = [
     title: 'Bioinformatics',
     category: 'Climate & Marine Science',
     status: 'Ongoing Survey',
-    location: 'Pesisir Jawa Barat',
+    location: 'West Java Coast',
     desc: 'Research that utilizes computational approaches to process, analyze, and interpret biological data, such as genomic, metagenomic, and DNA sequence data. In the marine field, this project supports the identification of biodiversity, the analysis of microbial communities, and the understanding of the genetic relationships among marine organisms to support research and the management of coastal and marine ecosystems',
     image: 'images/projects/Bioinformatics.jpg',
     tags: ['Blue Carbon', 'Mangrove Ecosystem', 'Climate Action']

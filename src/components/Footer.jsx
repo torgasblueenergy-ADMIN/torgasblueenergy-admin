@@ -67,7 +67,7 @@ function Footer({ onOpenLegal }) {
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
               </div>
               <div>
-                <p className="font-bold text-sm text-slate-300 mb-1">Laboratorium Terpadu Torgas</p>
+                <p className="font-bold text-sm text-slate-300 mb-1">Torgas Integrated Laboratory</p>
                 <p className="text-sm text-slate-400 leading-relaxed">
                   Jatinangor, Kabupaten Sumedang, <br/>Jawa Barat, Indonesia.
                 </p>

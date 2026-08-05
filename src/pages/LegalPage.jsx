@@ -77,7 +77,7 @@ function LegalPage({ type, onBackToMain }) {
                 </a>.
               </p>
               <p className="text-sm text-slate-500 mt-3">
-                Laboratorium Terpadu Torgas Blue Energy — Jatinangor, Sumedang, Jawa Barat.
+                Torgas Blue Energy Integrated Laboratory — Jatinangor, Sumedang, West Java.
               </p>
             </section>
           </div>

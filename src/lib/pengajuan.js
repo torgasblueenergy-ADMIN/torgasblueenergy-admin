@@ -35,7 +35,7 @@ export async function ambilPengajuan(filter = {}) {
       redirect: 'follow',
       signal: controller.signal
     });
-    if (!res.ok) return { ok: false, message: `Server menolak permintaan (kode ${res.status}).` };
+    if (!res.ok) return { ok: false, message: `The server rejected the request (code ${res.status}).` };
 
     const teks = await res.text();
     let json;
@@ -43,11 +43,11 @@ export async function ambilPengajuan(filter = {}) {
       json = JSON.parse(teks);
     } catch {
       // Balasan HTML biasanya tanda deploy Apps Script belum berakses "Anyone"
-      return { ok: false, message: 'Server membalas format tak terduga. Periksa pengaturan akses Apps Script.' };
+      return { ok: false, message: 'The server replied in an unexpected format. Please check the Apps Script access setting.' };
     }
 
     if (json.success !== true) {
-      return { ok: false, message: json.error || json.message || 'Server tidak dapat memuat data.' };
+      return { ok: false, message: json.error || json.message || 'The server could not load the data.' };
     }
 
     return {
@@ -57,7 +57,7 @@ export async function ambilPengajuan(filter = {}) {
     };
   } catch (err) {
     if (err.name === 'AbortError') {
-      return { ok: false, message: 'Waktu tunggu habis. Periksa koneksi internet Anda.' };
+      return { ok: false, message: 'The request timed out. Please check your internet connection.' };
     }
     return { ok: false, message: 'Could not reach the server. Please check your internet connection.' };
   } finally {

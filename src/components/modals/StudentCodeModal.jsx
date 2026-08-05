@@ -64,7 +64,7 @@ function StudentCodeModal({ isOpen, onClose, onSuccessAccess }) {
 
           <div className="flex justify-end gap-3 pt-2">
             <button type="button" onClick={onClose} className="px-5 py-2.5 rounded-full border border-slate-300 font-bold text-xs">
-              Batal
+              Cancel
             </button>
             <button type="submit" className="btn-primary text-xs py-2.5 px-6">
               Masuk Portal &rarr;
