@@ -1,5 +1,6 @@
 import { SmartImage } from '../components/SmartImage';
 import { LSM_COLLABORATORS, UNIV_COLLABORATORS } from '../data/collaborators';
+import { CollaborationMap } from '../components/CollaborationMap';
 
 function CollaboratorPage({ onBackToMain }) {
   return (
@@ -34,6 +35,11 @@ function CollaboratorPage({ onBackToMain }) {
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-[#041b2e] mb-4">Research Partners & Collaborators</h1>
           <p className="text-slate-500 text-base">Bringing academia and coastal communities together to make marine research that is lasting and genuinely useful.</p>
         </div>
+
+        {/* PETA — REVISI PAK TORA poin #19 + #22
+            Diletakkan paling atas sesuai permintaan: sebaran mitra dan
+            lokasi penelitian dilihat dulu, baru daftar logonya. */}
+        <CollaborationMap />
 
         {/* SEKSI 1: UNIVERSITAS (Warna Asli Langsung Tampil) */}
         <div className="mb-24 animate-fadeIn" style={{ animationDelay: '0.1s' }}>

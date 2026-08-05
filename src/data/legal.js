@@ -93,7 +93,7 @@ const LEGAL_CONTENT = {
           'The type of device and browser used.',
           'The referring link that brought you here.'
         ],
-        after: 'This data is aggregate — we CANNOT identify individual visitors. IP addresses are processed only momentarily to estimate location and are not stored. If your browser has "Do Not Track" enabled, no statistics are collected at all. Fonts are also loaded from Google Fonts, so your IP address may be recorded by Google as part of delivering them.'
+        after: 'This data is aggregate — we CANNOT identify individual visitors. IP addresses are processed only momentarily to estimate location and are not stored. If your browser has "Do Not Track" enabled, no statistics are collected at all. Two parts of the site load content from third parties, which means your IP address may be recorded by them as part of delivering that content: fonts come from Google Fonts, and the partner map on the Collaborators page loads its map tiles from OpenStreetMap.'
       },
       {
         h: '8. Changes to This Policy',
