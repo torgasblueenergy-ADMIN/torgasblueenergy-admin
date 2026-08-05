@@ -10,6 +10,15 @@
    (sebagian .png, sebagian .jpg). Versi lama memaksa semua jadi .png sehingga
    7 logo tampil rusak. Ganti nilai `name` dengan nama universitas sebenarnya. */
 const UNIV_COLLABORATORS = [
+  /* REVISI PAK TORA 4/8/2026 poin #18 — tambahkan Unpad. Masuk 5 Agu 2026.
+     Diletakkan PALING ATAS atas permintaan Mahdan: Unpad institusi induk
+     lab ini, jadi wajar tampil pertama. BRIN tidak dihapus, hanya bergeser
+     ke urutan kedua.
+
+     Berkasnya diberi nama `unpad`, bukan `univ-18`, supaya urutan tampil
+     tidak lagi terikat pada nomor berkas — daftar inilah yang menentukan
+     urutannya. */
+  { id: 'unpad',   name: 'Universitas Padjadjaran',  logo: 'images/collaborators/unpad.png'  },
   { id: 'univ-1',  name: 'BRIN — Badan Riset dan Inovasi Nasional',  logo: 'images/collaborators/univ-1.png'  },
   { id: 'univ-2',  name: 'Rutgers, The State University of New Jersey',  logo: 'images/collaborators/univ-2.png'  },
   { id: 'univ-3',  name: 'Weill Cornell Medicine — Cornell University',  logo: 'images/collaborators/univ-3.png'  },

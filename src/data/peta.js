@@ -27,6 +27,7 @@
 /* ── LAPISAN 1: SEBARAN KOLABORATOR ──────────────────────────── */
 const TITIK_KOLABORATOR = [
   // ── Indonesia ──
+  { id: 'unpad',   nama: 'Universitas Padjadjaran',                 kota: 'Jatinangor, Sumedang', lat: -6.9270, lng: 107.7730 },
   { id: 'univ-1',  nama: 'BRIN — Badan Riset dan Inovasi Nasional', kota: 'Jakarta',            lat: -6.1876, lng: 106.8271 },
   { id: 'univ-9',  nama: 'Universitas Indonesia',                   kota: 'Depok',              lat: -6.3617, lng: 106.8272 },
   { id: 'univ-13', nama: 'Universitas Negeri Jakarta',              kota: 'Jakarta',            lat: -6.1943, lng: 106.8797 },

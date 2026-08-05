@@ -81,7 +81,7 @@ Poin di bawah **tidak bisa dikerjakan** sampai bahannya ada. Sebaiknya dikumpulk
 | 26 | Project Coordinator di sebelah Leadership | Nama, jabatan lengkap, foto, CV |
 | 27 | Video 3 buah | Tautan YouTube: Recap, Java Trip, Pangandaran Trip |
 | — | ~~17. Taiwan (NCHU & NDHU)~~ | **✅ SELESAI 5 Agu 2026** — keduanya masuk sebagai logo & titik peta (Taichung, Hualien) |
-| 18 | Tambahkan Unpad | File logo (atau sebutkan univ-1…15 mana yang Unpad) |
+| — | ~~18. Tambahkan Unpad~~ | **✅ SELESAI 5 Agu 2026** — logo masuk di urutan pertama, BRIN bergeser ke kedua. Titik peta di Jatinangor |
 | 28 | Waste water monitoring | Gambar riset Kathryn (BioXRed) + penjelasan "Microsencus" |
 
 **Catatan #25 vs #28:** kedua poin bertentangan. Diputuskan **#28 yang dipakai** (poin terakhir = koreksi): Biosentor dihapus, diganti Microsencus.
