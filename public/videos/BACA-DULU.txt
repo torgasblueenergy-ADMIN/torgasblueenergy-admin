@@ -1,0 +1,27 @@
+TEMPAT BERKAS VIDEO LATAR HALAMAN DEPAN
+========================================
+
+Taruh berkasnya di folder ini, misalnya:   hero.mp4
+
+Lalu isi baris di src/config.js:
+
+    const HERO_VIDEO = 'videos/hero.mp4';
+
+Kosongkan ('') untuk kembali memakai empat foto bergantian.
+
+SYARAT
+------
+• Format MP4 (H.264) — paling luas didukung browser
+• Tanpa suara / suara boleh ada tapi TIDAK akan terdengar:
+  browser memblokir pemutaran otomatis yang bersuara
+• Ukuran idealnya di bawah 15 MB. Setiap pengunjung mengunduhnya
+• Durasi 15-30 detik, dibuat agar sambungan awal-akhirnya mulus
+  karena videonya diulang terus-menerus
+
+TIDAK SEMUA PENGUNJUNG MENERIMA VIDEO
+--------------------------------------
+Video sengaja dilewati untuk:
+• Pengunjung yang menyalakan "kurangi gerakan" di pengaturan sistem
+  (aksesibilitas — gerakan besar bisa memicu pusing)
+• Pengunjung yang browsernya memberi tahu kuotanya terbatas (Save-Data)
+Keduanya tetap melihat fotonya. Ini disengaja, bukan kerusakan.

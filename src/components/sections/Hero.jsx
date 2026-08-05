@@ -61,20 +61,40 @@ function Hero({ onOpenBooking }) {
 
   return (
     <section className="relative bg-[#041b2e] text-white py-24 md:py-32 overflow-hidden">
-      {/* Background Image Slider (Opacity dinaikkan ke 65% agar lebih tajam & jelas) */}
+      {/* ── LATAR BELAKANG: video atau foto bergantian ───────────── */}
       <div className="absolute inset-0 z-0">
-        {heroImages.map((img, index) => (
-          <div
-            key={index}
-            className={`absolute inset-0 bg-cover bg-center transition-all duration-1000 ease-in-out ${
-              index === currentSlide ? 'opacity-65 scale-105' : 'opacity-0 scale-100'
-            }`}
-            style={{
-              backgroundImage: `url('${toWebp(img) || img}')`,
-              transition: 'opacity 1s ease-in-out, transform 6s ease-out'
-            }}
-          />
-        ))}
+        {pakaiVideo ? (
+          <video
+            /* `muted` WAJIB — tanpa ini browser menolak memutar otomatis,
+               dan hasilnya bukan video bisu tapi layar diam sama sekali.
+               `playsInline` mencegah iOS membuka video layar penuh.
+               `poster` menahan tampilan gambar sampai bingkai pertama siap,
+               supaya tidak ada kedipan hitam. */
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            poster={toWebp(HERO_VIDEO_POSTER) || HERO_VIDEO_POSTER}
+            onError={() => setVideoGagal(true)}
+            className="absolute inset-0 w-full h-full object-cover opacity-65"
+          >
+            <source src={HERO_VIDEO} type="video/mp4" />
+          </video>
+        ) : (
+          heroImages.map((img, index) => (
+            <div
+              key={index}
+              className={`absolute inset-0 bg-cover bg-center transition-all duration-1000 ease-in-out ${
+                index === currentSlide ? 'opacity-65 scale-105' : 'opacity-0 scale-100'
+              }`}
+              style={{
+                backgroundImage: `url('${toWebp(img) || img}')`,
+                transition: 'opacity 1s ease-in-out, transform 6s ease-out'
+              }}
+            />
+          ))
+        )}
       </div>
 
       {/* Overlay Gelap Tipis & Lembut agar Gambar Tetap Terlihat & Teks Tetap Jelas */}
@@ -100,19 +120,24 @@ function Hero({ onOpenBooking }) {
           </div>    
         </div>
 
-        {/* Indikator Titik (Dots) Slide */}
-        <div className="flex items-center gap-2 mt-10">
-          {heroImages.map((_, idx) => (
-            <button
-              key={idx}
-              onClick={() => setCurrentSlide(idx)}
-              className={`h-2 rounded-full transition-all duration-300 ${
-                idx === currentSlide ? 'w-8 bg-[#FFAD26]' : 'w-2 bg-white/50 hover:bg-white'
-              }`}
-              title={`View slide ${idx + 1}`}
-            />
-          ))}
-        </div>
+        {/* Titik navigasi hanya berarti kalau ada beberapa foto untuk
+            dipilih. Saat latar berupa video, tidak ada yang bisa dipilih —
+            titik yang tetap ditampilkan justru mengundang klik yang tidak
+            melakukan apa pun. */}
+        {!pakaiVideo && (
+          <div className="flex items-center gap-2 mt-10">
+            {heroImages.map((_, idx) => (
+              <button
+                key={idx}
+                onClick={() => setCurrentSlide(idx)}
+                className={`h-2 rounded-full transition-all duration-300 ${
+                  idx === currentSlide ? 'w-8 bg-[#FFAD26]' : 'w-2 bg-white/50 hover:bg-white'
+                }`}
+                title={`View slide ${idx + 1}`}
+              />
+            ))}
+          </div>
+        )}
 
         {/* Stats / Legal Cards Bar */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8 pt-8 border-t border-slate-700/60">
