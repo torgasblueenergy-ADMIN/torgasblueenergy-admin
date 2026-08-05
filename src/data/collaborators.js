@@ -15,6 +15,9 @@ const UNIV_COLLABORATORS = [
   { id: 'univ-3',  name: 'Weill Cornell Medicine — Cornell University',  logo: 'images/collaborators/univ-3.png'  },
   { id: 'univ-4',  name: 'Xiamen University',  logo: 'images/collaborators/univ-4.png'  },
   { id: 'univ-5',  name: 'IOCAS — Institute of Oceanology, Chinese Academy of Sciences',  logo: 'images/collaborators/univ-5.png'  },
+  /* ⚠️ 5 Agu 2026 — berkas univ-6 SEBELUMNYA berisi logo yang keliru sama
+     sekali (lembaga sertifikasi selam). Sudah diganti dengan logo University
+     of Tsukuba yang benar, dan univ-6.jpg lama dihapus. */
   { id: 'univ-6',  name: 'University of Tsukuba',  logo: 'images/collaborators/univ-6.png'  },
   { id: 'univ-7',  name: 'INTI International University & Colleges',  logo: 'images/collaborators/univ-7.png'  },
   { id: 'univ-8',  name: 'Universiti Teknologi Malaysia',  logo: 'images/collaborators/univ-8.png'  },
