@@ -44,6 +44,21 @@ if ! clasp push -f >>"$LOG" 2>&1; then
 fi
 catat "Kode terkirim ke Apps Script"
 
+# ── Tahan penerbitan bila diminta ───────────────────────────────────────────
+# Menambah layanan Google baru (Calendar, Drive, Gmail…) mengubah daftar izin
+# yang diminta script. Web app ini berjalan sebagai pemilik, dan Apps Script
+# menolak MENJALANKAN APA PUN selama masih ada izin yang belum disetujui —
+# bukan hanya bagian barunya. Kalau langsung diterbitkan, formulir pendaftaran
+# dan tombol persetujuan email ikut mati sampai pemilik menyetujui izinnya.
+#
+# Karena itu: kodenya boleh naik ke editor, tapi penerbitannya ditahan sampai
+# pemilik menjalankan fungsi uji sekali dan menyetujui izin barunya.
+# Hapus berkas apps-script/.deploy-hold untuk melanjutkan.
+if [ -f "$REPO/apps-script/.deploy-hold" ]; then
+  catat "Kode terkirim ke editor, TAPI penerbitan ditahan (.deploy-hold ada)"
+  exit 0
+fi
+
 # ── Perbarui penerbitan ─────────────────────────────────────────────────────
 # clasp push hanya mengubah kode di editor. Website memanggil sebuah
 # "deployment" berversi, jadi penerbitannya harus ditunjuk ulang ke kode baru —
