@@ -281,7 +281,7 @@ function StudentPortalPage({ onBackToMain }) {
                 {memuat ? (
                   <tr>
                     <td colSpan="6" className="px-6 py-12 text-center text-slate-400 font-bold">
-                      Memuat data pengajuan…
+                      Loading submissions…
                     </td>
                   </tr>
                 ) : galat ? (
@@ -292,7 +292,7 @@ function StudentPortalPage({ onBackToMain }) {
                         onClick={muatData}
                         className="btn-primary text-xs py-2 px-6"
                       >
-                        Coba Lagi
+                        Try Again
                       </button>
                     </td>
                   </tr>

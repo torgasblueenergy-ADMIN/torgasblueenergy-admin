@@ -24,7 +24,7 @@ function LegalPage({ type, onBackToMain }) {
             onClick={onBackToMain}
             className="btn-outline border-white text-white hover:bg-white hover:text-[#041b2e] text-xs py-2 px-5 flex items-center gap-2"
           >
-            ← Kembali ke Halaman Utama
+            ← Back to the Home Page
           </button>
         </div>
       </div>
@@ -39,7 +39,7 @@ function LegalPage({ type, onBackToMain }) {
           {/* Peringatan draft — hapus setelah ditinjau penasihat hukum */}
           <div className="bg-[#FFAD26]/10 border-l-4 border-[#FFAD26] rounded-r-xl p-4 mb-8">
             <p className="text-sm text-[#041b2e]">
-              <b>Dokumen draft.</b> Naskah ini masih perlu ditinjau penasihat hukum sebelum dijadikan acuan resmi.
+              <b>Draft document.</b> This text still needs review by legal counsel before it can be treated as official.
             </p>
           </div>
 
@@ -65,13 +65,13 @@ function LegalPage({ type, onBackToMain }) {
             ))}
 
             <section className="border-t border-slate-200 pt-8">
-              <h2 className="text-lg sm:text-xl font-extrabold text-[#041b2e] mb-3">Hubungi Kami</h2>
+              <h2 className="text-lg sm:text-xl font-extrabold text-[#041b2e] mb-3">Contact Us</h2>
               <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
-                Pertanyaan mengenai halaman ini dapat dikirim ke{' '}
+                Questions about this page can be sent to{' '}
                 <a href="mailto:torgasblueenergy@gmail.com" className="text-[#0096d7] font-bold hover:underline">
                   torgasblueenergy@gmail.com
                 </a>{' '}
-                atau WhatsApp{' '}
+                or WhatsApp{' '}
                 <a href="https://wa.me/6281776536085" target="_blank" rel="noopener noreferrer" className="text-[#0096d7] font-bold hover:underline">
                   +62 817-7653-6085
                 </a>.

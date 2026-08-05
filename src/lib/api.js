@@ -90,7 +90,7 @@ export async function submitForm(payload) {
     });
 
     if (!res.ok) {
-      return { ok: false, message: `Server menolak permintaan (kode ${res.status}). Silakan coba lagi.` };
+      return { ok: false, message: `The server rejected the request (code ${res.status}). Please try again.` };
     }
 
     const text = await res.text();
@@ -101,7 +101,7 @@ export async function submitForm(payload) {
       // Apps Script membalas HTML (biasanya halaman login) — tanda deploy belum "Anyone"
       return {
         ok: false,
-        message: 'Server membalas dalam format tak terduga. Hubungi admin — kemungkinan pengaturan akses Apps Script belum publik.'
+        message: 'The server replied in an unexpected format. Please contact the admin — the Apps Script access setting may not be public yet.'
       };
     }
 
@@ -130,7 +130,7 @@ export async function submitForm(payload) {
     // Kegagalan CORS juga mendarat di sini
     return {
       ok: false,
-      message: 'Gagal menghubungi server. Periksa koneksi internet Anda, atau hubungi admin bila terus berulang.'
+      message: 'Could not reach the server. Please check your internet connection, or contact the admin if this keeps happening.'
     };
   } finally {
     clearTimeout(timer);

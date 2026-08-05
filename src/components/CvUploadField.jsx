@@ -22,7 +22,7 @@ function toBase64(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.onload = () => resolve(String(reader.result).split(',')[1] || '');
-    reader.onerror = () => reject(new Error('Gagal membaca berkas.'));
+    reader.onerror = () => reject(new Error('Could not read the file.'));
     reader.readAsDataURL(file);
   });
 }
@@ -62,13 +62,13 @@ export function CvUploadField({
 
     const ext = '.' + file.name.split('.').pop().toLowerCase();
     if (!accept.includes(ext)) {
-      setError(`Format ${ext} tidak diterima. Gunakan: ${accept.join(', ')}`);
+      setError(`${ext} files are not accepted. Please use: ${accept.join(', ')}`);
       setFileName('');
       onFileChange?.(null);
       return;
     }
     if (file.size > MAX_MB * 1024 * 1024) {
-      setError(`Ukuran berkas ${(file.size / 1048576).toFixed(1)} MB — maksimal ${MAX_MB} MB.`);
+      setError(`File is ${(file.size / 1048576).toFixed(1)} MB — the maximum is ${MAX_MB} MB.`);
       setFileName('');
       onFileChange?.(null);
       return;
@@ -106,9 +106,9 @@ export function CvUploadField({
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
           </svg>
           <span className="font-bold text-sm text-[#041b2e] mb-1">
-            {reading ? 'Membaca berkas…' : 'Pilih berkas'}
+            {reading ? 'Reading file…' : 'Choose a file'}
           </span>
-          <span className="text-xs text-slate-500">{hint} · maksimal {MAX_MB} MB</span>
+          <span className="text-xs text-slate-500">{hint} · max {MAX_MB} MB</span>
           <input
             ref={inputRef}
             type="file"
@@ -129,7 +129,7 @@ export function CvUploadField({
             onClick={reset}
             className="text-xs font-extrabold text-emerald-700 hover:text-red-600 transition-colors flex-shrink-0 cursor-pointer"
           >
-            Ganti
+            Change
           </button>
         </div>
       )}

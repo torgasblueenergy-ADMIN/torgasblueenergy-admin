@@ -10,7 +10,7 @@ function SystemModal({ system, onClose }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setStatus('Mengirim...');
+    setStatus('Sending...');
     const payload = { action: system.id, type: system.id, name, email, details };
 
     const result = await submitForm(payload);
@@ -19,7 +19,7 @@ function SystemModal({ system, onClose }) {
       setStatus('❌ ' + result.message);
       return;
     }
-    setStatus('✅ Formulir tersimpan ke database Google Sheet.');
+    setStatus('✅ Form saved to the Google Sheet database.');
     setTimeout(onClose, 2000);
   };
 

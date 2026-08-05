@@ -118,7 +118,7 @@ function NewsSection({ onSelectArticle }) {
           </div>
         ) : (
           <div className="text-center py-16 bg-slate-50 rounded-3xl border border-slate-200">
-            <p className="text-slate-400 font-bold text-sm">Belum ada publikasi pada kategori ini.</p>
+            <p className="text-slate-400 font-bold text-sm">No publications in this category yet.</p>
           </div>
         )}
 

@@ -74,7 +74,7 @@ function Hero({ onOpenBooking }) {
               className={`h-2 rounded-full transition-all duration-300 ${
                 idx === currentSlide ? 'w-8 bg-[#FFAD26]' : 'w-2 bg-white/50 hover:bg-white'
               }`}
-              title={`Lihat Slide ${idx + 1}`}
+              title={`View slide ${idx + 1}`}
             />
           ))}
         </div>

@@ -23,7 +23,7 @@ function StudentCodeModal({ isOpen, onClose, onSuccessAccess }) {
       onSuccessAccess();
     } else {
       // Jangan bocorkan kode yang benar di pesan error
-      setErrorMsg('❌ Kode akses salah. Silakan periksa kembali atau hubungi admin.');
+      setErrorMsg('❌ Incorrect access code. Please check it again or contact the admin.');
     }
   };
 
@@ -37,23 +37,23 @@ function StudentCodeModal({ isOpen, onClose, onSuccessAccess }) {
             🎓
           </div>
           <h3 className="font-bold text-xl text-[#041b2e]">Student Portal Access</h3>
-          <p className="text-xs text-slate-500 mt-1">Masukkan kode akses khusus mahasiswa bimbingan & riset Torgas.</p>
+          <p className="text-xs text-slate-500 mt-1">Enter the access code issued to Torgas thesis and research students.</p>
         </div>
 
         <form onSubmit={handleVerify} className="space-y-4">
           <div>
-            <label className="block text-xs font-bold text-slate-700 mb-1">Kode Akses Mahasiswa *</label>
+            <label className="block text-xs font-bold text-slate-700 mb-1">Student Access Code *</label>
             <input 
               type="password" 
               required 
-              placeholder="Masukkan kode..." 
+              placeholder="Enter your code..." 
               className="w-full p-3 border border-slate-200 rounded-lg text-center font-mono font-bold tracking-widest text-lg focus:outline-[#0096d7]"
               value={code} 
               onChange={(e) => setCode(e.target.value)} 
             />
             {/* Petunjuk kode dihapus — sebelumnya menampilkan kode akses langsung di layar,
                 sehingga gerbang verifikasi jadi tidak ada gunanya. */}
-            <p className="text-[11px] text-slate-400 mt-1 text-center">Belum punya kode akses? Hubungi admin TORGAS.</p>
+            <p className="text-[11px] text-slate-400 mt-1 text-center">Don't have an access code? Contact the TORGAS admin.</p>
           </div>
 
           {errorMsg && (

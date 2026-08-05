@@ -24,7 +24,7 @@ function PartTimeFormPage({ onBackToMain }) {
     /* Di formulir ini CV ditandai WAJIB (*). Sebelumnya tanda itu hanya
        hiasan — tidak divalidasi dan filenya pun tidak pernah dikirim. */
     if (!cvFile) {
-      setStatusMsg('❌ CV wajib dilampirkan. Silakan pilih berkas PDF terlebih dahulu.');
+      setStatusMsg('❌ A CV is required. Please choose a PDF file first.');
       return;
     }
 

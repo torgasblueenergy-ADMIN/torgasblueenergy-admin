@@ -22,7 +22,7 @@ function InternshipFormPage({ onBackToMain }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    setStatusMsg('Mengirim data pendaftaran...');
+    setStatusMsg('Sending your application...');
 
     /* CV dikirim sebagai objek `cvFile` — bentuk yang diharapkan
        Apps Script ({ name, mimeType, data }). Kalau pelamar tidak
@@ -42,7 +42,7 @@ function InternshipFormPage({ onBackToMain }) {
       return;
     }
 
-    setStatusMsg('✅ Pendaftaran berhasil dikirim! Tim Torgas akan memproses dan menghubungi Anda segera.');
+    setStatusMsg('✅ Application sent! The Torgas team will review it and contact you shortly.');
       setTimeout(() => { onBackToMain(); }, 3500); 
   };
 

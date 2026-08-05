@@ -118,7 +118,7 @@ function ProjectsSection() {
                   className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${
                     idx === activeProject ? 'w-6 bg-[#0096d7]' : 'w-1.5 bg-slate-300 hover:bg-[#FFAD26]'
                   }`}
-                  title={`Ke Proyek ${idx + 1}`}
+                  title={`Go to project ${idx + 1}`}
                 />
               ))}
             </div>
@@ -128,14 +128,14 @@ function ProjectsSection() {
               <button 
                 onClick={prevProject}
                 className="w-8 h-8 rounded-full bg-white hover:bg-[#041b2e] hover:text-white text-slate-600 transition-colors flex items-center justify-center font-bold shadow-sm border border-slate-200 cursor-pointer text-sm"
-                title="Proyek Sebelumnya"
+                title="Previous project"
               >
                 ←
               </button>
               <button 
                 onClick={nextProject}
                 className="w-8 h-8 rounded-full bg-white hover:bg-[#041b2e] hover:text-white text-slate-600 transition-colors flex items-center justify-center font-bold shadow-sm border border-slate-200 cursor-pointer text-sm"
-                title="Proyek Selanjutnya"
+                title="Next project"
               >
                 →
               </button>

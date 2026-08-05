@@ -23,7 +23,7 @@ function Footer({ onOpenLegal }) {
 
           {/* Kolom 3: Hubungi Kami (Sosial Media & Kontak) */}
           <div>
-            <h4 className="font-bold text-sm tracking-wider uppercase text-slate-200 mb-5">Hubungi Kami</h4>
+            <h4 className="font-bold text-sm tracking-wider uppercase text-slate-200 mb-5">Contact Us</h4>
             <div className="space-y-4">
               {/* WhatsApp */}
               <a href="https://wa.me/6281776536085" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-slate-400 hover:text-white transition-colors group">

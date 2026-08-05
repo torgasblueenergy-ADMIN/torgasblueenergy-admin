@@ -55,7 +55,7 @@ function ArticleModal({ article, onClose }) {
               <button
                 onClick={onClose}
                 className="absolute top-4 right-4 w-10 h-10 rounded-full bg-black/50 hover:bg-[#041b2e] text-white transition-all duration-300 flex items-center justify-center font-bold text-lg cursor-pointer backdrop-blur-md border border-white/20 shadow-lg"
-                title="Tutup Modal"
+                title="Close"
               >
                 ✕
               </button>
@@ -68,7 +68,7 @@ function ArticleModal({ article, onClose }) {
           <button
             onClick={onClose}
             className="absolute top-3 right-3 z-10 w-10 h-10 rounded-full bg-[#041b2e]/80 hover:bg-[#041b2e] text-white transition-all duration-300 flex items-center justify-center font-bold text-lg cursor-pointer border border-white/20 shadow-lg"
-            title="Tutup Modal"
+            title="Close"
           >
             ✕
           </button>
@@ -92,7 +92,7 @@ function ArticleModal({ article, onClose }) {
 
           {/* Langsung Konten Lengkap Artikel */}
           <div className="text-slate-700 text-sm sm:text-base leading-relaxed text-justify space-y-4 pt-2 whitespace-pre-line font-medium">
-            {article.content || "Belum ada konten lengkap untuk artikel ini."}
+            {article.content || "Full content for this article is not available yet."}
           </div>
 
         </div>
@@ -104,7 +104,7 @@ function ArticleModal({ article, onClose }) {
             onClick={onClose}
             className="w-full sm:w-auto px-6 py-2.5 bg-[#041b2e] hover:bg-[#0096d7] text-white font-extrabold rounded-xl transition-all duration-300 cursor-pointer shadow-sm text-xs uppercase tracking-wider ml-auto"
           >
-            Tutup Artikel
+            Close Article
           </button>
         </div>
 

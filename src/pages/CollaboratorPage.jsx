@@ -22,7 +22,7 @@ function CollaboratorPage({ onBackToMain }) {
             onClick={onBackToMain} 
             className="btn-outline border-white text-white hover:bg-white hover:text-[#041b2e] text-xs py-2 px-5 flex items-center gap-2"
           >
-            ← Kembali ke Halaman Utama
+            ← Back to the Home Page
           </button>
         </div>
       </div>

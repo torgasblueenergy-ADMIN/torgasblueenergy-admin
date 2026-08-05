@@ -14,7 +14,7 @@ function BookingModal({ isOpen, onClose }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    setStatusMsg('Mengirim permohonan ke server Torgas...');
+    setStatusMsg('Sending your request to the Torgas server...');
 
     const payload = { action: 'labbook', ...formData };
 
@@ -27,7 +27,7 @@ function BookingModal({ isOpen, onClose }) {
       return;
     }
 
-    setStatusMsg('✅ Permohonan berhasil dikirim! Tim Torgas akan menghubungi email/WA Anda.');
+    setStatusMsg('✅ Request sent! The Torgas team will contact you by email or WhatsApp.');
 
     // Tutup modal setelah pengguna sempat membaca pesan sukses
 

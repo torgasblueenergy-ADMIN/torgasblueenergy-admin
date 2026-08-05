@@ -59,7 +59,7 @@ export async function ambilPengajuan(filter = {}) {
     if (err.name === 'AbortError') {
       return { ok: false, message: 'Waktu tunggu habis. Periksa koneksi internet Anda.' };
     }
-    return { ok: false, message: 'Gagal menghubungi server. Periksa koneksi internet Anda.' };
+    return { ok: false, message: 'Could not reach the server. Please check your internet connection.' };
   } finally {
     clearTimeout(timer);
   }
