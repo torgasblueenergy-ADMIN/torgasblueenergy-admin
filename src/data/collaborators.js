@@ -26,10 +26,9 @@ const UNIV_COLLABORATORS = [
   { id: 'univ-14', name: 'Universitas Diponegoro', logo: 'images/collaborators/univ-14.png' },
   { id: 'univ-15', name: 'Universitas Terbuka', logo: 'images/collaborators/univ-15.png' },
 
-  /* REVISI PAK TORA 4/8/2026 poin #17 — mitra Taiwan.
-     NCHU masuk 5 Agu 2026. NDHU (National Dong Hwa University) belum —
-     berkas logonya belum ada. */
-  { id: 'univ-16', name: 'National Chung Hsing University', logo: 'images/collaborators/univ-16.png' }
+  /* REVISI PAK TORA 4/8/2026 poin #17 — mitra Taiwan. SELESAI 5 Agu 2026. */
+  { id: 'univ-16', name: 'National Chung Hsing University', logo: 'images/collaborators/univ-16.png' },
+  { id: 'univ-17', name: 'National Dong Hwa University',    logo: 'images/collaborators/univ-17.png' }
 ];
 
 const LSM_COLLABORATORS = [
