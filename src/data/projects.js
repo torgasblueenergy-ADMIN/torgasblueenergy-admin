@@ -86,12 +86,35 @@ const PROJECTS = [
      lebih panjang dari judul proyek lain, ukuran hurufnya di kartu dibuat
      menyesuaikan panjang judul (lihat ProjectsSection.jsx).
 
-     Deskripsi di bawah ini KATA PER KATA dari tim (Galuh, 4 Agu 2026) —
-     bukan tulisan Claude. Jangan diubah tanpa persetujuan mereka.
+     ⚠️ DESKRIPSI DI BAWAH ADALAH RINGKASAN — bukan teks resmi utuh.
+     Teks asli dari tim ±180 kata, terlalu panjang untuk kartu ini
+     (proyek lain ±60-80 kata). Ringkasannya ±90 kata, disusun Claude
+     atas permintaan Mahdan 5 Agu 2026. MOHON DIPERIKSA TIM.
 
-     Gambarnya diagram teknis (tampak depan & samping), bentuknya tegak.
-     Karena itu memakai `fit: 'contain'` — kalau dipotong seperti foto biasa,
-     separuh diagramnya hilang.
+     ── TEKS ASLI DARI TIM (Galuh, 4 Agu 2026) — simpan, jangan dihapus ──
+     "This project pioneers an interdisciplinary approach that integrates
+     hydrate-based seawater desalination with marine environmental science
+     to address the dual challenges of freshwater scarcity and marine
+     pollution. By coupling hydrate-based desalination with calcium sulfate
+     (CaSO₄) precipitation, the research will optimize freshwater and salt
+     production while, for the first time, investigating the fate of heavy
+     metals and microplastics throughout the desalination process. The study
+     will provide fundamental insights into contaminant exclusion, transport,
+     and accumulation mechanisms at hydrate and crystal interfaces, advancing
+     the scientific understanding of contaminant behavior during desalination.
+     These findings will support the development of next-generation
+     desalination technologies that are energy-efficient, environmentally
+     sustainable, and capable of producing contaminant-safe freshwater and
+     salt. Beyond technological innovation, the project contributes to water
+     security, marine pollution mitigation, and circular resource recovery,
+     supporting the Blue Economy and the Sustainable Development Goals while
+     providing practical solutions for Indonesia and other coastal regions
+     facing increasing environmental and freshwater challenges."
+     ─────────────────────────────────────────────────────────────────────
+
+     Gambarnya diagram teknis (tampak depan & samping), mendatar 4:3.
+     Kotak gambarnya 5:3, jadi tetap memakai `fit: 'contain'` — kalau
+     dipotong, label "Tampak Samping/Depan" di bagian atas akan hilang.
 
      ⚠️ `location` masih 'Pangandaran', warisan dari penampung lama.
         Mohon dipastikan — riset ini memakai reaktor bertekanan.
@@ -102,7 +125,7 @@ const PROJECTS = [
     category: 'Marine Resource Processing',
     status: 'In Development',
     location: 'Pangandaran',
-    desc: 'This project pioneers an interdisciplinary approach that integrates hydrate-based seawater desalination with marine environmental science to address the dual challenges of freshwater scarcity and marine pollution. By coupling hydrate-based desalination with calcium sulfate (CaSO₄) precipitation, the research will optimize freshwater and salt production while, for the first time, investigating the fate of heavy metals and microplastics throughout the desalination process. The study will provide fundamental insights into contaminant exclusion, transport, and accumulation mechanisms at hydrate and crystal interfaces, advancing the scientific understanding of contaminant behavior during desalination. These findings will support the development of next-generation desalination technologies that are energy-efficient, environmentally sustainable, and capable of producing contaminant-safe freshwater and salt. Beyond technological innovation, the project contributes to water security, marine pollution mitigation, and circular resource recovery, supporting the Blue Economy and the Sustainable Development Goals while providing practical solutions for Indonesia and other coastal regions facing increasing environmental and freshwater challenges.',
+    desc: 'This project combines hydrate-based seawater desalination with marine environmental science to address freshwater scarcity and marine pollution together. By coupling hydrate desalination with calcium sulfate (CaSO₄) precipitation, the research optimizes freshwater and salt production while, for the first time, tracing how heavy metals and microplastics behave throughout the process. Insights into contaminant exclusion and accumulation at hydrate and crystal interfaces will guide desalination technology that is energy-efficient, environmentally sustainable, and capable of producing contaminant-safe freshwater and salt — supporting water security and the Blue Economy across Indonesia\'s coastal regions.',
     image: 'images/projects/salt-desalination.png',
     fit: 'contain',
     tags: ['Hydrate Desalination', 'Clean Water', 'Sea Salt']
