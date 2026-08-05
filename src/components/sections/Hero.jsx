@@ -1,12 +1,38 @@
 import { toWebp } from '../../lib/images';
 import { useEffect, useState } from 'react';
-import { PROJECTS } from '../../data/projects';
+import { HERO_VIDEO, HERO_VIDEO_POSTER } from '../../config';
 
 /* ================================================================
-   KOMPONEN 2: HERO SECTION (BACKGROUND GAMBAR LEBIH JELAS & TAJAM)
+   KOMPONEN 2: HERO SECTION
+   ----------------------------------------------------------------
+   Latar belakangnya bisa video ATAU empat foto bergantian, tergantung
+   HERO_VIDEO di src/config.js. Kalau kosong, foto yang dipakai —
+   jadi tidak ada kotak hitam atau ikon rusak saat videonya belum ada.
+
+   REVISI PAK TORA 4/8/2026 poin #20: "video depan autoplay".
 ================================================================ */
+
+/** Sebagian pengunjung sebaiknya TIDAK menerima video sama sekali:
+ *
+ *  • prefers-reduced-motion — pengaturan sistem yang dinyalakan orang
+ *    dengan gangguan vestibular; gerakan besar bisa memicu pusing dan
+ *    mual. Ini pengaturan aksesibilitas, bukan preferensi gaya.
+ *
+ *  • Save-Data — pengunjung yang memberi tahu browsernya bahwa kuotanya
+ *    terbatas. Mengirimi mereka video belasan megabita untuk hiasan
+ *    latar adalah hal yang tidak sopan.
+ *
+ *  Keduanya tetap melihat foto — tidak ada yang hilang selain geraknya. */
+function bolehPutarVideo() {
+  if (typeof window === 'undefined') return false;         // aman saat SSR
+  try {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return false;
+    if (navigator.connection && navigator.connection.saveData) return false;
+  } catch { /* browser lama: anggap boleh */ }
+  return true;
+}
+
 function Hero({ onOpenBooking }) {
-  // Daftar 4 gambar latar belakang (silakan ganti/sesuaikan nama filenya)
   const heroImages = [
     'images/Homepage/Homepage-1.jpg',
     'images/Homepage/Homepage-2.jpg',
@@ -15,14 +41,23 @@ function Hero({ onOpenBooking }) {
   ];
 
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [videoGagal, setVideoGagal] = useState(false);
+  const [bolehVideo, setBolehVideo] = useState(false);
 
-  // Otomatis berganti gambar setiap 5 detik (5000 ms)
+  /* Diperiksa setelah komponen terpasang, bukan saat render pertama —
+     `window` tidak ada saat halaman dirender di sisi server. */
+  useEffect(() => { setBolehVideo(bolehPutarVideo()); }, []);
+
+  const pakaiVideo = Boolean(HERO_VIDEO) && bolehVideo && !videoGagal;
+
+  /* Pergantian foto hanya berjalan bila fotonya memang yang tampil. */
   useEffect(() => {
+    if (pakaiVideo) return;
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % heroImages.length);
     }, 5000);
     return () => clearInterval(timer);
-  }, [heroImages.length]);
+  }, [heroImages.length, pakaiVideo]);
 
   return (
     <section className="relative bg-[#041b2e] text-white py-24 md:py-32 overflow-hidden">
