@@ -40,6 +40,7 @@ const TITIK_KOLABORATOR = [
   { id: 'univ-4',  nama: 'Xiamen University',                       kota: 'Xiamen, Tiongkok',   lat: 24.4364, lng: 118.0954 },
   { id: 'univ-5',  nama: 'IOCAS — Institute of Oceanology, CAS',    kota: 'Qingdao, Tiongkok',  lat: 36.0662, lng: 120.3800 },
   { id: 'univ-6',  nama: 'University of Tsukuba',                   kota: 'Tsukuba, Jepang',    lat: 36.1096, lng: 140.1017 },
+  { id: 'univ-16', nama: 'National Chung Hsing University',         kota: 'Taichung, Taiwan',   lat: 24.1220, lng: 120.6748 },
   { id: 'univ-7',  nama: 'INTI International University',           kota: 'Nilai, Malaysia',    lat:  2.8137, lng: 101.7920 },
   { id: 'univ-8',  nama: 'Universiti Teknologi Malaysia',           kota: 'Johor Bahru',        lat:  1.5587, lng: 103.6376 },
 

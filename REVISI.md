@@ -80,7 +80,7 @@ Poin di bawah **tidak bisa dikerjakan** sampai bahannya ada. Sebaiknya dikumpulk
 | 24 | Tiap publikasi cover beda-beda | 4 gambar cover (saat ini beberapa publikasi berbagi gambar yang sama) |
 | 26 | Project Coordinator di sebelah Leadership | Nama, jabatan lengkap, foto, CV |
 | 27 | Video 3 buah | Tautan YouTube: Recap, Java Trip, Pangandaran Trip |
-| 17 | Taiwan (NCHU & NDHU) | Nama resmi + file logo |
+| 17 | Taiwan (NCHU & NDHU) | **NCHU selesai** (5 Agu). Sisa **NDHU** — National Dong Hwa University, berkas logonya belum ada |
 | 18 | Tambahkan Unpad | File logo (atau sebutkan univ-1…15 mana yang Unpad) |
 | 28 | Waste water monitoring | Gambar riset Kathryn (BioXRed) + penjelasan "Microsencus" |
 
