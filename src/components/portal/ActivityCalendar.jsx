@@ -106,7 +106,12 @@ function ActivityCalendar({ pengajuan = [], onPilihTanggal }) {
       <div className="grid lg:grid-cols-5">
 
         {/* ── Sisi kiri: grid tanggal ───────────────────────────── */}
+        {/* Lebarnya dibatasi dengan sengaja. Kotak tanggal memakai
+            aspect-square, jadi kalau kolomnya dibiarkan melar mengikuti
+            layar lebar, tiap kotak ikut membesar dan enam barisnya bisa
+            lebih tinggi dari layar — kalender jadi harus digulir. */}
         <div className="lg:col-span-3 p-5 sm:p-6 lg:border-r border-slate-100">
+          <div className="w-full max-w-[440px] mx-auto">
 
           <div className="flex items-center justify-between mb-5">
             <button
@@ -185,6 +190,8 @@ function ActivityCalendar({ pengajuan = [], onPilihTanggal }) {
             <span className="flex items-center gap-1.5">
               <span className="w-2 h-2 rounded-full bg-[#0096d7]" /> Already scheduled
             </span>
+          </div>
+
           </div>
         </div>
 
