@@ -32,7 +32,7 @@ function CollaboratorPage({ onBackToMain }) {
         <div className="text-center max-w-3xl mx-auto mb-16 animate-fadeIn">
           <span className="pill-badge badge-blue mb-3">OUR PARTNERS</span>
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-[#041b2e] mb-4">Mitra & Kolaborator Riset</h1>
-          <p className="text-slate-500 text-base">Sinergi antara akademisi dan komunitas masyarakat pesisir dalam mewujudkan riset kelautan yang berdampak nyata dan berkelanjutan.</p>
+          <p className="text-slate-500 text-base">Bringing academia and coastal communities together to make marine research that is lasting and genuinely useful.</p>
         </div>
 
         {/* SEKSI 1: UNIVERSITAS (Warna Asli Langsung Tampil) */}
