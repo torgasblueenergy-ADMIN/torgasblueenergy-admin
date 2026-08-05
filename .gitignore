@@ -69,3 +69,4 @@ apps-script/live/
 apps-script/.clasp.json
 apps-script/.deployment-id
 apps-script/.live-hash
+apps-script/.expected-spreadsheet-id
