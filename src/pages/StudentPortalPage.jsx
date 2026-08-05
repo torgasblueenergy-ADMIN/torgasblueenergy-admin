@@ -140,6 +140,15 @@ function StudentPortalPage({ onBackToMain }) {
           </div>
         </div>
 
+        {/* KALENDER KEGIATAN & KETERSEDIAAN
+            Ditaruh SEBELUM kartu pengajuan supaya mahasiswa melihat slot
+            kosong lebih dulu, baru menekan tombol. Kalau ditaruh di bawah,
+            urutan bacanya terbalik dari alur kerja yang sebenarnya. */}
+        <ActivityCalendar
+          pengajuan={tableData}
+          onPilihTanggal={() => setMentoringModalOpen(true)}
+        />
+
         {/* MENU KARTU AKSI */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16 animate-fadeIn" style={{ animationDelay: '0.2s' }}>
           {/* Kartu 1: Booking Lab */}
