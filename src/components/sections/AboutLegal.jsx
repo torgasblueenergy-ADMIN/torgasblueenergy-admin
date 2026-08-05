@@ -58,7 +58,7 @@ function AboutLegal() {
               {/* KOTAK 1: Deskripsi Utama */}
               <div className="p-6 sm:p-8 bg-white border border-slate-200 border-l-4 border-l-[#0096d7]">
                 <h3 className="text-xl font-extrabold text-[#041b2e] mb-3 uppercase tracking-wide">
-                  Profile Perusahaan Torgas Blue Energy
+                  Profile Torgas Blue Energy
                 </h3>
                 <p className="text-slate-600 leading-relaxed text-justify text-base">
                   Torgas Blue Energy operates an integrated marine research laboratory located in Jatinangor, Sumedang, West Java. We focus on developing autonomous marine monitoring technologies and clean energy solutions based on marine biomass to support the sustainable use of marine resources.
