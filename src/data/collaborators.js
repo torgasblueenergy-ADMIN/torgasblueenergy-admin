@@ -10,21 +10,21 @@
    (sebagian .png, sebagian .jpg). Versi lama memaksa semua jadi .png sehingga
    7 logo tampil rusak. Ganti nilai `name` dengan nama universitas sebenarnya. */
 const UNIV_COLLABORATORS = [
-  { id: 'univ-1',  name: 'Universitas Partner 1',  logo: 'images/collaborators/univ-1.png'  },
-  { id: 'univ-2',  name: 'Universitas Partner 2',  logo: 'images/collaborators/univ-2.png'  },
-  { id: 'univ-3',  name: 'Universitas Partner 3',  logo: 'images/collaborators/univ-3.png'  },
-  { id: 'univ-4',  name: 'Universitas Partner 4',  logo: 'images/collaborators/univ-4.png'  },
-  { id: 'univ-5',  name: 'Universitas Partner 5',  logo: 'images/collaborators/univ-5.png'  },
-  { id: 'univ-6',  name: 'Universitas Partner 6',  logo: 'images/collaborators/univ-6.png'  },
-  { id: 'univ-7',  name: 'Universitas Partner 7',  logo: 'images/collaborators/univ-7.png'  },
-  { id: 'univ-8',  name: 'Universitas Partner 8',  logo: 'images/collaborators/univ-8.png'  },
-  { id: 'univ-9',  name: 'Universitas Partner 9',  logo: 'images/collaborators/univ-9.png'  },
-  { id: 'univ-10', name: 'Universitas Partner 10', logo: 'images/collaborators/univ-10.png' },
-  { id: 'univ-11', name: 'Universitas Partner 11', logo: 'images/collaborators/univ-11.png' },
-  { id: 'univ-12', name: 'Universitas Partner 12', logo: 'images/collaborators/univ-12.png' },
-  { id: 'univ-13', name: 'Universitas Partner 13', logo: 'images/collaborators/univ-13.png' },
-  { id: 'univ-14', name: 'Universitas Partner 14', logo: 'images/collaborators/univ-14.png' },
-  { id: 'univ-15', name: 'Universitas Partner 15', logo: 'images/collaborators/univ-15.png' }
+  { id: 'univ-1',  name: 'BRIN — Badan Riset dan Inovasi Nasional',  logo: 'images/collaborators/univ-1.png'  },
+  { id: 'univ-2',  name: 'Rutgers, The State University of New Jersey',  logo: 'images/collaborators/univ-2.png'  },
+  { id: 'univ-3',  name: 'Weill Cornell Medicine — Cornell University',  logo: 'images/collaborators/univ-3.png'  },
+  { id: 'univ-4',  name: 'Xiamen University',  logo: 'images/collaborators/univ-4.png'  },
+  { id: 'univ-5',  name: 'IOCAS — Institute of Oceanology, Chinese Academy of Sciences',  logo: 'images/collaborators/univ-5.png'  },
+  { id: 'univ-6',  name: 'University Scuba International',  logo: 'images/collaborators/univ-6.png'  },
+  { id: 'univ-7',  name: 'INTI International University & Colleges',  logo: 'images/collaborators/univ-7.png'  },
+  { id: 'univ-8',  name: 'Universiti Teknologi Malaysia',  logo: 'images/collaborators/univ-8.png'  },
+  { id: 'univ-9',  name: 'Universitas Indonesia',  logo: 'images/collaborators/univ-9.png'  },
+  { id: 'univ-10', name: 'Universitas Gadjah Mada', logo: 'images/collaborators/univ-10.png' },
+  { id: 'univ-11', name: 'Universitas Airlangga', logo: 'images/collaborators/univ-11.png' },
+  { id: 'univ-12', name: 'Universitas Brawijaya', logo: 'images/collaborators/univ-12.png' },
+  { id: 'univ-13', name: 'Universitas Negeri Jakarta', logo: 'images/collaborators/univ-13.png' },
+  { id: 'univ-14', name: 'Universitas Diponegoro', logo: 'images/collaborators/univ-14.png' },
+  { id: 'univ-15', name: 'Universitas Terbuka', logo: 'images/collaborators/univ-15.png' }
 ];
 
 const LSM_COLLABORATORS = [
