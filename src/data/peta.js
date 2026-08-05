@@ -14,6 +14,12 @@
    daripada tidak menampilkannya. Mohon Galuh atau Pak Tora memeriksa
    sekali sebelum ini dianggap final.
 
+   ── KOREKSI 5 Agu 2026 dari Mahdan ──
+   univ-6 sempat saya baca sebagai "University Scuba International"
+   dari logonya. SALAH — yang benar University of Tsukuba, Jepang.
+   Bukti bahwa mengenali lembaga dari gambar logo bisa meleset, dan
+   daftar ini memang perlu dibaca ulang oleh yang tahu.
+
    Cara mengoreksi: buka Google Maps, klik kanan di titik yang benar,
    angka pertama yang muncul adalah `lat`, yang kedua `lng`.
 ================================================================ */
@@ -33,6 +39,7 @@ const TITIK_KOLABORATOR = [
   // ── Asia ──
   { id: 'univ-4',  nama: 'Xiamen University',                       kota: 'Xiamen, Tiongkok',   lat: 24.4364, lng: 118.0954 },
   { id: 'univ-5',  nama: 'IOCAS — Institute of Oceanology, CAS',    kota: 'Qingdao, Tiongkok',  lat: 36.0662, lng: 120.3800 },
+  { id: 'univ-6',  nama: 'University of Tsukuba',                   kota: 'Tsukuba, Jepang',    lat: 36.1096, lng: 140.1017 },
   { id: 'univ-7',  nama: 'INTI International University',           kota: 'Nilai, Malaysia',    lat:  2.8137, lng: 101.7920 },
   { id: 'univ-8',  nama: 'Universiti Teknologi Malaysia',           kota: 'Johor Bahru',        lat:  1.5587, lng: 103.6376 },
 
@@ -41,13 +48,11 @@ const TITIK_KOLABORATOR = [
   { id: 'univ-3',  nama: 'Weill Cornell Medicine — Cornell University', kota: 'New York, AS',      lat: 40.7648, lng: -73.9540 },
 
   // ── Mitra masyarakat ──
-  { id: 'lsm-1',   nama: 'POKMASWAS Bulak Setra',                   kota: 'Pangandaran',        lat: -7.6883, lng: 108.6500, komunitas: true },
+  { id: 'lsm-1',   nama: 'POKMASWAS Bulak Setra',                   kota: 'Pangandaran, Jawa Barat',  lat: -7.6883, lng: 108.6500, komunitas: true },
+  { id: 'lsm-2',   nama: 'POKMASWAS Pandanan',                      kota: 'Taman Laut Pandanan, Lombok Utara', lat: -8.3750, lng: 116.0620, komunitas: true },
 
-  /* ⚠️ BELUM ADA TITIKNYA — sengaja tidak ditebak:
-       • univ-6  University Scuba International — lembaga sertifikasi selam,
-                 kantor pusatnya tidak saya ketahui
-       • lsm-2   POKMASWAS Pandanan — nama desanya belum jelas letaknya
-     Tambahkan di daftar ini setelah koordinatnya dipastikan. */
+  /* Kedua titik komunitas di atas menunjuk ke kawasan, bukan ke sekretariat
+     kelompoknya. Kalau ada koordinat yang lebih tepat, silakan diganti. */
 ];
 
 /* ── LAPISAN 2: LOKASI PENELITIAN ────────────────────────────── */
