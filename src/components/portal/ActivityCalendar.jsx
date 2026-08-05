@@ -223,7 +223,9 @@ function ActivityCalendar({ pengajuan = [], onPilihTanggal }) {
                   <div key={i} className="bg-emerald-50 border border-emerald-200 rounded-xl px-3 py-2.5 flex items-center justify-between gap-2">
                     <div>
                       <div className="text-sm font-extrabold text-emerald-800">
-                        {s.start} – {s.end}
+                        {/* Acara sehari penuh tidak punya jam. Menampilkan
+                            "– " kosong akan terlihat seperti data rusak. */}
+                        {s.allDay || !s.start ? 'All day' : `${s.start} – ${s.end}`}
                       </div>
                       {s.note && <div className="text-[11px] text-emerald-700 font-semibold">{s.note}</div>}
                     </div>
