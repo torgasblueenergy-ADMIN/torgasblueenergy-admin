@@ -180,7 +180,16 @@ function CollaborationMap() {
         {tombol('penelitian', 'Research Locations', JINGGA)}
       </div>
 
-      <div className="rounded-3xl overflow-hidden border border-slate-200 shadow-sm bg-slate-100 relative">
+      {/* ⚠️ `isolate` WAJIB ADA — jangan dihapus.
+          Leaflet menaruh lapisan dalamnya pada z-index 400 (petak peta) dan
+          800 (tombol zoom). Angka itu jauh di atas header situs yang z-50,
+          dan karena pembungkus peta tidak membentuk stacking context sendiri,
+          angka-angka itu ikut bersaing di tingkat halaman — peta jadi
+          menimpa header yang seharusnya melayang di atas segalanya.
+
+          `isolate` (isolation: isolate) mengurung seluruh z-index Leaflet di
+          dalam kotak ini, sehingga dari luar peta hanya satu lapisan biasa. */}
+      <div className="isolate rounded-3xl overflow-hidden border border-slate-200 shadow-sm bg-slate-100 relative">
         {galat ? (
           <div className="h-[380px] flex items-center justify-center text-center px-6">
             <p className="text-sm font-bold text-slate-500">
