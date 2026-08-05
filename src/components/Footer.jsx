@@ -69,7 +69,7 @@ function Footer({ onOpenLegal }) {
               <div>
                 <p className="font-bold text-sm text-slate-300 mb-1">Torgas Integrated Laboratory</p>
                 <p className="text-sm text-slate-400 leading-relaxed">
-                  Jatinangor, Kabupaten Sumedang, <br/>Jawa Barat, Indonesia.
+                  Jatinangor, Sumedang Regency, <br/>West Java, Indonesia.
                 </p>
               </div>
             </div>

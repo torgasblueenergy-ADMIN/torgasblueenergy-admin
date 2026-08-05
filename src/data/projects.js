@@ -7,7 +7,7 @@ const PROJECTS = [
     title: 'Waste water monitoring',
     category: 'Marine Technology & Robotics',
     status: 'In-Field Testing',
-    location: 'Stasiun Pangandaran',
+    location: 'Pangandaran Station',
     desc: 'Waste water quality monitoring activities through the analysis of physical, chemical, and biological parameters, including heavy metal content such as mercury (Hg), lead (Pb), cadmium (Cd), chromium (Cr), and arsenic (As). These tests aim to detect pollution levels, ensure that wastewater meets environmental quality standards, and protect marine ecosystems from the impacts of pollution and heavy metal accumulation.',
     image: 'images/projects/image-1.jpg',
     tags: ['Autonomous USV', 'Real-Time Telemetry', 'Oceanography']
@@ -17,7 +17,7 @@ const PROJECTS = [
     title: 'Carbon storage and radiocarbon dating',
     category: 'Renewable Clean Energy',
     status: 'Active Lab Experiment',
-    location: 'Lab Terpadu Jatinangor',
+    location: 'Jatinangor Integrated Lab',
     desc: 'A research project is currently underway to study carbon storage and radiocarbon dating in various study areas, including Surabaya, Gresik, Pasuruan, Malang, and Pangandaran. This research aims to obtain information on the dynamics of carbon storage and the age of organic materials to serve as a basis for supporting environmental studies and the management of coastal and marine ecosystems.',
     // Sebelumnya 'images/Projects/...' (P besar). Aman di macOS, tapi 404 di
     // server Linux yang membedakan huruf besar-kecil. Jangan diubah lagi.
@@ -49,7 +49,7 @@ const PROJECTS = [
     title: 'Biosystem engineering',
     category: 'Ecosystem Conservation',
     status: 'Field Research',
-    location: 'Perairan Pangandaran',
+    location: 'Pangandaran Waters',
     desc: 'TORGAS (Biosystem Engineering) is a device used to produce gas from natural materials through the biomass conversion process. This device supports research in the field of biosystem engineering by utilizing organic waste or biomass as a source of renewable energy, thereby contributing to the development of environmentally friendly and sustainable technologies.',
     image: 'images/projects/Biosystem-Engineering.jpg',
     tags: ['Biodiversity', 'Ecosystem Health', 'Marine Survey']
@@ -59,7 +59,7 @@ const PROJECTS = [
     title: 'Ocean Blue Health Innovation',
     category: 'Sustainable Technology',
     status: 'Prototype Phase',
-    location: 'Lab Terpadu Jatinangor',
+    location: 'Jatinangor Integrated Lab',
     desc: 'Ocean Blue Health Innovation is a research project focused on developing innovations based on marine resources to support human health and well-being. This research involves exploring the potential of marine life, bioactive compounds, and marine technologies that can be utilized in the fields of health, biotechnology, and sustainable marine resource management.',
     image: 'images/projects/Bluehealth.jpg',
     tags: ['Desalination', 'Clean Water', 'Solar Hybrid']
