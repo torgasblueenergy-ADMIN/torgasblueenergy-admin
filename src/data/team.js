@@ -55,9 +55,7 @@ const LAB_SECTIONS = [
         focus: "Coral Reef Survey & Coastal Biodiversity Assessment",
         photo: "images/People/Head/alifannursin-head.jpg",
         detailPhoto: "images/People/Body/alifannursin-body.jpg",
-        // TODO: file cvs/alifannursin.pdf belum ada. Unggah file-nya lalu
-        // ganti null di bawah menjadi "cvs/alifannursin.pdf"
-        cvPdf: null
+        cvPdf: "cvs/alifannursin.pdf"
       },
       {
         id: "lt-5",
