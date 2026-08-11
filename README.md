@@ -2,7 +2,7 @@
 
 Website resmi **Torgas Blue Energy**, laboratorium riset kelautan terintegrasi di Jatinangor, Sumedang, Jawa Barat. Fokus pada teknologi pemantauan laut otonom dan solusi energi bersih berbasis biomassa laut.
 
-🔗 [Instagram](https://www.instagram.com/torgasblueenergy) · [LinkedIn](https://www.linkedin.com/in/torgas-blue-energy-8400473b8) · WhatsApp +62 817-7653-6085
+🔗 [Instagram](https://www.instagram.com/torgasblueenergy) · [LinkedIn](https://www.linkedin.com/in/torgas-blue-energy-8400473b8) · WhatsApp +62 851-1104-4226
 
 📄 **[SETUP.md](SETUP.md)** — panduan VS Code, GitHub, dan deploy · **[AUDIT.md](AUDIT.md)** — laporan audit teknis
 
