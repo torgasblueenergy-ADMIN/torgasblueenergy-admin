@@ -14,7 +14,10 @@ function HeaderNav({ onOpenStudentPortal, onOpenCollaborator }) {
         <div className="max-grid w-full flex items-center justify-between">
           
           {/* Bagian Logo Torgas */}
-          <a href="#" className="flex items-center gap-2 sm:gap-3 z-50 group">
+          {/* href="#" membawa pengunjung ke alamat berakhiran "#" — tidak
+              menggulir ke mana pun dan mengotori riwayat peramban. Logo situs
+              seharusnya membawa kembali ke awal halaman. */}
+          <a href="#home" aria-label="Torgas Blue Energy — kembali ke awal halaman" className="flex items-center gap-2 sm:gap-3 z-50 group">
             <SmartImage
               src="images/logo/logo.jpeg"
               alt="Logo Torgas Blue Energy"

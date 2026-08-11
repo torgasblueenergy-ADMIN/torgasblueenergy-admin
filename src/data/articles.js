@@ -93,16 +93,34 @@ Replace this title, date, and description with the details of the actual video.`
   }
 ];
 
+/* ⚠️ SARINGAN PENAMPUNG — ditambahkan 9 Agu 2026 setelah pemeriksaan situs.
+   ----------------------------------------------------------------
+   Entri video dengan `youtubeId` yang masih berupa penampung tetap tampil
+   di situs publik: judulnya muncul, thumbnail-nya meminta gambar ke
+   YouTube untuk ID "GANTI_DENGAN_ID_VIDEO", dan yang didapat kotak kosong.
+   Pengunjung melihat kartu video rusak di halaman Publications and News.
+
+   Sekarang entri seperti itu dibuang otomatis. Isi `youtubeId` dengan kode
+   video yang benar, dan entri tersebut langsung muncul dengan sendirinya —
+   tidak perlu mengubah apa pun di sini.
+
+   Kode video YouTube panjangnya 11 karakter, misalnya 'dQw4w9WgXcQ'. */
+function punyaIdSah(v) {
+  return typeof v.youtubeId === 'string' && /^[A-Za-z0-9_-]{11}$/.test(v.youtubeId);
+}
+
+const VIDEO_SIAP_TAMPIL = VIDEO_DATA.filter(punyaIdSah);
+
 /* Thumbnail otomatis dari YouTube bila `image` tidak diisi sendiri.
    sddefault tersedia untuk hampir semua video; maxresdefault sering kosong
    pada video lama, jadi sengaja tidak dipakai. */
-VIDEO_DATA.forEach((v) => {
-  if (!v.image && v.youtubeId) {
+VIDEO_SIAP_TAMPIL.forEach((v) => {
+  if (!v.image) {
     v.image = `https://img.youtube.com/vi/${v.youtubeId}/sddefault.jpg`;
   }
 });
 
 // Gabungkan seluruh data secara otomatis
-const ARTICLES = [...ARTIKEL_ILMIAH, ...NEWS_DATA, ...VIDEO_DATA];
+const ARTICLES = [...ARTIKEL_ILMIAH, ...NEWS_DATA, ...VIDEO_SIAP_TAMPIL];
 
-export { ARTIKEL_ILMIAH, NEWS_DATA, VIDEO_DATA, ARTICLES };
+export { ARTIKEL_ILMIAH, NEWS_DATA, VIDEO_SIAP_TAMPIL as VIDEO_DATA, ARTICLES };
