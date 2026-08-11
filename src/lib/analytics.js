@@ -25,12 +25,32 @@
    antar situs, sehingga Kebijakan Privasi kita tetap berlaku apa
    adanya dan tidak perlu banner cookie.
 
+   ----------------------------------------------------------------
+   MENGAPA ID-nya DITULIS LANGSUNG DI SINI, BUKAN DI .env
+   ----------------------------------------------------------------
+   Situs ini dibangun oleh GitHub Actions, bukan oleh komputer siapa pun.
+   Berkas .env ada di .gitignore — jadi ia tidak pernah sampai ke server
+   pembangun, dan `import.meta.env.VITE_*` di sana selalu kosong.
+   Mengisi .env di komputer sendiri hanya berpengaruh saat `npm run dev`;
+   situs yang terbit tetap tanpa analytics, tanpa pesan galat apa pun.
+
+   Website ID Umami memang BUKAN rahasia. Ia terbaca oleh siapa saja yang
+   melihat kode sumber halaman — begitulah cara kerjanya di semua situs
+   yang memakai Umami. Yang rahasia adalah akun dasbornya, dan itu tidak
+   ada hubungannya dengan nilai ini.
+
+   Nilai .env tetap dihormati bila ada, sehingga pengembangan lokal masih
+   bisa memakai akun Umami terpisah tanpa mengotori statistik sungguhan.
+
    PENGATURAN — lihat berkas .env.example
 ================================================================ */
 
+/* Dari Mahdan, 11 Agu 2026 — akun Umami Cloud milik Torgas. */
+const UMAMI_ID_BAWAAN = 'b61637c2-02ff-463f-a1c9-d2ed9aae852c';
+
 const CONFIG = {
-  provider: import.meta.env.VITE_ANALYTICS_PROVIDER || 'none',
-  umamiWebsiteId: import.meta.env.VITE_UMAMI_WEBSITE_ID || '',
+  provider: import.meta.env.VITE_ANALYTICS_PROVIDER || (UMAMI_ID_BAWAAN ? 'umami' : 'none'),
+  umamiWebsiteId: import.meta.env.VITE_UMAMI_WEBSITE_ID || UMAMI_ID_BAWAAN,
   umamiSrc: import.meta.env.VITE_UMAMI_SRC || 'https://cloud.umami.is/script.js',
   plausibleDomain: import.meta.env.VITE_PLAUSIBLE_DOMAIN || '',
   plausibleSrc: import.meta.env.VITE_PLAUSIBLE_SRC || 'https://plausible.io/js/script.js'
