@@ -6,6 +6,15 @@ Status per 4 Agustus 2026. Nomor mengikuti urutan di notulen.
 
 ## ✅ Sudah dikerjakan
 
+**Tombol SETUJUI / TOLAK di email — diperbaiki 11 Agu 2026** *(di luar notulen, dari Mahdan)*
+Email yang sudah terkirim tidak bisa berubah isinya, jadi tombolnya akan tetap ada
+selamanya dan pasti tertekan lagi suatu hari. Halaman setelah diklik sekarang
+membedakan tiga keadaan: keputusan pertama, tombol lama yang ditekan ulang
+(tidak ada yang berubah, tidak ada email baru), dan keputusan yang dibalik
+(diperingatkan bahwa pengaju menerima dua email berbeda). Setiap keputusan juga
+mengirim kabar susulan ke pengurus, sehingga pesan terbaru di kotak masuk adalah
+keputusannya — bukan permintaan yang seolah masih menunggu.
+
 | # | Poin | Catatan |
 | - | ---- | ------- |
 | 10 | Logo collaborator diperbesar | 112 → 160 px. Susunan tetap 4 per baris (kompromi: notulen minta diperbesar, Mahdan sebelumnya minta diperkecil). |
@@ -97,7 +106,7 @@ Poin di bawah **tidak bisa dikerjakan** sampai bahannya ada. Sebaiknya dikumpulk
 | 22 | Peta lokasi collaborator | Sedang | Bisa digabung dengan #19 dalam satu peta, beda warna penanda |
 | 20 | Video depan autoplay | Mudah | ⚠️ Browser **memblokir autoplay bersuara**. Harus tanpa suara, dengan tombol nyalakan suara. Ini aturan browser, bukan batasan kode. |
 | 16 | Visitor website | Mudah | Diputuskan pakai analytics **tanpa cookie** (Plausible/Umami) agar sesuai Kebijakan Privasi |
-| 12 | Pendaftaran internship masuk ke 3 email | Sedang | Diubah di `apps-script/Code.gs`. ⚠️ Butuh alamat email Pak Tora & Kepala Lab. Apps Script juga **belum di-deploy ulang** |
+| — | ~~12. Pendaftaran internship ke 3 email~~ | **✅ SELESAI 11 Agu 2026** — daftar `MAGANG_EMAILS` tersendiri: sekretariat, Pak Tora, Kepala Lab. Sengaja tidak ditambahkan ke `ADMIN_EMAILS` agar Kepala Lab tidak ikut menerima seluruh notifikasi lain |
 | 29 | Label Torgas di dashboard | — | Belum jelas maksudnya. Dashboard yang mana — Student Portal? |
 
 ---
