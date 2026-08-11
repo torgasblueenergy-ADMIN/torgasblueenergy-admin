@@ -72,8 +72,8 @@ function LegalPage({ type, onBackToMain }) {
                   torgasblueenergy@gmail.com
                 </a>{' '}
                 or WhatsApp{' '}
-                <a href="https://wa.me/6281776536085" target="_blank" rel="noopener noreferrer" className="text-[#0096d7] font-bold hover:underline">
-                  +62 817-7653-6085
+                <a href="https://wa.me/6285111044226" target="_blank" rel="noopener noreferrer" className="text-[#0096d7] font-bold hover:underline">
+                  +62 851-1104-4226
                 </a>.
               </p>
               <p className="text-sm text-slate-500 mt-3">
