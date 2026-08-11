@@ -7,7 +7,7 @@ import { submitForm } from '../../lib/api';
 function PortalProgressModal({ isOpen, onClose }) {
   if (!isOpen) return null;
   const [formData, setFormData] = useState({
-    fullName: '', email: '', supervisor: '', reportDate: '', accomplishments: '', plan: '', obstacles: ''
+    fullName: '', email: '', phone: '', supervisor: '', reportDate: '', accomplishments: '', plan: '', obstacles: ''
   });
   const [statusMsg, setStatusMsg] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -57,6 +57,11 @@ function PortalProgressModal({ isOpen, onClose }) {
             <div>
               <label className="block text-[10px] font-extrabold text-slate-500 uppercase tracking-widest mb-1.5">Email Address <span className="text-[#0096d7]">*</span></label>
               <input type="email" name="email" required placeholder="email@example.com" className="w-full p-3 bg-slate-50 border border-slate-200 rounded-lg focus:bg-white focus:outline-[#0096d7] text-sm transition-colors" value={formData.email} onChange={handleChange} />
+            </div>
+            <div>
+              <label className="block text-[10px] font-extrabold text-slate-500 uppercase tracking-widest mb-1.5">WhatsApp Number <span className="text-[#0096d7]">*</span></label>
+              <input type="tel" name="phone" required placeholder="08xx-xxxx-xxxx" className="w-full p-3 bg-slate-50 border border-slate-200 rounded-lg focus:bg-white focus:outline-[#0096d7] text-sm transition-colors" value={formData.phone} onChange={handleChange} />
+              <p className="text-[11px] text-slate-400 mt-1">We will send a confirmation to this number.</p>
             </div>
             <div>
               <label className="block text-[10px] font-extrabold text-slate-500 uppercase tracking-widest mb-1.5">Supervisor / Advisor <span className="text-[#0096d7]">*</span></label>

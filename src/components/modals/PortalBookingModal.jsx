@@ -8,7 +8,7 @@ import { submitForm } from '../../lib/api';
 function PortalBookingModal({ isOpen, onClose }) {
   if (!isOpen) return null;
   const [formData, setFormData] = useState({
-    fullName: '', email: '', date: '', startTime: '', endTime: '', 
+    fullName: '', email: '', phone: '', date: '', startTime: '', endTime: '', 
     equipment: '', purpose: '', notes: ''
   });
   const [statusMsg, setStatusMsg] = useState('');
@@ -72,6 +72,11 @@ function PortalBookingModal({ isOpen, onClose }) {
             <div>
               <label className="block text-[10px] font-extrabold text-slate-500 uppercase tracking-widest mb-1.5">Email Address <span className="text-[#0096d7]">*</span></label>
               <input type="email" name="email" required placeholder="email@example.com" className="w-full p-3 bg-slate-50 border border-slate-200 rounded-lg focus:bg-white focus:outline-[#0096d7] text-sm transition-colors" value={formData.email} onChange={handleChange} />
+            </div>
+            <div>
+              <label className="block text-[10px] font-extrabold text-slate-500 uppercase tracking-widest mb-1.5">WhatsApp Number <span className="text-[#0096d7]">*</span></label>
+              <input type="tel" name="phone" required placeholder="08xx-xxxx-xxxx" className="w-full p-3 bg-slate-50 border border-slate-200 rounded-lg focus:bg-white focus:outline-[#0096d7] text-sm transition-colors" value={formData.phone} onChange={handleChange} />
+              <p className="text-[11px] text-slate-400 mt-1">We will send a confirmation to this number.</p>
             </div>
 
             <div>
