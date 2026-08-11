@@ -60,7 +60,11 @@ function Hero({ onOpenBooking }) {
   }, [heroImages.length, pakaiVideo]);
 
   return (
-    <section className="relative bg-[#041b2e] text-white py-24 md:py-32 overflow-hidden">
+    /* id="home" dipakai logo di header untuk kembali ke awal halaman.
+       Sebelumnya logo memakai href="#" — memang menggulir ke atas, tapi
+       menyisakan "#" di alamat dan menambah satu langkah palsu di riwayat
+       peramban, sehingga tombol Back terasa macet. */
+    <section id="home" className="relative bg-[#041b2e] text-white py-24 md:py-32 overflow-hidden">
       {/* ── LATAR BELAKANG: video atau foto bergantian ───────────── */}
       <div className="absolute inset-0 z-0">
         {pakaiVideo ? (
