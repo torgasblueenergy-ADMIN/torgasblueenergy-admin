@@ -159,7 +159,7 @@ function App() {
         />
       </main>
 
-      <Footer onOpenLegal={openLegal} />
+      <Footer onOpenLegal={(which) => bukaHalaman(which)} />
 
       {/* Modals */}
       <BookingModal isOpen={isBookingOpen} onClose={() => setIsBookingOpen(false)} />
