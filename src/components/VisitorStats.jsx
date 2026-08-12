@@ -151,7 +151,23 @@ function VisitorStats() {
       { threshold: 0.25 }
     );
     pengamat.observe(el);
-    return () => pengamat.disconnect();
+
+    /* ⚠️ BATAS WAKTU — JANGAN DIHAPUS (13 Agu 2026, ditemukan saat menguji)
+       IntersectionObserver tidak pernah melapor di tab yang tidak
+       terlihat, karena browser berhenti menggambar frame di sana. Tanpa
+       batas waktu ini, `terlihat` selamanya false, animasinya tidak
+       pernah dimulai, dan keempat kartu memajang ANGKA NOL — padahal
+       datanya sudah benar. Terbukti terjadi: data 1/17/17/17, yang
+       tertulis di layar 0/0/0/0.
+
+       setTimeout tetap dijalankan di tab latar belakang (hanya
+       diperlambat), jadi angkanya selalu mendarat di nilai yang benar.
+
+       Empat detik cukup lama untuk membiarkan animasi berjalan wajar
+       bagi pengunjung yang benar-benar menggulir ke footer. */
+    const batasWaktu = setTimeout(() => setTerlihat(true), 4000);
+
+    return () => { pengamat.disconnect(); clearTimeout(batasWaktu); };
   }, [data]);
 
   if (!data) return null;
