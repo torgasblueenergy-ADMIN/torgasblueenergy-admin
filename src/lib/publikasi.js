@@ -1,9 +1,18 @@
 import { WEBAPI_URL } from '../config';
 
 /* ================================================================
-   PUBLIKASI & BERITA DARI SPREADSHEET
+   PUBLIKASI, BERITA & VIDEO — SELURUHNYA DARI SPREADSHEET
    ----------------------------------------------------------------
-   GET ?action=publications
+   Sejak 13 Agu 2026 bagian "Scientific Publications & News" TIDAK LAGI
+   menyimpan isi apa pun di dalam kode. Satu-satunya sumber adalah tab
+   "Publikasi" di Google Spreadsheet. Menambah, mengubah, dan menghapus
+   cukup dilakukan di sana — situs mengikuti dengan sendirinya.
+
+   Berkas src/data/articles.js sudah dihapus. Jangan dihidupkan lagi:
+   dua sumber isi berarti dua tempat mengedit, dan cepat atau lambat
+   keduanya akan berbeda tanpa ada yang sadar.
+
+   GET ?action=news  (alias: ?action=publications)
 
    Balasan yang diharapkan:
 
@@ -12,6 +21,7 @@ import { WEBAPI_URL } from '../config';
                    "title": "...",
                    "category": "news" | "artikel-ilmiah",
                    "categoryLabel": "News" | "Scientific Articles",
+                   "rawCategory": "apa pun yang diketik di kolom Tipe",
                    "date": "8 Januari 2026",
                    "sortKey": "2026-01-08",
                    "author": "...",
@@ -19,19 +29,6 @@ import { WEBAPI_URL } from '../config';
                    "content": "...",
                    "image": "https://lh3.googleusercontent.com/d/..." } ],
        "total": 1 }
-
-   ⚠️ RIWAYAT 12 Agu 2026 — kenapa berkas ini ada:
-   Backend `getPublications` sudah bekerja sejak lama dan sudah membalas
-   dengan benar. Yang tidak pernah ada adalah PEMANGGILNYA. NewsSection
-   memuat data langsung dari src/data/articles.js, sehingga baris apa pun
-   yang ditambahkan pengurus ke tab "Publikasi" tidak pernah sampai ke
-   situs. Dari sisi pengurus ini terlihat seperti salah mengisi Sheet,
-   padahal isian mereka sudah benar sejak awal.
-
-   Kegagalan di sini TIDAK dianggap galat. Kalau Spreadsheet tak terbaca,
-   situs tetap menampilkan isi bawaan dari src/data/articles.js — bagian
-   Publications & News tidak boleh sampai kosong hanya karena jaringan
-   sedang bermasalah.
 ================================================================ */
 
 /* Membaca Sheet lewat Apps Script memakan 7–14 detik saat skrip baru
@@ -65,13 +62,6 @@ const TIMEOUT_MS = 30000;
    kuncinya. Artinya pengunjung biasa mungkin tidak seapes ini. Yang
    pasti: kegagalannya nyata, sesekali, dan mengenai SEMUA aksi GET.
 
-   Karena itu satu kegagalan tidak boleh langsung dianggap "tidak ada
-   data". Dicoba beberapa kali dengan jeda; 'news' dan 'publications'
-   sama-sama dipakai karena backend melayani keduanya dengan fungsi
-   yang sama:
-
-     if (action === 'publications' || action === 'news') return getPublications(p)
-
    ⚠️ Jangan hapus pengulangan ini hanya karena "sekali coba sudah
    berhasil di komputer saya". Ia berhasil di banyak percobaan juga. */
 const PERCOBAAN = ['news', 'publications', 'news'];
@@ -83,38 +73,119 @@ const BULAN_INGGRIS = [
 ];
 
 /* Backend membalas tanggal dalam bahasa Indonesia ("8 Januari 2026"),
-   sedangkan situs seluruhnya berbahasa Inggris sejak 5 Agu 2026. Kalau
-   dibiarkan, satu kartu berbahasa Indonesia berdiri di antara kartu-kartu
-   berbahasa Inggris.
-
+   sedangkan situs seluruhnya berbahasa Inggris sejak 5 Agu 2026.
    Diterjemahkan di sini, bukan di backend, supaya perbaikan ini bisa
-   terbit tanpa menunggu penerbitan Apps Script — yang saat ini sedang
-   ditahan sampai izin WhatsApp disetujui. */
+   terbit tanpa menunggu penerbitan Apps Script. */
 function tanggalInggris(sortKey, tanggalAsli) {
   if (typeof sortKey === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(sortKey)) {
     const [th, bl, tg] = sortKey.split('-').map(Number);
-    if (bl >= 1 && bl <= 12) {
-      return `${tg} ${BULAN_INGGRIS[bl - 1]} ${th}`;
-    }
+    if (bl >= 1 && bl <= 12) return `${tg} ${BULAN_INGGRIS[bl - 1]} ${th}`;
   }
   return tanggalAsli || '';
 }
 
-/* Judul dipakai sebagai penangkal ganda, jadi perbedaan huruf besar-kecil,
-   spasi ganda, dan tanda baca di ujung tidak boleh membuat satu berita
-   yang sama terhitung dua kali. */
-function kunciJudul(judul) {
-  return String(judul || '')
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, ' ')
-    .trim();
+/* ================================================================
+   VIDEO — TANPA MENGUBAH BACKEND
+   ----------------------------------------------------------------
+   Backend hanya mengenal dua kategori ('artikel-ilmiah' dan 'news'),
+   dan menambah kategori ketiga berarti menerbitkan ulang Apps Script.
+   Itu tidak perlu: backend sudah meneruskan dua hal apa adanya —
+   kolom gambar dan kolom kategori yang diketik pengurus (rawCategory).
+
+   Jadi aturannya dibuat di sini: BARIS YANG KOLOM GAMBARNYA BERISI
+   TAUTAN YOUTUBE DIANGGAP VIDEO. Tidak perlu mengetik "Video" di kolom
+   kategori — walau kalau diketik pun tetap terbaca.
+
+   Thumbnail tidak perlu diunggah; diambil otomatis dari YouTube.
+================================================================ */
+function idYoutube(teks) {
+  const s = String(teks || '');
+  const pola = [
+    /[?&]v=([A-Za-z0-9_-]{11})/,        // youtube.com/watch?v=ID
+    /youtu\.be\/([A-Za-z0-9_-]{11})/,   // youtu.be/ID
+    /\/embed\/([A-Za-z0-9_-]{11})/,     // youtube.com/embed/ID
+    /\/shorts\/([A-Za-z0-9_-]{11})/,    // youtube.com/shorts/ID
+    /\/live\/([A-Za-z0-9_-]{11})/       // youtube.com/live/ID
+  ];
+  for (const p of pola) {
+    const m = s.match(p);
+    if (m) return m[1];
+  }
+  return '';
 }
 
-/**
- * Ambil publikasi dari Spreadsheet.
- * @returns {Promise<{siap: boolean, data: array, alasan?: string}>}
- *          `siap: false` berarti Spreadsheet belum terbaca — bukan galat fatal.
- */
+/* Tautannya boleh ditaruh di kolom gambar (paling wajar) atau menyelip
+   di dalam kolom konten/ringkasan — keduanya diterima. */
+function cariVideo(r) {
+  return idYoutube(r.image) || idYoutube(r.summary) || idYoutube(r.content);
+}
+
+function terapkanKategori(r) {
+  const vid = cariVideo(r);
+  if (!vid) return r;
+
+  return {
+    ...r,
+    category: 'video',
+    categoryLabel: 'Video',
+    youtubeId: vid,
+    /* sddefault tersedia untuk hampir semua video; maxresdefault sering
+       kosong pada video lama, jadi sengaja tidak dipakai. */
+    image: `https://img.youtube.com/vi/${vid}/sddefault.jpg`
+  };
+}
+
+/* ================================================================
+   URUTAN — YANG BARU DIUNGGAH DI DEPAN, BUKAN YANG TANGGALNYA MUDA
+   ----------------------------------------------------------------
+   Backend sudah mengurutkan hasilnya berdasarkan TANGGAL menurun, dan
+   urutan baris asli di Spreadsheet hilang di situ. Padahal yang
+   diinginkan pengurus: yang paling BARU DIUNGGAH tampil paling depan —
+   sebab artikel lama pun kadang baru dimasukkan hari ini, dan kalau
+   diurutkan menurut tanggal ia langsung terkubur di belakang.
+
+   Karena urutan baris tidak ikut terkirim, yang dipakai adalah ANGKA
+   PADA KOLOM ID. Kolom itu memang sudah diisi pengurus, jadi tidak ada
+   pekerjaan tambahan:
+
+       ID        →  urutan tampil
+       ART-03    →  1  (angka terbesar, paling depan)
+       NEW-02    →  2
+       NEW-01    →  3
+
+   ⚠️ ATURAN PENGISIAN: angka pada ID harus TERUS NAIK setiap kali
+   menambah baris baru, tak peduli awalannya ART- atau NEW- atau VID-.
+   Yang dibaca hanya angkanya, awalan diabaikan. Baris tanpa angka
+   sama sekali jatuh ke urutan tanggal.
+================================================================ */
+function nomorUrut(item) {
+  const angka = String(item.id || '').match(/(\d+)(?!.*\d)/); // gugus angka terakhir
+  return angka ? parseInt(angka[1], 10) : null;
+}
+
+function waktuTanggal(item) {
+  if (typeof item.sortKey === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(item.sortKey)) {
+    return Date.parse(item.sortKey + 'T00:00:00');
+  }
+  const t = Date.parse(item.date);
+  return Number.isNaN(t) ? -Infinity : t;
+}
+
+function urutkan(data) {
+  return [...data].sort((a, b) => {
+    const na = nomorUrut(a);
+    const nb = nomorUrut(b);
+
+    // Keduanya bernomor → nomor besar duluan
+    if (na !== null && nb !== null && na !== nb) return nb - na;
+    // Yang bernomor didahulukan daripada yang tidak
+    if (na !== null && nb === null) return -1;
+    if (na === null && nb !== null) return 1;
+    // Nomor sama atau sama-sama tanpa nomor → tanggal terbaru duluan
+    return waktuTanggal(b) - waktuTanggal(a);
+  });
+}
+
 async function cobaSatuAksi(aksi) {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
@@ -140,12 +211,11 @@ async function cobaSatuAksi(aksi) {
       return { siap: false, data: [], alasan: 'endpoint-belum-ada' };
     }
 
-    const data = json.data
-      .filter((r) => r && String(r.title || '').trim())
-      .map((r) => ({
-        ...r,
-        date: tanggalInggris(r.sortKey, r.date)
-      }));
+    const data = urutkan(
+      json.data
+        .filter((r) => r && String(r.title || '').trim())
+        .map((r) => terapkanKategori({ ...r, date: tanggalInggris(r.sortKey, r.date) }))
+    );
 
     return { siap: true, data };
   } catch {
@@ -155,6 +225,10 @@ async function cobaSatuAksi(aksi) {
   }
 }
 
+/**
+ * Ambil seluruh publikasi, berita, dan video dari Spreadsheet.
+ * @returns {Promise<{siap: boolean, data: array, alasan?: string}>}
+ */
 export async function ambilPublikasi() {
   let terakhir = { siap: false, data: [], alasan: 'belum-dicoba' };
 
@@ -165,42 +239,4 @@ export async function ambilPublikasi() {
   }
 
   return terakhir;
-}
-
-/* Untuk pengurutan. Entri Spreadsheet punya `sortKey` (YYYY-MM-DD) dari
-   backend; entri bawaan di kode hanya punya tulisan seperti "15 May 2026",
-   yang untungnya bisa dibaca langsung oleh Date. Yang tak terbaca ditaruh
-   paling belakang, bukan dibuang. */
-function waktuUrut(item) {
-  if (typeof item.sortKey === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(item.sortKey)) {
-    return Date.parse(item.sortKey + 'T00:00:00');
-  }
-  const t = Date.parse(item.date);
-  return Number.isNaN(t) ? -Infinity : t;
-}
-
-/**
- * Gabungkan isi Spreadsheet dengan isi bawaan dari src/data/articles.js.
- *
- * Entri bawaan yang ID atau judulnya sama dengan entri Spreadsheet
- * dibuang, sehingga memindahkan satu berita dari kode ke Spreadsheet
- * tidak pernah memunculkan kartu kembar.
- *
- * Entri bawaan yang belum ada di Spreadsheet tetap ditampilkan — kalau
- * tidak, menambahkan satu baris ke Sheet akan langsung melenyapkan
- * empat publikasi yang selama ini sudah tayang.
- *
- * Hasil akhir diurutkan dari yang terbaru, supaya berita yang baru
- * ditambahkan lewat Spreadsheet muncul di kartu pertama — bukan
- * terselip di belakang entri kode yang lebih tua.
- */
-export function gabungPublikasi(dariSheet, bawaan) {
-  const idTerpakai = new Set(dariSheet.map((r) => String(r.id || '')));
-  const judulTerpakai = new Set(dariSheet.map((r) => kunciJudul(r.title)));
-
-  const sisaBawaan = bawaan.filter(
-    (r) => !idTerpakai.has(String(r.id || '')) && !judulTerpakai.has(kunciJudul(r.title))
-  );
-
-  return [...dariSheet, ...sisaBawaan].sort((a, b) => waktuUrut(b) - waktuUrut(a));
 }
