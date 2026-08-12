@@ -23,6 +23,7 @@ import { STATISTIK_AMBANG_MINIMUM } from '../config';
 function useAngkaNaik(target, jalan) {
   const [nilai, setNilai] = useState(0);
   const rafRef = useRef(0);
+  const jagaRef = useRef(0);
 
   useEffect(() => {
     if (!jalan) return;
@@ -41,7 +42,24 @@ function useAngkaNaik(target, jalan) {
     };
 
     rafRef.current = requestAnimationFrame(langkah);
-    return () => cancelAnimationFrame(rafRef.current);
+
+    /* ⚠️ PENGAMAN — JANGAN DIHAPUS (dipasang 13 Agu 2026 setelah diuji)
+       requestAnimationFrame BERHENTI TOTAL di tab yang tidak terlihat.
+       Tanpa pengaman ini, situs yang dibuka di tab latar belakang
+       memajang angka 0 pada keempat kartunya — bukan sekadar animasi
+       yang tidak jalan, melainkan ANGKA YANG SALAH. Terbukti terjadi
+       saat pengujian: data sudah benar (1/17/17/17) tetapi yang
+       tertulis di layar 0/0/0/0.
+
+       setTimeout ikut diperlambat di tab latar belakang, tetapi tetap
+       DIJALANKAN — jadi angkanya selalu mendarat di nilai yang benar,
+       cepat atau lambat. */
+    jagaRef.current = setTimeout(() => setNilai(target), DURASI + 400);
+
+    return () => {
+      cancelAnimationFrame(rafRef.current);
+      clearTimeout(jagaRef.current);
+    };
   }, [target, jalan]);
 
   return nilai;
