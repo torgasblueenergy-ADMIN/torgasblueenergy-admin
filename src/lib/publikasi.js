@@ -38,31 +38,44 @@ import { WEBAPI_URL } from '../config';
    "bangun". 15 detik terlalu mepet dan sempat membuat pembacaan gagal. */
 const TIMEOUT_MS = 30000;
 
-/* ⚠️ KENAPA 'news' DIDAHULUKAN, BUKAN 'publications'
+/* ⚠️ KENAPA ADA PENGULANGAN — 404 YANG DATANG DAN PERGI
    ----------------------------------------------------------------
-   Keduanya dilayani fungsi yang sama persis di backend:
+   Apps Script tidak membalas GET secara langsung. Ia menjawab dengan
+   pengalihan (302) ke script.googleusercontent.com/macros/echo, dan
+   alamat pengalihan itu membawa `user_content_key` yang hanya berlaku
+   sekali pakai serta berumur pendek. Bila kunci itu telanjur hangus
+   sebelum browser sempat mengambil isinya, yang diterima bukan JSON
+   melainkan halaman 404 Google.
+
+   Diamati pada 12 Agu 2026 dari halaman torgasblueenergy.com — SATU
+   alamat yang sama, hanya berselang menit:
+
+     ?action=submissions  → 200 (13,7 dtk)  ... lalu 404 (12,0 dtk)
+     ?action=news         → 200 ( 7,1 dtk)  ... lalu 404 (21,7 dtk)
+     ?action=publications → 404 ( 9,5 dtk)
+     ?action=ping         → 200 selalu (balasan instan, kunci tak sempat hangus)
+
+   Jadi ini BUKAN soal CORS, izin akses "Anyone", nama aksi, maupun isi
+   datanya. Yang menentukan hanya keberuntungan waktu — dan endpoint yang
+   lambat (membaca Sheet) jauh lebih sering apes daripada `ping`.
+
+   ⚠️ CATATAN JUJUR: pengukuran di atas diambil lewat browser yang
+   dipasangi ekstensi pemeriksa, dan ekstensi itu ikut membaca isi
+   balasan — sangat mungkin justru ekstensi itulah yang menghanguskan
+   kuncinya. Artinya pengunjung biasa mungkin tidak seapes ini. Yang
+   pasti: kegagalannya nyata, sesekali, dan mengenai SEMUA aksi GET.
+
+   Karena itu satu kegagalan tidak boleh langsung dianggap "tidak ada
+   data". Dicoba beberapa kali dengan jeda; 'news' dan 'publications'
+   sama-sama dipakai karena backend melayani keduanya dengan fungsi
+   yang sama:
 
      if (action === 'publications' || action === 'news') return getPublications(p)
 
-   Tetapi diuji dari halaman torgasblueenergy.com pada 12 Agu 2026:
-
-     ?action=news          → 200, JSON berisi seluruh data
-     ?action=publications  → 404, halaman galat Google
-
-   Berulang kali, selisih beberapa detik, dari halaman yang sama.
-   Endpoint lain (?action=ping, ?action=submissions) juga 200 normal,
-   jadi ini bukan soal CORS, izin akses, maupun kecepatan skrip —
-   yang membedakan hanya kata "publications" di dalam alamatnya.
-   Kata itu ditolak sebelum permintaannya sampai ke Google, pola khas
-   penyaring iklan/pelacak yang terpasang di browser.
-
-   Karena kita tidak bisa mengatur browser pengunjung, alamat yang
-   lolos dipakai lebih dulu. 'publications' tetap dicoba sebagai
-   cadangan, supaya tetap jalan seandainya alias 'news' suatu saat
-   dihapus dari backend.
-
-   ⚠️ JANGAN mengubah urutan ini menjadi 'publications' dulu. */
-const AKSI = ['news', 'publications'];
+   ⚠️ Jangan hapus pengulangan ini hanya karena "sekali coba sudah
+   berhasil di komputer saya". Ia berhasil di banyak percobaan juga. */
+const PERCOBAAN = ['news', 'publications', 'news'];
+const JEDA_MS = 1500;
 
 const BULAN_INGGRIS = [
   'January', 'February', 'March', 'April', 'May', 'June',
@@ -145,8 +158,9 @@ async function cobaSatuAksi(aksi) {
 export async function ambilPublikasi() {
   let terakhir = { siap: false, data: [], alasan: 'belum-dicoba' };
 
-  for (const aksi of AKSI) {
-    terakhir = await cobaSatuAksi(aksi);
+  for (let i = 0; i < PERCOBAAN.length; i++) {
+    if (i > 0) await new Promise((r) => setTimeout(r, JEDA_MS));
+    terakhir = await cobaSatuAksi(PERCOBAAN[i]);
     if (terakhir.siap) return terakhir;
   }
 
