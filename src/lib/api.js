@@ -23,11 +23,47 @@ import { WEBAPI_URL } from '../config';
       di-deploy dengan akses "Anyone". Lihat apps-script/Code.gs.
 ================================================================ */
 
-const TIMEOUT_MS = 20000;
+/* 45 detik, bukan 20.
+   ----------------------------------------------------------------
+   ⚠️ RIWAYAT 12 Agu 2026: pemohon uji lab melihat "The request timed out"
+   padahal datanya SUDAH tersimpan dan emailnya SUDAH terkirim.
 
-/** Penanda unik per pengiriman, agar server bisa menolak kiriman ganda. */
-function buatNonce() {
-  return Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 10);
+   Apps Script mengerjakan banyak hal sebelum menjawab: menulis ke Sheet,
+   lalu mengirim tiga email — satu ke pemohon, dua ke pengurus. Setiap
+   MailApp.sendEmail memakan 1-3 detik, dan skrip yang baru "bangun" jauh
+   lebih lambat lagi. Dua puluh detik terlalu mepet.
+
+   Menaikkan batas ini tidak membuat apa pun lebih lambat; ia hanya
+   menentukan berapa lama browser mau menunggu sebelum menyerah. */
+const TIMEOUT_MS = 45000;
+
+/* ================================================================
+   NONCE YANG TAHAN KIRIM ULANG
+   ----------------------------------------------------------------
+   ⚠️ Versi lama memakai Date.now() + angka acak, sehingga SETIAP
+   pemanggilan menghasilkan nonce berbeda. Akibatnya penangkal ganda
+   di Apps Script tidak pernah bekerja untuk kasus yang paling penting:
+   pengguna melihat pesan gagal, menekan Kirim lagi, dan baris kedua
+   masuk ke Sheet — pengajuan yang sama tercatat dua kali.
+
+   Sekarang nonce dihitung dari ISI formulirnya, dipadu jendela waktu
+   10 menit. Isi yang sama dikirim ulang dalam 10 menit menghasilkan
+   nonce yang sama, dan Apps Script membalas ID yang sudah ada alih-alih
+   membuat baris baru. Pengajuan yang memang berbeda tetap dapat nonce
+   berbeda karena isinya tidak sama.
+================================================================ */
+function buatNonce(payload) {
+  const inti = JSON.stringify(payload);
+  const jendela = Math.floor(Date.now() / (10 * 60 * 1000)); // 10 menit
+
+  // FNV-1a — cukup untuk membedakan isi, bukan untuk keamanan
+  let h = 0x811c9dc5;
+  const s = inti + '|' + jendela;
+  for (let i = 0; i < s.length; i++) {
+    h ^= s.charCodeAt(i);
+    h = Math.imul(h, 0x01000193);
+  }
+  return 'n' + (h >>> 0).toString(36) + '-' + jendela.toString(36);
 }
 
 /* Kata yang menandakan keberhasilan, dari berbagai gaya penulisan skrip. */
@@ -77,7 +113,7 @@ export async function submitForm(payload) {
   /* `nonce` dipakai Apps Script untuk menolak kiriman ganda. Kalau browser
      mengirim ulang permintaan yang sama (mis. karena jaringan tersendat),
      server membalas ID yang sudah ada alih-alih membuat baris kedua. */
-  const body = { ...payload, nonce: buatNonce() };
+  const body = { ...payload, nonce: buatNonce(payload) };
 
   try {
     const res = await fetch(WEBAPI_URL, {
@@ -125,7 +161,15 @@ export async function submitForm(payload) {
 
   } catch (err) {
     if (err.name === 'AbortError') {
-      return { ok: false, message: 'The request timed out. Please check your internet connection and try again.' };
+      /* Waktu tunggu habis TIDAK sama dengan gagal. Server mungkin masih
+         menyelesaikan pekerjaannya, dan data bisa saja sudah tersimpan.
+         Pesan lama menyuruh "coba lagi" — itu mendorong pengiriman ganda
+         untuk sesuatu yang sebenarnya sudah berhasil. Katakan apa adanya. */
+      return {
+        ok: false,
+        message: 'The server is taking longer than usual. Your request may already have been received — '
+               + 'please check your email for a confirmation before submitting again.'
+      };
     }
     // Kegagalan CORS juga mendarat di sini
     return {
