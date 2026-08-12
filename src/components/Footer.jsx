@@ -1,4 +1,5 @@
 import { SmartImage } from './SmartImage';
+import { VisitorStats } from './VisitorStats';
 
 /* ================================================================
    KOMPONEN 8: FOOTER PERUSAHAAN
@@ -19,6 +20,11 @@ function Footer({ onOpenLegal }) {
             <p className="text-slate-400 text-sm max-w-md leading-relaxed" style={{ textAlign: 'justify' }}>
               Torgas Blue Energy operates an integrated marine research laboratory located in Jatinangor, Sumedang, West Java. We focus on developing autonomous marine monitoring technologies and clean energy solutions based on marine biomass to support the sustainable use of marine resources.
             </p>
+
+            {/* Statistik pengunjung — menyembunyikan diri sepenuhnya selama
+                UMAMI_SHARE_ID di src/config.js belum diisi, jadi tidak ada
+                ruang kosong yang tertinggal di footer. */}
+            <VisitorStats />
           </div>
 
           {/* Kolom 3: Hubungi Kami (Sosial Media & Kontak) */}
