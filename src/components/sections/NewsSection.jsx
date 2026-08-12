@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import { SmartImage } from '../SmartImage';
-import { ARTICLES, VIDEO_DATA } from '../../data/articles';
+import { ARTICLES } from '../../data/articles';
 import { ambilPublikasi, gabungPublikasi } from '../../lib/publikasi';
 
 /* ================================================================
@@ -90,10 +90,10 @@ function NewsSection({ onSelectArticle }) {
 
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-10 reveal">
           <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2.5">
-            <button onClick={() => handleCategoryChange('all')} className={`px-6 py-2.5 font-extrabold text-xs tracking-wider uppercase rounded-full border-2 transition-all cursor-pointer ${activeCategory === 'all' ? 'bg-[#041b2e] text-white border-[#041b2e] shadow-md' : 'bg-white text-slate-500 border-slate-200 hover:border-[#0096d7] hover:text-[#0096d7]'}`}>All ({ARTICLES.length})</button>
-            <button onClick={() => handleCategoryChange('artikel-ilmiah')} className={`px-6 py-2.5 font-extrabold text-xs tracking-wider uppercase rounded-full border-2 transition-all cursor-pointer ${activeCategory === 'artikel-ilmiah' ? 'bg-[#041b2e] text-white border-[#041b2e] shadow-md' : 'bg-white text-slate-500 border-slate-200 hover:border-[#0096d7] hover:text-[#0096d7]'}`}>🔬 Scientific Articles ({ARTIKEL_ILMIAH.length})</button>
-            <button onClick={() => handleCategoryChange('news')} className={`px-6 py-2.5 font-extrabold text-xs tracking-wider uppercase rounded-full border-2 transition-all cursor-pointer ${activeCategory === 'news' ? 'bg-[#041b2e] text-white border-[#041b2e] shadow-md' : 'bg-white text-slate-500 border-slate-200 hover:border-[#0096d7] hover:text-[#0096d7]'}`}>📰 News ({NEWS_DATA.length})</button>
-            <button onClick={() => handleCategoryChange('video')} className={`px-6 py-2.5 font-extrabold text-xs tracking-wider uppercase rounded-full border-2 transition-all cursor-pointer ${activeCategory === 'video' ? 'bg-[#041b2e] text-white border-[#041b2e] shadow-md' : 'bg-white text-slate-500 border-slate-200 hover:border-[#0096d7] hover:text-[#0096d7]'}`}>🎬 Video ({VIDEO_DATA.length})</button>
+            <button onClick={() => handleCategoryChange('all')} className={`px-6 py-2.5 font-extrabold text-xs tracking-wider uppercase rounded-full border-2 transition-all cursor-pointer ${activeCategory === 'all' ? 'bg-[#041b2e] text-white border-[#041b2e] shadow-md' : 'bg-white text-slate-500 border-slate-200 hover:border-[#0096d7] hover:text-[#0096d7]'}`}>All ({jumlah.all})</button>
+            <button onClick={() => handleCategoryChange('artikel-ilmiah')} className={`px-6 py-2.5 font-extrabold text-xs tracking-wider uppercase rounded-full border-2 transition-all cursor-pointer ${activeCategory === 'artikel-ilmiah' ? 'bg-[#041b2e] text-white border-[#041b2e] shadow-md' : 'bg-white text-slate-500 border-slate-200 hover:border-[#0096d7] hover:text-[#0096d7]'}`}>🔬 Scientific Articles ({jumlah['artikel-ilmiah']})</button>
+            <button onClick={() => handleCategoryChange('news')} className={`px-6 py-2.5 font-extrabold text-xs tracking-wider uppercase rounded-full border-2 transition-all cursor-pointer ${activeCategory === 'news' ? 'bg-[#041b2e] text-white border-[#041b2e] shadow-md' : 'bg-white text-slate-500 border-slate-200 hover:border-[#0096d7] hover:text-[#0096d7]'}`}>📰 News ({jumlah.news})</button>
+            <button onClick={() => handleCategoryChange('video')} className={`px-6 py-2.5 font-extrabold text-xs tracking-wider uppercase rounded-full border-2 transition-all cursor-pointer ${activeCategory === 'video' ? 'bg-[#041b2e] text-white border-[#041b2e] shadow-md' : 'bg-white text-slate-500 border-slate-200 hover:border-[#0096d7] hover:text-[#0096d7]'}`}>🎬 Video ({jumlah.video})</button>
           </div>
 
           {filteredArticles.length > 0 && (
@@ -112,7 +112,7 @@ function NewsSection({ onSelectArticle }) {
                 <div key={item.id} className="w-[300px] sm:w-[350px] lg:w-[380px] flex-shrink-0 bg-slate-50/80 rounded-3xl border border-slate-200 overflow-hidden flex flex-col justify-between hover:border-[#0096d7] hover:shadow-2xl transition-all duration-300 group">
                   <div>
                     <div className="w-full h-52 overflow-hidden bg-slate-200 relative flex items-center justify-center">
-                      <span className="text-slate-400 text-xs font-bold absolute z-0">Tak ada gambar</span>
+                      <span className="text-slate-400 text-xs font-bold absolute z-0">No image</span>
                       <SmartImage
                         src={item.image}
                         alt={item.title}
@@ -154,7 +154,7 @@ function NewsSection({ onSelectArticle }) {
 
                   <div className="p-6 pt-0">
                     <button onClick={() => onSelectArticle(item)} className="w-full py-3 px-4 bg-white hover:bg-[#041b2e] text-[#041b2e] hover:text-white font-extrabold text-xs uppercase tracking-wider rounded-xl border border-slate-300 transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer shadow-sm group-hover:border-[#041b2e]">
-                      Baca Selengkapnya ↗
+                      Read More ↗
                     </button>
                   </div>
                 </div>
