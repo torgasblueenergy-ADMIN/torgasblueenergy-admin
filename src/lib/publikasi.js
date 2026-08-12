@@ -88,15 +88,23 @@ function tanggalInggris(sortKey, tanggalAsli) {
    VIDEO — TANPA MENGUBAH BACKEND
    ----------------------------------------------------------------
    Backend hanya mengenal dua kategori ('artikel-ilmiah' dan 'news'),
-   dan menambah kategori ketiga berarti menerbitkan ulang Apps Script.
-   Itu tidak perlu: backend sudah meneruskan dua hal apa adanya —
-   kolom gambar dan kolom kategori yang diketik pengurus (rawCategory).
+   dan menambah kategori ketiga di sana berarti menerbitkan ulang Apps
+   Script. Itu tidak perlu, karena backend sudah meneruskan apa adanya
+   teks kategori yang dipilih pengurus di Spreadsheet, lewat properti
+   `rawCategory` — biarpun `category` hasil terjemahannya meleset.
 
-   Jadi aturannya dibuat di sini: BARIS YANG KOLOM GAMBARNYA BERISI
-   TAUTAN YOUTUBE DIANGGAP VIDEO. Tidak perlu mengetik "Video" di kolom
-   kategori — walau kalau diketik pun tetap terbaca.
+   Jadi penentu kategorinya dibaca di sini:
 
-   Thumbnail tidak perlu diunggah; diambil otomatis dari YouTube.
+     1. Kolom Tipe_Kategori berisi "VIDEO"  → video   (cara utama,
+        sesuai daftar pilihan di Spreadsheet)
+     2. atau ada tautan YouTube di baris itu → video  (jaring pengaman,
+        kalau kategorinya lupa diubah)
+
+   ⚠️ Aturan 1 harus tetap ada meski aturan 2 kelihatan cukup: video
+   Google Drive TIDAK bisa dikenali dari alamatnya. Backend mengubah
+   setiap tautan Drive — gambar maupun video — menjadi bentuk yang
+   sama persis (lh3.googleusercontent.com/d/ID), sehingga dari alamat
+   saja mustahil membedakan foto sampul dari berkas video.
 ================================================================ */
 function idYoutube(teks) {
   const s = String(teks || '');
@@ -114,25 +122,57 @@ function idYoutube(teks) {
   return '';
 }
 
-/* Tautannya boleh ditaruh di kolom gambar (paling wajar) atau menyelip
-   di dalam kolom konten/ringkasan — keduanya diterima. */
-function cariVideo(r) {
-  return idYoutube(r.image) || idYoutube(r.summary) || idYoutube(r.content);
+/* ID berkas Google Drive panjangnya 25–45 karakter, sedangkan ID video
+   YouTube tepat 11. Syarat minimal 20 di bawah membuat keduanya tidak
+   pernah tertukar. */
+function idDrive(teks) {
+  const s = String(teks || '');
+  const m = s.match(/\/d\/([A-Za-z0-9_-]{20,})/) || s.match(/[?&]id=([A-Za-z0-9_-]{20,})/);
+  return m ? m[1] : '';
+}
+
+/* "VIDEO", "Video", "video klip", "vidio" (salah ketik) — semua terbaca. */
+function kategoriVideo(rawCategory) {
+  const s = String(rawCategory || '').toLowerCase();
+  return s.includes('video') || s.includes('vidio');
+}
+
+function cariDiBaris(r, ambil) {
+  return ambil(r.image) || ambil(r.summary) || ambil(r.content);
 }
 
 function terapkanKategori(r) {
-  const vid = cariVideo(r);
-  if (!vid) return r;
+  const yt = cariDiBaris(r, idYoutube);
+  if (!yt && !kategoriVideo(r.rawCategory)) return r;
 
-  return {
-    ...r,
-    category: 'video',
-    categoryLabel: 'Video',
-    youtubeId: vid,
-    /* sddefault tersedia untuk hampir semua video; maxresdefault sering
-       kosong pada video lama, jadi sengaja tidak dipakai. */
-    image: `https://img.youtube.com/vi/${vid}/sddefault.jpg`
-  };
+  const dasar = { ...r, category: 'video', categoryLabel: 'Video' };
+
+  if (yt) {
+    return {
+      ...dasar,
+      youtubeId: yt,
+      /* sddefault tersedia untuk hampir semua video; maxresdefault sering
+         kosong pada video lama, jadi sengaja tidak dipakai. */
+      image: `https://img.youtube.com/vi/${yt}/sddefault.jpg`
+    };
+  }
+
+  const drive = cariDiBaris(r, idDrive);
+  if (drive) {
+    return {
+      ...dasar,
+      driveId: drive,
+      /* Drive membuatkan gambar cuplikan untuk berkas video. Kalau gagal
+         (berkas belum selesai diproses, atau izinnya masih terbatas),
+         kartunya tetap tampil rapi: latar gelap dengan tombol putar. */
+      image: `https://drive.google.com/thumbnail?id=${drive}&sz=w800`
+    };
+  }
+
+  /* Kategorinya VIDEO tetapi tidak ada tautan yang bisa diputar.
+     Tetap ditandai video supaya pengurus melihat kartunya masuk ke tab
+     yang benar dan sadar tautannya belum diisi. */
+  return dasar;
 }
 
 /* ================================================================
