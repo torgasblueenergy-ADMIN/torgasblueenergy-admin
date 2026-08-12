@@ -123,8 +123,11 @@ function NewsSection({ onSelectArticle }) {
                           e.target.style.display = 'none'; 
                         }} 
                       />
-                      {/* Tombol play di tengah thumbnail — penanda bahwa ini video */}
-                      {item.youtubeId && (
+                      {/* Tombol play di tengah thumbnail — penanda bahwa ini video.
+                          Muncul untuk YouTube maupun video Google Drive; juga tetap
+                          muncul bila kategorinya VIDEO tetapi tautannya belum diisi,
+                          supaya kartunya tidak menyamar jadi artikel biasa. */}
+                      {item.category === 'video' && (
                         <div className="absolute inset-0 z-20 flex items-center justify-center pointer-events-none">
                           <div className="w-16 h-16 rounded-full bg-[#041b2e]/70 backdrop-blur-sm flex items-center justify-center border-2 border-white/80 shadow-xl transition-transform duration-300 group-hover:scale-110">
                             <svg viewBox="0 0 24 24" fill="#ffffff" className="w-7 h-7 ml-1" aria-hidden="true">

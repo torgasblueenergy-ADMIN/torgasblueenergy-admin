@@ -7,13 +7,16 @@ import { SmartImage } from '../SmartImage';
 function ArticleModal({ article, onClose }) {
   if (!article) return null;
 
+  const adaVideo = Boolean(article.youtubeId || article.driveId);
+
   return (
     <div className="fixed inset-0 z-[9999] flex items-center justify-center p-3 sm:p-5 bg-[#041b2e]/80 backdrop-blur-md animate-fadeIn">
       <div className="bg-white rounded-3xl border border-slate-200 shadow-2xl w-full max-w-3xl max-h-[90vh] flex flex-col overflow-hidden relative">
         
-        {/* BAGIAN ATAS — video YouTube bila ada, selain itu gambar sampul biasa */}
+        {/* BAGIAN ATAS — pemutar video bila ada, selain itu gambar sampul biasa.
+            Dua sumber didukung: YouTube dan berkas video di Google Drive. */}
         <div className={`relative w-full flex-shrink-0 overflow-hidden bg-slate-100 ${
-          article.youtubeId ? 'aspect-video' : 'h-56 sm:h-72 md:h-80'
+          adaVideo ? 'aspect-video' : 'h-56 sm:h-72 md:h-80'
         }`}>
           {article.youtubeId ? (
             /* iframe hanya dibuat saat modal terbuka, jadi tidak membebani
@@ -24,6 +27,20 @@ function ArticleModal({ article, onClose }) {
               title={article.title}
               loading="lazy"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowFullScreen
+            />
+          ) : article.driveId ? (
+            /* Pemutar bawaan Google Drive.
+               ⚠️ Berkasnya HARUS dibagikan "Siapa saja yang memiliki link".
+               Kalau masih terbatas, kotak ini muncul kosong bagi pengunjung
+               walau pengurus melihatnya normal — sebab pengurus sudah login
+               ke Drive yang bersangkutan. */
+            <iframe
+              className="w-full h-full border-0"
+              src={`https://drive.google.com/file/d/${article.driveId}/preview`}
+              title={article.title}
+              loading="lazy"
+              allow="autoplay; encrypted-media; picture-in-picture"
               allowFullScreen
             />
           ) : (
@@ -64,7 +81,7 @@ function ArticleModal({ article, onClose }) {
         </div>
 
         {/* Tombol tutup khusus mode video — di luar iframe supaya tetap bisa diklik */}
-        {article.youtubeId && (
+        {adaVideo && (
           <button
             onClick={onClose}
             className="absolute top-3 right-3 z-10 w-10 h-10 rounded-full bg-[#041b2e]/80 hover:bg-[#041b2e] text-white transition-all duration-300 flex items-center justify-center font-bold text-lg cursor-pointer border border-white/20 shadow-lg"
