@@ -5,25 +5,43 @@ import { UMAMI_SHARE_ID } from '../config';
    ----------------------------------------------------------------
    Alurnya dua langkah, sesuai cara Umami menyajikan dasbor publiknya:
 
-     1. GET /api/share/{shareId}
-          → { token, websiteId }
-     2. GET /api/websites/{websiteId}/stats?startAt=..&endAt=..
-          dengan header  x-umami-share-token: {token}
-          → { pageviews:{value}, visitors:{value}, ... }
+     1. GET https://gateway-us.umami.is/api/share/{shareId}
+          → { token, websiteId, shareType, parameters }
+     2. GET https://gateway-us.umami.is/api/websites/{websiteId}/stats
+              ?startAt=..&endAt=..
+          dengan DUA header:
+              x-umami-share-token   : token dari langkah 1
+              x-umami-share-context : shareType dari langkah 1 (mis. "1")
+          → { pageviews: 49, visitors: 17, visits: 21, ... }
+
+   ⚠️ KETIGA RINCIAN DI ATAS DITEMUKAN LEWAT PENGAMATAN, BUKAN DOKUMENTASI
+   (13 Agu 2026). Tanpa catatan ini, orang berikutnya akan menghabiskan
+   waktu yang sama:
+
+     • Host-nya BUKAN cloud.umami.is. Alamat itu hanya halaman tampilan;
+       cloud.umami.is/api/share/{id} membalas 404. Datanya dilayani
+       gateway-us.umami.is.
+     • Header x-umami-share-token SAJA tidak cukup — jawabannya tetap 401.
+       Wajib disertai x-umami-share-context.
+     • Isi x-umami-share-context hanyalah angka shareType ("1"), bukan
+       kode rahasia. Header ini tidak tercantum di dokumentasi mana pun.
 
    ⚠️ KENAPA TIDAK MEMAKAI API KEY:
    API key Umami memberi akses PENUH ke seluruh akun — termasuk mengubah
    dan menghapus. Menaruhnya di kode situs sama saja menyerahkannya ke
    siapa pun yang membuka Developer Tools. Kode berbagi (shareId) hanya
-   memberi akses BACA ke satu situs, dan memang dirancang untuk terbuka.
+   memberi akses BACA, dan memang dirancang untuk terbuka.
 
-   ⚠️ Endpoint share ini bagian dari cara kerja halaman berbagi Umami,
-   bukan API resmi yang dijanjikan stabil. Kalau suatu saat Umami
-   mengubahnya, angka berhenti muncul — dan bagian statistiknya
-   menyembunyikan diri, bukan menampilkan galat ke pengunjung.
+   ⚠️ Ini cara kerja internal halaman berbagi Umami, bukan API resmi yang
+   dijanjikan stabil. Kalau suatu saat Umami mengubahnya, angka berhenti
+   muncul — dan bagian statistiknya MENYEMBUNYIKAN DIRI, bukan
+   menampilkan galat kepada pengunjung situs.
 ================================================================ */
 
-const ASAL = 'https://cloud.umami.is';
+/* Akun Torgas berada di wilayah "us" — terlihat dari pengalihan
+   cloud.umami.is/share/… ke /analytics/us/share/…. Wilayah lain dicoba
+   sebagai cadangan, kalau-kalau Umami memindahkan akunnya suatu saat. */
+const ASAL_KANDIDAT = ['https://gateway-us.umami.is', 'https://gateway-eu.umami.is'];
 const TIMEOUT_MS = 12000;
 
 /* Simpan sebentar di sessionStorage supaya berpindah halaman tidak
@@ -93,10 +111,16 @@ export async function ambilStatistik() {
   const tersimpan = bacaSimpanan();
   if (tersimpan) return { siap: true, data: tersimpan };
 
-  const berbagi = await ambilJson(`${ASAL}/api/share/${UMAMI_SHARE_ID}`);
+  let ASAL = null;
+  let berbagi = null;
+  for (const kandidat of ASAL_KANDIDAT) {
+    berbagi = await ambilJson(`${kandidat}/api/share/${UMAMI_SHARE_ID}`);
+    if (berbagi && berbagi.token) { ASAL = kandidat; break; }
+  }
+
   const token = berbagi && berbagi.token;
   const websiteId = berbagi && (berbagi.websiteId || berbagi.id);
-  if (!token || !websiteId) return { siap: false, alasan: 'kode-berbagi-ditolak' };
+  if (!ASAL || !token || !websiteId) return { siap: false, alasan: 'kode-berbagi-ditolak' };
 
   const sekarang = Date.now();
   const HARI = 24 * 60 * 60 * 1000;
@@ -110,7 +134,14 @@ export async function ambilStatistik() {
     total:    [0, sekarang],
   };
 
-  const opsi = { headers: { 'x-umami-share-token': token } };
+  /* ⚠️ KEDUA header wajib. Tanpa x-umami-share-context, Umami membalas
+     401 Unauthorized walau token-nya benar. Sudah diuji. */
+  const opsi = {
+    headers: {
+      'x-umami-share-token': token,
+      'x-umami-share-context': String(berbagi.shareType ?? 1),
+    }
+  };
 
   async function statistik(mulai, akhir) {
     const url = `${ASAL}/api/websites/${websiteId}/stats?startAt=${mulai}&endAt=${akhir}`;
