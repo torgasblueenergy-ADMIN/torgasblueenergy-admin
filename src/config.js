@@ -17,6 +17,41 @@ const WEBAPI_URL = 'https://script.google.com/macros/s/AKfycbyOiKlR8jksYqNxwkHYC
 const STUDENT_PORTAL_CODE = 'TORGAS18JAYA';
 
 /* ================================================================
+   STATISTIK PENGUNJUNG — KODE BERBAGI UMAMI
+   ----------------------------------------------------------------
+   CARA MENGISI:
+     Umami → Settings → Websites → Torgas → Edit → aktifkan "Share URL".
+     Tautannya berbentuk:
+
+       https://cloud.umami.is/share/AbCdEf123456/torgasblueenergy.com
+                                    ^^^^^^^^^^^^ salin bagian ini saja
+
+   Selama masih kosong, bagian statistik di footer TIDAK ditampilkan
+   sama sekali — bukan tampil kosong atau bernilai nol. Mengisi baris
+   ini adalah satu-satunya langkah untuk menyalakannya.
+
+   ⚠️ Kode ini memang dirancang untuk terbuka: ia tertanam di dalam
+   berkas situs dan bisa dibaca siapa pun. Karena itu JANGAN PERNAH
+   menaruh API key Umami di sini — API key memberi akses penuh ke akun
+   analitik, sedangkan kode berbagi hanya memberi akses baca ke satu
+   situs. Keduanya terlihat mirip, akibatnya jauh berbeda.
+
+   ⚠️ Siapa pun yang menemukan kode ini bisa membuka dasbor Umami
+   Torgas: jumlah pengunjung, halaman terpopuler, negara asal, dan
+   sumber rujukan. Tidak ada data pribadi pengunjung di sana karena
+   Umami tidak memakai cookie. Ini konsekuensi yang sudah disetujui
+   Mahdan pada 13 Agu 2026 demi bisa tayang tanpa menunggu penerbitan
+   Apps Script. Untuk menutupnya kembali: kosongkan baris ini dan
+   matikan "Share URL" di Umami. */
+const UMAMI_SHARE_ID = '';
+
+/* Ambang tampil. Bagian statistik baru muncul setelah total pengunjung
+   melewati angka ini. Tujuannya agar situs resmi tidak memajang
+   "8 pengunjung" saat masih sepi — angka kecil justru merugikan di
+   mata calon mitra. Isi 0 untuk selalu menampilkan. */
+const STATISTIK_AMBANG_MINIMUM = 0;
+
+/* ================================================================
    SMART IMAGE — sajikan WebP, otomatis mundur ke format asli
    ----------------------------------------------------------------
    Browser modern mengambil <source> WebP (rata-rata 69% lebih ringan).
@@ -60,4 +95,7 @@ const HERO_VIDEO = '';
    videonya sengaja tidak diputar (lihat Hero.jsx). */
 const HERO_VIDEO_POSTER = 'images/Homepage/Homepage-1.jpg';
 
-export { WEBAPI_URL, STUDENT_PORTAL_CODE, NO_WEBP, HERO_VIDEO, HERO_VIDEO_POSTER };
+export {
+  WEBAPI_URL, STUDENT_PORTAL_CODE, NO_WEBP, HERO_VIDEO, HERO_VIDEO_POSTER,
+  UMAMI_SHARE_ID, STATISTIK_AMBANG_MINIMUM
+};
