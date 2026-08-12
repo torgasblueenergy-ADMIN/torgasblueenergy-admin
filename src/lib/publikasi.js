@@ -210,28 +210,33 @@ function cariDoi(teks) {
 }
 
 function terapkanDoi(r) {
-  const dariRingkasan = cariDoi(r.summary);
-  if (dariRingkasan) return { ...r, doi: dariRingkasan };
+  const doi = cariDoi(r.summary) || cariDoi(r.content);
+  if (!doi) return r;
 
-  const dariKonten = cariDoi(r.content);
-  if (!dariKonten) return r;
+  /* Penyebutan DOI SELALU dibuang dari badan tulisan, tidak peduli ia
+     ditemukan di kolom mana.
 
-  /* Buang penyebutan DOI dari badan tulisan. Polanya dirakit dari DOI
-     yang benar-benar ditemukan, bukan pola umum — supaya tidak ada
-     kalimat lain yang ikut terpotong. */
-  const escape = dariKonten.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+     ⚠️ Versi pertama hanya membuang bila DOI-nya ditemukan di konten.
+     Akibatnya pengurus yang rajin — mengisi kolom Ringkasan_Pendek
+     SEKALIGUS membiarkan DOI di ujung abstrak seperti aslinya — justru
+     melihatnya tercetak dua kali. Itu kasus yang paling mungkin terjadi,
+     bukan yang paling jarang.
+
+     Polanya dirakit dari DOI yang benar-benar ditemukan, bukan pola
+     umum, supaya tidak ada kalimat lain yang ikut terpotong. */
+  const escape = doi.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   const buang = new RegExp(
     '(?:\\bdoi\\s*[:：]?\\s*)?(?:https?:\\/\\/(?:dx\\.)?doi\\.org\\/)?' + escape + '\\.?',
     'gi'
   );
 
-  const konten = String(r.content)
+  const konten = String(r.content || '')
     .replace(buang, '')
     .replace(/[ \t]+\n/g, '\n')
     .replace(/\n{3,}/g, '\n\n')
     .trim();
 
-  return { ...r, doi: dariKonten, content: konten };
+  return { ...r, doi, content: konten };
 }
 
 /* ================================================================
