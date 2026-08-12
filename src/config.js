@@ -43,7 +43,7 @@ const STUDENT_PORTAL_CODE = 'TORGAS18JAYA';
    Mahdan pada 13 Agu 2026 demi bisa tayang tanpa menunggu penerbitan
    Apps Script. Untuk menutupnya kembali: kosongkan baris ini dan
    matikan "Share URL" di Umami. */
-const UMAMI_SHARE_ID = '';
+const UMAMI_SHARE_ID = 'HLW2ykFzLctTxABx';
 
 /* Ambang tampil. Bagian statistik baru muncul setelah total pengunjung
    melewati angka ini. Tujuannya agar situs resmi tidak memajang
