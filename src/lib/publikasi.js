@@ -176,6 +176,65 @@ function terapkanKategori(r) {
 }
 
 /* ================================================================
+   DOI ARTIKEL ILMIAH
+   ----------------------------------------------------------------
+   Backend tidak punya kolom khusus DOI, dan menambahkannya berarti
+   menerbitkan ulang Apps Script. Tidak perlu — kolom Ringkasan_Pendek
+   sudah dikirim backend tetapi TIDAK dipakai di mana pun oleh situs.
+   Kolom itulah yang dipakai sebagai tempat DOI.
+
+   Dua sumber diterima:
+
+     1. Kolom Ringkasan_Pendek  → cara yang dianjurkan, satu sel bersih
+     2. Menyelip di Konten_Lengkap → cara lama; baris yang sudah terlanjur
+        mengakhiri abstraknya dengan "Doi: 10.21608/..." tetap bekerja
+        tanpa perlu disunting
+
+   Pada kasus 2 penyebutan DOI itu DIBUANG dari badan tulisan, supaya
+   tidak tampil dua kali — sekali sebagai tautan di bawah judul, sekali
+   lagi sebagai teks di ujung abstrak.
+
+   Bentuk yang diterima: "10.21608/ejabf.2026.413273.6396",
+   "Doi: 10.21608/...", maupun "https://doi.org/10.21608/...".
+================================================================ */
+const POLA_DOI = /\b10\.\d{4,9}\/[^\s"'<>,;)\]]+/;
+
+function rapikanDoi(s) {
+  // Titik di ujung biasanya tanda akhir kalimat, bukan bagian DOI-nya
+  return String(s || '').replace(/[.,;:)\]]+$/, '');
+}
+
+function cariDoi(teks) {
+  const m = String(teks || '').match(POLA_DOI);
+  return m ? rapikanDoi(m[0]) : '';
+}
+
+function terapkanDoi(r) {
+  const dariRingkasan = cariDoi(r.summary);
+  if (dariRingkasan) return { ...r, doi: dariRingkasan };
+
+  const dariKonten = cariDoi(r.content);
+  if (!dariKonten) return r;
+
+  /* Buang penyebutan DOI dari badan tulisan. Polanya dirakit dari DOI
+     yang benar-benar ditemukan, bukan pola umum — supaya tidak ada
+     kalimat lain yang ikut terpotong. */
+  const escape = dariKonten.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const buang = new RegExp(
+    '(?:\\bdoi\\s*[:：]?\\s*)?(?:https?:\\/\\/(?:dx\\.)?doi\\.org\\/)?' + escape + '\\.?',
+    'gi'
+  );
+
+  const konten = String(r.content)
+    .replace(buang, '')
+    .replace(/[ \t]+\n/g, '\n')
+    .replace(/\n{3,}/g, '\n\n')
+    .trim();
+
+  return { ...r, doi: dariKonten, content: konten };
+}
+
+/* ================================================================
    URUTAN — YANG BARU DIUNGGAH DI DEPAN, BUKAN YANG TANGGALNYA MUDA
    ----------------------------------------------------------------
    Backend sudah mengurutkan hasilnya berdasarkan TANGGAL menurun, dan
@@ -254,7 +313,7 @@ async function cobaSatuAksi(aksi) {
     const data = urutkan(
       json.data
         .filter((r) => r && String(r.title || '').trim())
-        .map((r) => terapkanKategori({ ...r, date: tanggalInggris(r.sortKey, r.date) }))
+        .map((r) => terapkanDoi(terapkanKategori({ ...r, date: tanggalInggris(r.sortKey, r.date) })))
     );
 
     return { siap: true, data };

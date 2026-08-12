@@ -104,6 +104,25 @@ function ArticleModal({ article, onClose }) {
             {article.title}
           </h2>
 
+          {/* DOI — tautan resmi ke artikel aslinya, tepat di bawah judul.
+              Hanya muncul bila kolomnya diisi; artikel tanpa DOI tidak
+              menyisakan ruang kosong. */}
+          {article.doi && (
+            <a
+              href={`https://doi.org/${article.doi}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 max-w-full px-3 py-1.5 rounded-lg bg-[#0096d7]/10 hover:bg-[#0096d7]/20 border border-[#0096d7]/30 text-[#0096d7] transition-colors group/doi"
+              title="Open the published article"
+            >
+              <span className="text-[10px] font-extrabold uppercase tracking-widest flex-shrink-0">DOI</span>
+              <span className="text-xs font-semibold break-all">{article.doi}</span>
+              <svg className="w-3.5 h-3.5 flex-shrink-0 opacity-60 group-hover/doi:opacity-100 transition-opacity" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24" aria-hidden="true">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+              </svg>
+            </a>
+          )}
+
           {/* Garis Aksen Emas */}
           <div className="w-16 h-1 bg-[#FFAD26] rounded-full"></div>
 
@@ -116,7 +135,13 @@ function ArticleModal({ article, onClose }) {
 
         {/* FOOTER MODAL */}
         <div className="px-6 py-4 bg-slate-50 border-t border-slate-200 flex justify-between items-center text-xs text-slate-400 flex-shrink-0">
-          <span className="font-semibold hidden sm:inline">PT TORGAS BLUE ENERGY • PUBLIKASI</span>
+          {/* "PT" dihapus atas permintaan Mahdan (13 Agu 2026) — nama yang
+              dipakai di seluruh situs adalah "Torgas Blue Energy".
+              "PUBLIKASI" diganti label kategori dalam bahasa Inggris, agar
+              tidak ada lagi satu kata Indonesia tersisa di situs ini. */}
+          <span className="font-semibold hidden sm:inline uppercase tracking-wider">
+            TORGAS BLUE ENERGY • {article.categoryLabel || 'PUBLICATION'}
+          </span>
           <button 
             onClick={onClose}
             className="w-full sm:w-auto px-6 py-2.5 bg-[#041b2e] hover:bg-[#0096d7] text-white font-extrabold rounded-xl transition-all duration-300 cursor-pointer shadow-sm text-xs uppercase tracking-wider ml-auto"
