@@ -1,53 +1,46 @@
 import { useState, useEffect, useMemo } from 'react';
 import { SmartImage } from '../SmartImage';
-import { ARTICLES } from '../../data/articles';
-import { ambilPublikasi, gabungPublikasi } from '../../lib/publikasi';
+import { ambilPublikasi } from '../../lib/publikasi';
 
 /* ================================================================
-   KOMPONEN 7: PUBLIKASI & BERITA
+   KOMPONEN 7: PUBLIKASI, BERITA & VIDEO
    ----------------------------------------------------------------
-   Diperbarui: Menghapus keterangan "Author / Penulis" di kartu artikel
+   ⚠️ 13 Agu 2026 — SATU-SATUNYA SUMBER ISI ADALAH SPREADSHEET.
 
-   ⚠️ 12 Agu 2026 — DARI MANA ISI BAGIAN INI DATANG:
-   Sekarang dari tab "Publikasi" di Google Spreadsheet, dibaca lewat
-   src/lib/publikasi.js. Sebelumnya bagian ini HANYA membaca berkas
-   src/data/articles.js, sehingga baris yang ditambahkan pengurus ke
-   Spreadsheet tidak pernah muncul di situs.
+   Berkas src/data/articles.js sudah DIHAPUS. Bagian ini tidak lagi
+   menyimpan artikel, berita, atau video apa pun di dalam kode; semua
+   dibaca dari tab "Publikasi" lewat src/lib/publikasi.js.
 
-   Isi src/data/articles.js tetap dipakai sebagai:
-     1. tampilan awal, supaya bagian ini tidak berkedip kosong; dan
-     2. cadangan, kalau Spreadsheet tidak terbaca.
-   Entri yang sudah dipindahkan ke Spreadsheet dibuang otomatis oleh
-   gabungPublikasi(), jadi tidak akan muncul kartu kembar.
+   ⚠️ Jangan menambahkan kembali daftar cadangan di kode. Dulu isinya
+   memang ada di sini, dan akibatnya baris yang ditambahkan pengurus ke
+   Spreadsheet tidak pernah muncul — tidak ada yang menyadarinya selama
+   berbulan-bulan karena bagian ini tetap terlihat "penuh".
 
-   Video tetap tinggal di kode, karena backend hanya mengenal dua
-   kategori: "artikel-ilmiah" dan "news".
+   Konsekuensi yang disengaja: kalau Spreadsheet gagal dibaca, bagian
+   ini kosong dan berkata terus terang bahwa isinya gagal dimuat. Itu
+   lebih baik daripada memajang isi lama yang menyamarkan kegagalan.
 ================================================================ */
 function NewsSection({ onSelectArticle }) {
   const [activeCategory, setActiveCategory] = useState('all');
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [dariSheet, setDariSheet] = useState(null); // null = belum selesai memuat
+  const [muat, setMuat] = useState({ status: 'memuat', data: [] });
 
   useEffect(() => {
     let dibatalkan = false;
     ambilPublikasi().then((hasil) => {
       if (dibatalkan) return;
-      // Gagal membaca Spreadsheet → tetap pakai isi bawaan, jangan kosongkan
-      setDariSheet(hasil.siap ? hasil.data : []);
+      setMuat(hasil.siap
+        ? { status: 'siap', data: hasil.data }
+        : { status: 'gagal', data: [] });
     });
     return () => { dibatalkan = true; };
   }, []);
 
-  /* Video disatukan di sini supaya ikut terurut bersama yang lain. */
-  const semuaArtikel = useMemo(() => {
-    if (dariSheet === null) return ARTICLES;
-    return gabungPublikasi(dariSheet, ARTICLES);
-  }, [dariSheet]);
+  const semuaArtikel = muat.data;
 
-  /* Jumlah pada tombol dihitung dari data yang benar-benar tampil.
-     Sebelumnya angka ini diambil dari panjang larik di berkas kode,
-     sehingga tombolnya bisa menjanjikan jumlah yang berbeda dari
-     kartu yang muncul. */
+  /* Jumlah pada tombol dihitung dari data yang benar-benar tampil,
+     bukan dari panjang larik di kode — supaya tombol tidak pernah
+     menjanjikan jumlah yang berbeda dari kartu yang muncul. */
   const jumlah = useMemo(() => ({
     all: semuaArtikel.length,
     'artikel-ilmiah': semuaArtikel.filter((a) => a.category === 'artikel-ilmiah').length,
@@ -170,8 +163,23 @@ function NewsSection({ onSelectArticle }) {
             </div>
           </div>
         ) : (
+          /* Tiga keadaan dibedakan dengan sengaja. Sebelumnya semuanya
+             memakai satu kalimat "belum ada publikasi", sehingga
+             kegagalan memuat terlihat persis seperti daftar kosong —
+             dan tidak ada yang tahu ada yang rusak. */
           <div className="text-center py-16 bg-slate-50 rounded-3xl border border-slate-200">
-            <p className="text-slate-400 font-bold text-sm">No publications in this category yet.</p>
+            {muat.status === 'memuat' && (
+              <p className="text-slate-400 font-bold text-sm">Loading publications…</p>
+            )}
+            {muat.status === 'gagal' && (
+              <>
+                <p className="text-slate-500 font-bold text-sm">Publications could not be loaded right now.</p>
+                <p className="text-slate-400 text-xs mt-1.5">Please refresh the page in a moment.</p>
+              </>
+            )}
+            {muat.status === 'siap' && (
+              <p className="text-slate-400 font-bold text-sm">No publications in this category yet.</p>
+            )}
           </div>
         )}
 
