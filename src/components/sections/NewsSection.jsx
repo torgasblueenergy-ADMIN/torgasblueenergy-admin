@@ -57,6 +57,14 @@ function NewsSection({ onSelectArticle }) {
 
   const filteredArticles = semuaArtikel.filter(art => activeCategory === 'all' || art.category === activeCategory);
 
+  /* Data Spreadsheet datang setelah kartu pertama tampil. Kalau saat itu
+     pengunjung sudah menggeser carousel, posisinya bisa menunjuk kartu yang
+     tidak ada lagi — layar tampak kosong padahal datanya ada. Kembalikan ke
+     kartu pertama bila posisinya melewati batas. */
+  useEffect(() => {
+    if (currentIndex > filteredArticles.length - 1) setCurrentIndex(0);
+  }, [filteredArticles.length, currentIndex]);
+
   const handleCategoryChange = (cat) => {
     setActiveCategory(cat);
     setCurrentIndex(0);
