@@ -19,7 +19,7 @@ Tidak perlu menunggu penerbitan apa pun.
 | **Tanggal** | ya | Tanggal yang tampil di kartu |
 | **Link_Gambar_Cover** | ya | Tautan gambar Drive — **atau tautan YouTube untuk video** |
 | **Penulis** | tidak | Nama penulis |
-| **Ringkasan_Pendek** | tidak | Ringkasan singkat |
+| **Ringkasan_Pendek** | tidak | **DOI artikel ilmiah** — lihat di bawah |
 | **Konten_Lengkap** | tidak | Isi lengkap yang tampil saat kartu diklik |
 | **Tampilkan** | tidak | Isi `NO` / `TIDAK` / `DRAFT` untuk menyembunyikan tanpa menghapus |
 
@@ -105,6 +105,41 @@ diperlakukan sebagai foto sampul dan videonya tidak bisa diputar.
 > Video Drive berukuran besar butuh beberapa saat sebelum Google selesai
 > membuat gambar cuplikannya. Sebelum itu kartunya tampil dengan latar polos
 > dan tombol putar — videonya sendiri tetap bisa diputar.
+
+---
+
+## Menambahkan DOI artikel ilmiah
+
+**Tempat DOI: kolom `Ringkasan_Pendek`.**
+
+Isi selnya dengan DOI-nya saja:
+
+```
+10.21608/ejabf.2026.413273.6396
+```
+
+Boleh juga bentuk lengkapnya — keduanya sama-sama terbaca:
+
+```
+https://doi.org/10.21608/ejabf.2026.413273.6396
+```
+
+DOI akan tampil sebagai **tautan biru tepat di bawah judul** saat kartunya
+diklik, dan membuka artikel aslinya di penerbit ketika ditekan.
+
+> **Kenapa kolom `Ringkasan_Pendek`?** Kolom itu sudah dikirim oleh sistem
+> tetapi tidak dipakai di mana pun oleh situs, jadi bisa langsung dipakai
+> tanpa mengubah backend. Nama kolomnya jangan diganti — sistem mengenali
+> kolom berdasarkan namanya.
+
+### Kalau DOI sudah terlanjur ditulis di dalam abstrak
+
+Tidak perlu disunting. Baris yang abstraknya berakhir dengan
+`Doi: 10.21608/...` tetap bekerja — DOI-nya diambil otomatis, ditampilkan
+sebagai tautan di bawah judul, dan **kalimat DOI itu dihapus dari badan
+abstrak** supaya tidak tercetak dua kali.
+
+Mengisi `Ringkasan_Pendek` tetap lebih baik: lebih rapi dan lebih pasti.
 
 ---
 
