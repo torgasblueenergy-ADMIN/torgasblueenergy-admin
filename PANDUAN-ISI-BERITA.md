@@ -55,21 +55,27 @@ padahal justru sedang ingin ditonjolkan.
 
 ## Menambahkan video
 
-**Cukup tempelkan tautan YouTube ke kolom `Link_Gambar_Cover`.** Tidak perlu
-mengetik "Video" di kolom kategori, dan tidak perlu mengunggah gambar apa pun.
+Dua langkah:
 
-Contoh baris video:
+1. Pilih **`VIDEO`** pada kolom `Tipe_Kategori`
+2. Tempelkan tautan videonya ke kolom `Link_Gambar_Cover` — boleh **YouTube**
+   maupun **Google Drive**
+
+Contoh:
 
 | ID | Judul | Tipe_Kategori | Tanggal | Link_Gambar_Cover |
 | -- | ----- | ------------- | ------- | ----------------- |
-| `VID-04` | Torgas Blue Energy Profile | News | 3 Agustus 2026 | `https://youtu.be/dQw4w9WgXcQ` |
+| `VID-04` | Torgas Blue Energy Profile | VIDEO | 3 Agustus 2026 | `https://youtu.be/dQw4w9WgXcQ` |
+| `VID-05` | Uji Coba USV Pangandaran | VIDEO | 9 Agustus 2026 | `https://drive.google.com/file/d/1AbC.../view` |
 
 Yang terjadi otomatis:
 
-- Kartunya masuk kategori **Video** dan ikut terhitung di tombol 🎬 Video
-- Thumbnail diambil sendiri dari YouTube — **tidak perlu diunggah**
+- Kartunya masuk tab **🎬 Video** dan ikut terhitung di sana
+- Gambar cuplikan diambil sendiri — **tidak perlu mengunggah thumbnail**
 - Muncul tombol putar di tengah kartu
 - Saat diklik, videonya diputar langsung di dalam situs
+
+### YouTube
 
 Bentuk tautan yang dikenali:
 
@@ -81,8 +87,24 @@ https://www.youtube.com/shorts/XXXXXXXXXXX
 https://www.youtube.com/live/XXXXXXXXXXX
 ```
 
-Tautan boleh juga diselipkan di kolom `Konten_Lengkap` atau
-`Ringkasan_Pendek` — tetap terbaca.
+Tautan YouTube dikenali **walaupun kategorinya lupa diubah ke VIDEO** — ini
+jaring pengaman, bukan cara yang dianjurkan.
+
+### Google Drive
+
+⚠️ **Berkas videonya wajib dibagikan "Siapa saja yang memiliki link".**
+Kalau izinnya masih "Terbatas", pemutarnya muncul kosong bagi pengunjung —
+padahal di layar Anda terlihat normal, karena Anda sudah login ke Drive itu.
+Selalu periksa lewat jendela penyamaran (incognito).
+
+⚠️ **Untuk video Drive, kolom `Tipe_Kategori` HARUS diisi `VIDEO`.** Tautan
+Drive untuk video dan untuk foto bentuknya sama persis, jadi sistem tidak
+punya cara lain membedakannya. Kalau kategorinya `News`, tautan itu akan
+diperlakukan sebagai foto sampul dan videonya tidak bisa diputar.
+
+> Video Drive berukuran besar butuh beberapa saat sebelum Google selesai
+> membuat gambar cuplikannya. Sebelum itu kartunya tampil dengan latar polos
+> dan tombol putar — videonya sendiri tetap bisa diputar.
 
 ---
 
