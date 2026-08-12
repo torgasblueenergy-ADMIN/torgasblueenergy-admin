@@ -15,7 +15,7 @@ Tidak perlu menunggu penerbitan apa pun.
 | ----- | ----- | --- |
 | **ID** | ya | Penanda unik **dan penentu urutan** — lihat di bawah |
 | **Judul** | ya | Judul artikel/berita/video. Baris tanpa judul dilewati |
-| **Tipe_Kategori** | ya | `Scientific Articles` atau `News` |
+| **Tipe_Kategori** | ya | `Scientific Articles`, `News`, atau `VIDEO` |
 | **Tanggal** | ya | Tanggal yang tampil di kartu |
 | **Link_Gambar_Cover** | ya | Tautan gambar Drive — **atau tautan YouTube untuk video** |
 | **Penulis** | tidak | Nama penulis |
