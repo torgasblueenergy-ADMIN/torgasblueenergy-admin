@@ -34,7 +34,35 @@ import { WEBAPI_URL } from '../config';
    sedang bermasalah.
 ================================================================ */
 
-const TIMEOUT_MS = 15000;
+/* Membaca Sheet lewat Apps Script memakan 7–14 detik saat skrip baru
+   "bangun". 15 detik terlalu mepet dan sempat membuat pembacaan gagal. */
+const TIMEOUT_MS = 30000;
+
+/* ⚠️ KENAPA 'news' DIDAHULUKAN, BUKAN 'publications'
+   ----------------------------------------------------------------
+   Keduanya dilayani fungsi yang sama persis di backend:
+
+     if (action === 'publications' || action === 'news') return getPublications(p)
+
+   Tetapi diuji dari halaman torgasblueenergy.com pada 12 Agu 2026:
+
+     ?action=news          → 200, JSON berisi seluruh data
+     ?action=publications  → 404, halaman galat Google
+
+   Berulang kali, selisih beberapa detik, dari halaman yang sama.
+   Endpoint lain (?action=ping, ?action=submissions) juga 200 normal,
+   jadi ini bukan soal CORS, izin akses, maupun kecepatan skrip —
+   yang membedakan hanya kata "publications" di dalam alamatnya.
+   Kata itu ditolak sebelum permintaannya sampai ke Google, pola khas
+   penyaring iklan/pelacak yang terpasang di browser.
+
+   Karena kita tidak bisa mengatur browser pengunjung, alamat yang
+   lolos dipakai lebih dulu. 'publications' tetap dicoba sebagai
+   cadangan, supaya tetap jalan seandainya alias 'news' suatu saat
+   dihapus dari backend.
+
+   ⚠️ JANGAN mengubah urutan ini menjadi 'publications' dulu. */
+const AKSI = ['news', 'publications'];
 
 const BULAN_INGGRIS = [
   'January', 'February', 'March', 'April', 'May', 'June',
@@ -74,17 +102,17 @@ function kunciJudul(judul) {
  * @returns {Promise<{siap: boolean, data: array, alasan?: string}>}
  *          `siap: false` berarti Spreadsheet belum terbaca — bukan galat fatal.
  */
-export async function ambilPublikasi() {
+async function cobaSatuAksi(aksi) {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
 
   try {
-    const res = await fetch(`${WEBAPI_URL}?action=publications`, {
+    const res = await fetch(`${WEBAPI_URL}?action=${aksi}`, {
       method: 'GET',
       redirect: 'follow',
       signal: controller.signal
     });
-    if (!res.ok) return { siap: false, data: [], alasan: 'server-menolak' };
+    if (!res.ok) return { siap: false, data: [], alasan: 'server-menolak-' + res.status };
 
     const teks = await res.text();
     let json;
@@ -112,6 +140,17 @@ export async function ambilPublikasi() {
   } finally {
     clearTimeout(timer);
   }
+}
+
+export async function ambilPublikasi() {
+  let terakhir = { siap: false, data: [], alasan: 'belum-dicoba' };
+
+  for (const aksi of AKSI) {
+    terakhir = await cobaSatuAksi(aksi);
+    if (terakhir.siap) return terakhir;
+  }
+
+  return terakhir;
 }
 
 /* Untuk pengurutan. Entri Spreadsheet punya `sortKey` (YYYY-MM-DD) dari
