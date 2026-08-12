@@ -114,16 +114,32 @@ export async function ambilPublikasi() {
   }
 }
 
+/* Untuk pengurutan. Entri Spreadsheet punya `sortKey` (YYYY-MM-DD) dari
+   backend; entri bawaan di kode hanya punya tulisan seperti "15 May 2026",
+   yang untungnya bisa dibaca langsung oleh Date. Yang tak terbaca ditaruh
+   paling belakang, bukan dibuang. */
+function waktuUrut(item) {
+  if (typeof item.sortKey === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(item.sortKey)) {
+    return Date.parse(item.sortKey + 'T00:00:00');
+  }
+  const t = Date.parse(item.date);
+  return Number.isNaN(t) ? -Infinity : t;
+}
+
 /**
  * Gabungkan isi Spreadsheet dengan isi bawaan dari src/data/articles.js.
  *
- * Spreadsheet didahulukan. Entri bawaan yang ID atau judulnya sama
+ * Entri bawaan yang ID atau judulnya sama dengan entri Spreadsheet
  * dibuang, sehingga memindahkan satu berita dari kode ke Spreadsheet
  * tidak pernah memunculkan kartu kembar.
  *
  * Entri bawaan yang belum ada di Spreadsheet tetap ditampilkan — kalau
  * tidak, menambahkan satu baris ke Sheet akan langsung melenyapkan
  * empat publikasi yang selama ini sudah tayang.
+ *
+ * Hasil akhir diurutkan dari yang terbaru, supaya berita yang baru
+ * ditambahkan lewat Spreadsheet muncul di kartu pertama — bukan
+ * terselip di belakang entri kode yang lebih tua.
  */
 export function gabungPublikasi(dariSheet, bawaan) {
   const idTerpakai = new Set(dariSheet.map((r) => String(r.id || '')));
@@ -133,5 +149,5 @@ export function gabungPublikasi(dariSheet, bawaan) {
     (r) => !idTerpakai.has(String(r.id || '')) && !judulTerpakai.has(kunciJudul(r.title))
   );
 
-  return [...dariSheet, ...sisaBawaan];
+  return [...dariSheet, ...sisaBawaan].sort((a, b) => waktuUrut(b) - waktuUrut(a));
 }

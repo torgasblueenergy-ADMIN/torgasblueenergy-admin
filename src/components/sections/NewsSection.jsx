@@ -1,16 +1,61 @@
-import { useState } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { SmartImage } from '../SmartImage';
-import { ARTICLES, ARTIKEL_ILMIAH, NEWS_DATA, VIDEO_DATA } from '../../data/articles';
+import { ARTICLES, VIDEO_DATA } from '../../data/articles';
+import { ambilPublikasi, gabungPublikasi } from '../../lib/publikasi';
 
 /* ================================================================
    KOMPONEN 7: PUBLIKASI & BERITA
+   ----------------------------------------------------------------
    Diperbarui: Menghapus keterangan "Author / Penulis" di kartu artikel
+
+   ⚠️ 12 Agu 2026 — DARI MANA ISI BAGIAN INI DATANG:
+   Sekarang dari tab "Publikasi" di Google Spreadsheet, dibaca lewat
+   src/lib/publikasi.js. Sebelumnya bagian ini HANYA membaca berkas
+   src/data/articles.js, sehingga baris yang ditambahkan pengurus ke
+   Spreadsheet tidak pernah muncul di situs.
+
+   Isi src/data/articles.js tetap dipakai sebagai:
+     1. tampilan awal, supaya bagian ini tidak berkedip kosong; dan
+     2. cadangan, kalau Spreadsheet tidak terbaca.
+   Entri yang sudah dipindahkan ke Spreadsheet dibuang otomatis oleh
+   gabungPublikasi(), jadi tidak akan muncul kartu kembar.
+
+   Video tetap tinggal di kode, karena backend hanya mengenal dua
+   kategori: "artikel-ilmiah" dan "news".
 ================================================================ */
 function NewsSection({ onSelectArticle }) {
   const [activeCategory, setActiveCategory] = useState('all');
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [dariSheet, setDariSheet] = useState(null); // null = belum selesai memuat
 
-  const filteredArticles = ARTICLES.filter(art => activeCategory === 'all' || art.category === activeCategory);
+  useEffect(() => {
+    let dibatalkan = false;
+    ambilPublikasi().then((hasil) => {
+      if (dibatalkan) return;
+      // Gagal membaca Spreadsheet → tetap pakai isi bawaan, jangan kosongkan
+      setDariSheet(hasil.siap ? hasil.data : []);
+    });
+    return () => { dibatalkan = true; };
+  }, []);
+
+  /* Video disatukan di sini supaya ikut terurut bersama yang lain. */
+  const semuaArtikel = useMemo(() => {
+    if (dariSheet === null) return ARTICLES;
+    return gabungPublikasi(dariSheet, ARTICLES);
+  }, [dariSheet]);
+
+  /* Jumlah pada tombol dihitung dari data yang benar-benar tampil.
+     Sebelumnya angka ini diambil dari panjang larik di berkas kode,
+     sehingga tombolnya bisa menjanjikan jumlah yang berbeda dari
+     kartu yang muncul. */
+  const jumlah = useMemo(() => ({
+    all: semuaArtikel.length,
+    'artikel-ilmiah': semuaArtikel.filter((a) => a.category === 'artikel-ilmiah').length,
+    news: semuaArtikel.filter((a) => a.category === 'news').length,
+    video: semuaArtikel.filter((a) => a.category === 'video').length
+  }), [semuaArtikel]);
+
+  const filteredArticles = semuaArtikel.filter(art => activeCategory === 'all' || art.category === activeCategory);
 
   const handleCategoryChange = (cat) => {
     setActiveCategory(cat);
