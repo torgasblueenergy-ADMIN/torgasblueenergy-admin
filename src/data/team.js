@@ -217,6 +217,38 @@ const LAB_SECTIONS = [
         cvPdf: "cvs/yudi.pdf"
       }
     ]
+  },
+
+  /* ════════════════════════════════════════════════════════════════
+     ANAK MAGANG — ditambahkan 13 Agu 2026 atas permintaan Mahdan.
+
+     Daftarnya masih kosong sampai foto-fotonya dikirim. Selama kosong,
+     tab ini TETAP muncul dan menampilkan keterangan bahwa profilnya
+     sedang disiapkan — bukan kotak kosong yang terlihat rusak.
+
+     CARA MENAMBAH — salin blok di bawah ini ke dalam `members`:
+
+       {
+         id: "mg-1",                                  // mg-2, mg-3, dst.
+         name: "Nama Lengkap",
+         role: "Intern",                              // atau "Research Intern"
+         focus: "Bidang yang dikerjakan",
+         photo: "images/People/Head/nama-head.jpg",   // wajib
+         detailPhoto: "images/People/Body/nama-body.jpg", // boleh dihapus
+         cvPdf: "cvs/nama.pdf"                        // boleh dihapus
+       }
+
+     ⚠️ `photo` saja sudah cukup. Kalau `detailPhoto` DAN `cvPdf`
+     dua-duanya tidak diisi, tombol "View Biography" otomatis tidak
+     muncul pada kartu itu — jadi tidak ada tombol yang menuju
+     halaman kosong. Anak magang umumnya tidak punya CV, dan itu
+     tidak apa-apa.
+     ════════════════════════════════════════════════════════════════ */
+  {
+    category: "INTERNS",
+    subtitle: "Students and young researchers undertaking internships at Torgas Blue Energy",
+    kosongPesan: "Intern profiles are being prepared and will appear here soon.",
+    members: []
   }
 ];
 
