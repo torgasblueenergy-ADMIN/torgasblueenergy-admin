@@ -269,6 +269,14 @@ const LAB_SECTIONS = [
         // `focus` belum diketahui — lihat catatan pada mg-1
         photo: "images/People/Head/christian-head.jpg",
         detailPhoto: "images/People/Body/christian-body.jpg"
+      },
+      {
+        id: "mg-3",
+        name: "Hanna Febbryanti Siburian",
+        role: "Intern",
+        // `focus` belum diketahui — lihat catatan pada mg-1
+        photo: "images/People/Head/hanna-head.jpg",
+        detailPhoto: "images/People/Body/hanna-body.jpg"
       }
     ]
   }
