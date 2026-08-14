@@ -45,7 +45,7 @@ function CvModal({ member, onClose }) {
                     rel="noopener noreferrer"
                     className="text-xs font-bold text-[#0096d7] hover:underline"
                   >
-                    Buka Fullscreen / Tab Baru ↗
+                    Open in a new tab ↗
                   </a>
                 )}
               </div>

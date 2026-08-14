@@ -65,9 +65,23 @@ function LabTeamSection() {
               </p>
             </div>
             <span className="text-xs font-extrabold text-[#0096d7] bg-[#0096d7]/10 px-4 py-2 rounded-lg whitespace-nowrap">
-              {activeSection.members.length} PERSONEL
+              {activeSection.members.length} PERSONNEL
             </span>
           </div>
+
+          {/* Keadaan kosong — dipakai tab yang anggotanya belum diisi.
+              ⚠️ Tanpa ini, tab kosong hanya menampilkan kotak putih besar
+              tanpa apa pun di dalamnya, dan pengunjung mengiranya rusak. */}
+          {activeSection.members.length === 0 && (
+            <div className="py-16 flex flex-col items-center text-center gap-3 animate-fadeIn">
+              <svg className="w-14 h-14 text-slate-200" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24" aria-hidden="true">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" />
+              </svg>
+              <p className="text-sm font-extrabold text-[#041b2e]">
+                {activeSection.kosongPesan || 'Profiles for this team are being prepared.'}
+              </p>
+            </div>
+          )}
 
           {/* Grid Anggota: Tanpa Kotak Luar & Jarak Dirapatkan */}
           <div key={activeTeamTab} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 animate-fadeIn">
@@ -100,15 +114,22 @@ function LabTeamSection() {
                   <div className="w-10 h-0.5 bg-[#FFAD26] rounded-full mx-auto"></div>
                 </div>
 
-                {/* Tombol Lihat Biografi */}
-                <div className="w-full">
-                  <button
-                    onClick={() => setSelectedMember(member)}
-                    className="w-full py-2.5 px-4 bg-white hover:bg-[#041b2e] text-[#041b2e] hover:text-white font-extrabold text-xs tracking-wider uppercase rounded-xl border border-slate-200 transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer shadow-sm hover:border-[#041b2e]"
-                  >
-                    👤 View Biography
-                  </button>
-                </div>
+                {/* Tombol Lihat Biografi — hanya bila memang ADA yang bisa dilihat.
+                    ⚠️ Anggota tanpa CV dan tanpa foto detail (mis. anak magang)
+                    dulunya tetap menampilkan tombol ini, dan tombolnya membuka
+                    jendela besar berisi "CV not available yet". Tombol yang
+                    menjanjikan sesuatu lalu tidak memberi apa-apa lebih buruk
+                    daripada tidak ada tombol sama sekali. */}
+                {(member.cvPdf || member.detailPhoto) && (
+                  <div className="w-full">
+                    <button
+                      onClick={() => setSelectedMember(member)}
+                      className="w-full py-2.5 px-4 bg-white hover:bg-[#041b2e] text-[#041b2e] hover:text-white font-extrabold text-xs tracking-wider uppercase rounded-xl border border-slate-200 transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer shadow-sm hover:border-[#041b2e]"
+                    >
+                      👤 View Biography
+                    </button>
+                  </div>
+                )}
 
               </div>
             ))}
