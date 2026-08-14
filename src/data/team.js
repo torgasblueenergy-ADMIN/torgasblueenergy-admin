@@ -261,6 +261,14 @@ const LAB_SECTIONS = [
         photo: "images/People/Head/debora-head.jpg",
         detailPhoto: "images/People/Body/debora-body.jpg"
         // cvPdf sengaja dikosongkan — belum ada CV-nya
+      },
+      {
+        id: "mg-2",
+        name: "Christian Nathaniel Raja Guk Guk",
+        role: "Intern",
+        // `focus` belum diketahui — lihat catatan pada mg-1
+        photo: "images/People/Head/christian-head.jpg",
+        detailPhoto: "images/People/Body/christian-body.jpg"
       }
     ]
   }
