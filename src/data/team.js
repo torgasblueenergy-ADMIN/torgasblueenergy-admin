@@ -248,7 +248,21 @@ const LAB_SECTIONS = [
     category: "INTERNS",
     subtitle: "Students and young researchers undertaking internships at Torgas Blue Energy",
     kosongPesan: "Intern profiles are being prepared and will appear here soon.",
-    members: []
+    members: [
+      {
+        id: "mg-1",
+        name: "Debora Arta Y. Sinaga",
+        role: "Intern",
+        /* ⚠️ `focus` sengaja TIDAK diisi — Mahdan baru mengirim nama dan
+           foto, dan bidang keahlian tidak boleh dikarang. Selama kosong,
+           CvModal menampilkan keterangan umum "Marine Science & Technology
+           Research". Isi baris berikut begitu bidangnya diketahui:
+             focus: "…", */
+        photo: "images/People/Head/debora-head.jpg",
+        detailPhoto: "images/People/Body/debora-body.jpg"
+        // cvPdf sengaja dikosongkan — belum ada CV-nya
+      }
+    ]
   }
 ];
 
