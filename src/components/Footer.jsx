@@ -1,6 +1,11 @@
 import { SmartImage } from './SmartImage';
 import { VisitorStats } from './VisitorStats';
 
+/* Alamat resmi laboratorium dalam bentuk Plus Code — inilah yang dikirim
+   ke Google Maps saat alamat di footer diklik. Diberikan Mahdan,
+   14 Agu 2026. Ubah HANYA di sini kalau lokasinya berpindah. */
+const ALAMAT_LAB = '3QHF+JC3, Hegarmanah, Kec. Jatinangor, Kabupaten Sumedang, Jawa Barat 45363';
+
 /* ================================================================
    KOMPONEN 8: FOOTER PERUSAHAAN
    Diperbarui: Hapus Navigasi, Tambah Ikon Sosmed/Kontak interaktif, Alamat Jatinangor
@@ -68,17 +73,39 @@ function Footer({ onOpenLegal }) {
           {/* Kolom 4: Kontak & Alamat (Fokus Jatinangor) */}
           <div>
             <h4 className="font-bold text-sm tracking-wider uppercase text-slate-200 mb-5">Contact & Address</h4>
-            <div className="flex items-start gap-3">
-              <div className="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center flex-shrink-0 text-slate-400">
+
+            {/* Alamat kini bisa diklik dan membuka Google Maps.
+                ⚠️ Tanda "+" pada Plus Code WAJIB dikodekan menjadi %2B. Kalau
+                ditulis apa adanya di dalam alamat, Google membacanya sebagai
+                SPASI — pencariannya jadi "3QHF JC3" dan mendarat di tempat
+                yang salah. encodeURIComponent di bawah menangani itu sendiri;
+                jangan diganti dengan alamat yang ditulis tangan.
+                Diuji 14 Agu 2026 → mendarat tepat di -6.9209875, 107.7735469. */}
+            <a
+              href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(ALAMAT_LAB)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-start gap-3 group"
+              title="Open in Google Maps"
+            >
+              <div className="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center flex-shrink-0 text-slate-400 group-hover:bg-[#0096d7] group-hover:text-white transition-colors">
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
               </div>
               <div>
-                <p className="font-bold text-sm text-slate-300 mb-1">Torgas Integrated Laboratory</p>
+                <p className="font-bold text-sm text-slate-300 mb-1 group-hover:text-white transition-colors">Torgas Integrated Laboratory</p>
                 <p className="text-sm text-slate-400 leading-relaxed">
                   Jatinangor, Sumedang Regency, <br/>West Java, Indonesia.
                 </p>
+                {/* Penanda bahwa bagian ini bisa diklik — tanpa ini pengunjung
+                    tidak punya alasan menduga alamatnya sebuah tautan. */}
+                <span className="inline-flex items-center gap-1 mt-2 text-xs font-bold text-[#0096d7] group-hover:text-white transition-colors">
+                  View on Google Maps
+                  <svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24" aria-hidden="true">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+                  </svg>
+                </span>
               </div>
-            </div>
+            </a>
           </div>
 
         </div>
