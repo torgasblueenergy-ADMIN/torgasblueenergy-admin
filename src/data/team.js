@@ -249,34 +249,44 @@ const LAB_SECTIONS = [
     subtitle: "Students and young researchers undertaking internships at Torgas Blue Energy",
     kosongPesan: "Intern profiles are being prepared and will appear here soon.",
     members: [
+      /* ⚠️ Nilai `focus` ketiga orang di bawah DIRINGKAS DARI CV MASING-MASING
+         (24 Agu 2026), bukan diberikan langsung oleh yang bersangkutan.
+         Sumber kalimatnya ada di ringkasan diri pada halaman pertama CV.
+         Kalau ada yang kurang tepat, perbaiki di sini — ini keterangan
+         tentang orang sungguhan, jadi ketepatannya lebih penting daripada
+         terdengar mengesankan. */
       {
         id: "mg-1",
         name: "Debora Arta Y. Sinaga",
         role: "Intern",
-        /* ⚠️ `focus` sengaja TIDAK diisi — Mahdan baru mengirim nama dan
-           foto, dan bidang keahlian tidak boleh dikarang. Selama kosong,
-           CvModal menampilkan keterangan umum "Marine Science & Technology
-           Research". Isi baris berikut begitu bidangnya diketahui:
-             focus: "…", */
+        // CV: "interest in marine science, coastal ecosystems, and
+        //      sustainable aquatic resource management"
+        focus: "Coastal Ecosystems & Sustainable Aquatic Resource Management",
         photo: "images/People/Head/debora-head.jpg",
-        detailPhoto: "images/People/Body/debora-body.jpg"
-        // cvPdf sengaja dikosongkan — belum ada CV-nya
+        detailPhoto: "images/People/Body/debora-body.jpg",
+        cvPdf: "cvs/debora.pdf"
       },
       {
         id: "mg-2",
         name: "Christian Nathaniel Raja Guk Guk",
         role: "Intern",
-        // `focus` belum diketahui — lihat catatan pada mg-1
+        // CV: "laboratory work and hands-on field sampling";
+        //      surveyor pada kegiatan Marine Debris di Bojong Salawe, Pangandaran
+        focus: "Marine Debris Survey & Field Sampling",
         photo: "images/People/Head/christian-head.jpg",
-        detailPhoto: "images/People/Body/christian-body.jpg"
+        detailPhoto: "images/People/Body/christian-body.jpg",
+        cvPdf: "cvs/christian.pdf"
       },
       {
         id: "mg-3",
         name: "Hanna Febbryanti Siburian",
         role: "Intern",
-        // `focus` belum diketahui — lihat catatan pada mg-1
+        // CV: "Particularly interested in coral reef ecosystems, diving, and
+        //      marine research"; pernah menjadi Diving Laboratory Assistant
+        focus: "Coral Reef Ecosystems & Scientific Diving",
         photo: "images/People/Head/hanna-head.jpg",
-        detailPhoto: "images/People/Body/hanna-body.jpg"
+        detailPhoto: "images/People/Body/hanna-body.jpg",
+        cvPdf: "cvs/hanna.pdf"
       }
     ]
   }
