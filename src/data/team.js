@@ -233,13 +233,9 @@ const LAB_SECTIONS = [
         photo: "images/People/Head/akmal-head.jpg",
         detailPhoto: "images/People/Body/akmal-body.jpg",
         cvPdf: "cvs/akmal.pdf"
-      }
-    ]
-  },
-  {
-    category: "RESEARCH TEAM PANGANDARAN",
-    subtitle: "Research and Technical Team at the Pangandaran Coastal Marine Station",
-    members: [
+      },
+
+      /* ── Sebelumnya berdiri sendiri sebagai seksi RESEARCH TEAM PANGANDARAN ── */
       {
         id: "rtp-1",
         name: "Yudi Ardiansyah Saputra",
