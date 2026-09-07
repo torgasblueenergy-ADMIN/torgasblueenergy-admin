@@ -90,8 +90,23 @@ function LabTeamSection() {
                 key={member.id}
                 className="flex flex-col items-center text-center group"
               >
-                {/* Foto Utama Profil (Tanpa kotak luar, sudut rounded rapi) */}
-                <div className="w-full h-64 sm:h-72 rounded-2xl overflow-hidden mb-4 border border-slate-200 bg-slate-100 shadow-md relative">
+                {/* Foto Utama Profil — kotaknya POTRET, bukan lanskap.
+                    ⚠️ Sebelumnya `h-64 sm:h-72` dengan lebar penuh menghasilkan
+                    kotak MENDATAR (sekitar 378×288 px di layar lebar). Seluruh
+                    foto anggota berformat 9:16 (900×1600), jadi `object-cover`
+                    membuang sekitar 57% tingginya — kepala dan bahu terpotong
+                    rapat, dan semua orang tampak seperti pas foto yang dipepet.
+
+                    `aspect-[3/4]` membuat kotaknya ikut potret. Dari sumber
+                    9:16 hanya sekitar 25% tinggi yang terpotong, dan yang
+                    terbuang justru ruang kosong di atas kepala dan bagian
+                    bawah badan — bukan wajahnya.
+
+                    ⚠️ Jangan kembalikan ke tinggi tetap (h-64/h-72). Tinggi
+                    tetap memaksa rasio berubah mengikuti lebar kolom, sehingga
+                    di layar lebar kotaknya melebar jadi lanskap lagi.
+                    Permintaan Mahdan, 7 Sep 2026. */}
+                <div className="w-full aspect-[3/4] rounded-2xl overflow-hidden mb-4 border border-slate-200 bg-slate-100 shadow-md relative">
                   <SmartImage
                     src={member.photo}
                     alt={member.name}
