@@ -122,12 +122,15 @@ function LabTeamSection() {
                   />
                 </div>
 
-                {/* Nama & Jabatan (Jarak dirapatkan tanpa padding berlebih) */}
-                <div className="mb-4 w-full">
-                  <h4 className="font-extrabold text-[#041b2e] text-lg sm:text-xl leading-snug mb-1">
+                {/* Nama & Jabatan — ukuran huruf ikut mengecil bersama kartunya.
+                    Nama panjang seperti "Fataya Alif Rahmani Priatna" akan
+                    membungkus jadi tiga baris kalau ukurannya tidak diturunkan,
+                    dan tinggi kartu jadi tidak rata antar-orang. */}
+                <div className="mb-3 w-full">
+                  <h4 className="font-extrabold text-[#041b2e] text-base leading-snug mb-1">
                     {member.name}
                   </h4>
-                  <span className="text-xs font-extrabold text-[#0096d7] block uppercase tracking-wider mb-2">
+                  <span className="text-[10px] font-extrabold text-[#0096d7] block uppercase tracking-wider mb-2">
                     {member.role}
                   </span>
                   <div className="w-10 h-0.5 bg-[#FFAD26] rounded-full mx-auto"></div>
@@ -140,10 +143,10 @@ function LabTeamSection() {
                     menjanjikan sesuatu lalu tidak memberi apa-apa lebih buruk
                     daripada tidak ada tombol sama sekali. */}
                 {(member.cvPdf || member.detailPhoto) && (
-                  <div className="w-full">
+                  <div className="w-full max-w-[220px]">
                     <button
                       onClick={() => setSelectedMember(member)}
-                      className="w-full py-2.5 px-4 bg-white hover:bg-[#041b2e] text-[#041b2e] hover:text-white font-extrabold text-xs tracking-wider uppercase rounded-xl border border-slate-200 transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer shadow-sm hover:border-[#041b2e]"
+                      className="w-full py-2 px-3 bg-white hover:bg-[#041b2e] text-[#041b2e] hover:text-white font-extrabold text-[10px] tracking-wider uppercase rounded-lg border border-slate-200 transition-all duration-300 flex items-center justify-center gap-1.5 cursor-pointer shadow-sm hover:border-[#041b2e]"
                     >
                       👤 View Biography
                     </button>
