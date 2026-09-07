@@ -68,9 +68,26 @@ const LAB_SECTIONS = [
       }
     ]
   },
+  /* ════════════════════════════════════════════════════════════════
+     SATU SEKSI "RESEARCH TEAM" — gabungan Jatinangor + Pangandaran
+     (7 Sep 2026, permintaan Mahdan).
+
+     Sebelumnya terpisah menjadi "RESEARCH TEAM JATINANGOR" dan
+     "RESEARCH TEAM PANGANDARAN". Keduanya kini satu daftar.
+
+     ⚠️ Keterangan lokasi per orang jadi HILANG dari tampilan. Yudi
+     Ardiansyah Saputra bertugas di stasiun Pangandaran, dan itu tidak
+     lagi terbaca dari kartunya — subtitle hanya menyebut kedua lokasi
+     secara umum. Kalau lokasi per orang perlu terlihat, tambahkan ke
+     `role` atau `focus` masing-masing.
+
+     Awalan id sengaja TIDAK diseragamkan: rtj- (Jatinangor) dan
+     rtp- (Pangandaran) tetap apa adanya, supaya asal-usul tiap entri
+     masih terlacak kalau nanti dipisah lagi.
+     ════════════════════════════════════════════════════════════════ */
   {
-    category: "RESEARCH TEAM JATINANGOR",
-    subtitle: "Research Team & Laboratory Analysts of Jatinangor Integrated Laboratory",
+    category: "RESEARCH TEAM",
+    subtitle: "Research team and laboratory analysts across the Jatinangor Integrated Laboratory and the Pangandaran Coastal Marine Station",
     members: [
       /* ════════════════════════════════════════════════════════════════
          DIARSIPKAN — tidak ditampilkan di situs (7 Sep 2026, permintaan
