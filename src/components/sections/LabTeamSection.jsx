@@ -83,8 +83,12 @@ function LabTeamSection() {
             </div>
           )}
 
-          {/* Grid Anggota: Tanpa Kotak Luar & Jarak Dirapatkan */}
-          <div key={activeTeamTab} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 animate-fadeIn">
+          {/* Grid Anggota — 4 kolom di layar lebar, bukan 3.
+              ⚠️ Dengan 3 kolom dan kotak potret, satu layar hanya memuat tiga
+              wajah; tim beranggota 13 orang jadi perlu digulir berkali-kali.
+              Empat kolom memperkecil kartunya sekaligus melipatgandakan jumlah
+              wajah yang terlihat sekali pandang. (Mahdan, 7 Sep 2026) */}
+          <div key={activeTeamTab} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 animate-fadeIn">
             {activeSection.members.map((member) => (
               <div 
                 key={member.id}
@@ -106,7 +110,7 @@ function LabTeamSection() {
                     tetap memaksa rasio berubah mengikuti lebar kolom, sehingga
                     di layar lebar kotaknya melebar jadi lanskap lagi.
                     Permintaan Mahdan, 7 Sep 2026. */}
-                <div className="w-full aspect-[3/4] rounded-2xl overflow-hidden mb-4 border border-slate-200 bg-slate-100 shadow-md relative">
+                <div className="w-full max-w-[220px] aspect-[3/4] rounded-2xl overflow-hidden mb-3 border border-slate-200 bg-slate-100 shadow-md relative">
                   <SmartImage
                     src={member.photo}
                     alt={member.name}
