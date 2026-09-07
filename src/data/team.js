@@ -72,6 +72,21 @@ const LAB_SECTIONS = [
     category: "RESEARCH TEAM JATINANGOR",
     subtitle: "Research Team & Laboratory Analysts of Jatinangor Integrated Laboratory",
     members: [
+      /* ════════════════════════════════════════════════════════════════
+         DIARSIPKAN — tidak ditampilkan di situs (7 Sep 2026, permintaan
+         Mahdan; sewaktu-waktu bisa diminta tampil lagi oleh Pak Tora).
+
+         ⚠️ Datanya SENGAJA TIDAK DIHAPUS. Foto (ari-head/ari-body, beserta
+         versi .webp-nya) dan cvs/ari.pdf juga tetap di tempatnya. Menghapus
+         semuanya berarti harus menggali riwayat git untuk memulihkan, dan
+         entri ini kemungkinan besar memang akan diminta kembali.
+
+         CARA MENAMPILKAN KEMBALI: ubah `tampilkan: false` menjadi `true`,
+         atau hapus barisnya sama sekali. Tidak ada langkah lain.
+
+         Penanda ini berlaku untuk siapa pun — cukup tambahkan
+         `tampilkan: false` pada entri mana pun untuk menyembunyikannya.
+         ════════════════════════════════════════════════════════════════ */
       {
         id: "rtj-1",
         name: "Ari Dwi Saputra",
@@ -79,7 +94,8 @@ const LAB_SECTIONS = [
         focus: "Sedimentology, Coastal Survey & Marine Instrumentation",
         photo: "images/People/Head/ari-head.jpg",
         detailPhoto: "images/People/Body/ari-body.jpg",
-        cvPdf: "cvs/ari.pdf"
+        cvPdf: "cvs/ari.pdf",
+        tampilkan: false
       },
       {
         id: "rtj-2",

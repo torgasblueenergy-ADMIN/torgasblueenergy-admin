@@ -17,6 +17,15 @@ function LabTeamSection() {
   // Mengambil data seksi yang sedang aktif
   const activeSection = LAB_SECTIONS[activeTeamTab];
 
+  /* ⚠️ SARINGAN ARSIP — anggota dengan `tampilkan: false` di src/data/team.js
+     tidak ditampilkan, tanpa perlu menghapus datanya.
+
+     Dipakai di SEMUA tempat yang membaca daftar anggota, termasuk angka
+     "N PERSONNEL". Kalau angkanya masih dihitung dari daftar mentah, badge
+     akan menjanjikan 13 orang sementara yang tampil hanya 12 — jenis
+     ketidakcocokan kecil yang membuat pengunjung meragukan sisanya. */
+  const anggotaTampil = (activeSection.members || []).filter((m) => m.tampilkan !== false);
+
   return (
     <section id="team" className="section-band bg-slate-50 border-y border-slate-100 py-20 md:py-28">
       <div className="max-grid">
