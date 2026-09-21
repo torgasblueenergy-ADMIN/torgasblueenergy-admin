@@ -159,15 +159,17 @@ const LAB_SECTIONS = [
         detailPhoto: "images/People/Body/sridewi-body.jpg",
         cvPdf: "cvs/sridewi.pdf"
       },
-      {
-        id: "rtj-7",
-        name: "Nurul Laeliiyah",
-        role: "Research Assistant",
-        focus: "Carbon Sequestration & Laboratory Support",
-        photo: "images/People/Head/nurul-head.jpg",
-        detailPhoto: "images/People/Body/nurul-body.jpg",
-        cvPdf: "cvs/nurul.pdf"
-      },
+      /* ⚠️ id rtj-7 (Nurul Laeliiyah) DIHAPUS pada 21 Sep 2026 atas
+         permintaan Mahdan — berbeda dari Ari Dwi Saputra yang hanya
+         diarsipkan. Entri, foto (nurul-head/nurul-body beserta .webp),
+         dan cvs/nurul.pdf ikut dihapus dari folder, supaya berkasnya
+         tidak lagi bisa dibuka lewat alamat langsung.
+
+         Kalau suatu saat perlu dipulihkan, semuanya masih ada di
+         riwayat git pada commit sebelum tanggal tersebut.
+
+         ⚠️ JANGAN keliru dengan "An-Nisa Nurul Azqiya" (rtj-8) di bawah
+         ini — orang yang berbeda, dan tetap ditampilkan. */
 
       /* ────────────────────────────────────────────────────────────────
          6 anggota di bawah ini SUDAH punya foto + CV di folder, tapi
