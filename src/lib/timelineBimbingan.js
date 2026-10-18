@@ -222,6 +222,49 @@ function normalkanAlamat(url) {
 }
 
 
+/* ================================================================
+   SATU-SATUNYA TEMPAT YANG MENYENTUH JARINGAN
+   ----------------------------------------------------------------
+   Dipisah dari ambilTimeline() dengan sengaja. Kalau kelak deploy
+   hold Apps Script dicabut dan timeline dipindah ke action=timeline,
+   fungsi INI saja yang diganti. Bentuk kembalian ambilTimeline()
+   tidak berubah, jadi komponen papannya tidak perlu disentuh.
+================================================================ */
+async function ambilCsv(alamat) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
+
+  try {
+    const res = await fetch(alamat, { method: 'GET', redirect: 'follow', signal: controller.signal });
+    if (!res.ok) {
+      return { ok: false, message: `Sheet menolak permintaan (kode ${res.status}). Pastikan tab sudah di-publish ke web.` };
+    }
+
+    const teks = await res.text();
+
+    /* Kalau tab belum di-publish, Google membalas halaman HTML (login
+       atau "you need permission") dengan status 200 — jadi res.ok saja
+       tidak cukup untuk menyimpulkan berhasil. */
+    if (/^\s*<(!doctype|html)/i.test(teks)) {
+      return {
+        ok: false,
+        message: 'Sheet membalas halaman HTML, bukan data. Tab-nya kemungkinan belum di-publish ke web sebagai CSV.'
+      };
+    }
+
+    return { ok: true, teks };
+
+  } catch (err) {
+    if (err.name === 'AbortError') {
+      return { ok: false, message: 'Permintaan terlalu lama. Periksa koneksi internet.' };
+    }
+    return { ok: false, message: 'Tidak bisa menghubungi Google Sheet. Periksa koneksi, atau pengaturan publish tab-nya.' };
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+
 /**
  * Ambil timeline bimbingan dari Google Sheet.
  *
@@ -235,28 +278,11 @@ export async function ambilTimeline() {
     return { ok: false, siap: false, message: 'Alamat CSV timeline belum diisi di src/config.js.' };
   }
 
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
+  const hasil = await ambilCsv(alamat);
+  if (!hasil.ok) return { ok: false, siap: true, message: hasil.message };
 
-  try {
-    const res = await fetch(alamat, { method: 'GET', redirect: 'follow', signal: controller.signal });
-    if (!res.ok) {
-      return { ok: false, siap: true, message: `Sheet menolak permintaan (kode ${res.status}). Pastikan tab sudah di-publish ke web.` };
-    }
-
-    const teks = await res.text();
-
-    /* Kalau tab belum di-publish, Google membalas halaman HTML (login
-       atau "you need permission") dengan status 200 — jadi res.ok saja
-       tidak cukup untuk menyimpulkan berhasil. */
-    if (/^\s*<(!doctype|html)/i.test(teks)) {
-      return {
-        ok: false, siap: true,
-        message: 'Sheet membalas halaman HTML, bukan data. Tab-nya kemungkinan belum di-publish ke web sebagai CSV.'
-      };
-    }
-
-    const baris = uraiCsv(teks);
+  {
+    const baris = uraiCsv(hasil.teks);
     if (baris.length < 2) {
       return { ok: true, siap: true, tahapan: [], mahasiswa: [] };
     }
