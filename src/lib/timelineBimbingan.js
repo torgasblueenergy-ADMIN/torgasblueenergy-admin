@@ -354,13 +354,5 @@ export async function ambilTimeline() {
       tahapan: tahapan.map((t) => t.judul),
       mahasiswa,
     };
-
-  } catch (err) {
-    if (err.name === 'AbortError') {
-      return { ok: false, siap: true, message: 'Permintaan terlalu lama. Periksa koneksi internet.' };
-    }
-    return { ok: false, siap: true, message: 'Tidak bisa menghubungi Google Sheet. Periksa koneksi, atau pengaturan publish tab-nya.' };
-  } finally {
-    clearTimeout(timer);
   }
 }
