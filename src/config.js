@@ -17,6 +17,36 @@ const WEBAPI_URL = 'https://script.google.com/macros/s/AKfycbyOiKlR8jksYqNxwkHYC
 const STUDENT_PORTAL_CODE = 'TORGAS18JAYA';
 
 /* ================================================================
+   TIMELINE BIMBINGAN — ALAMAT CSV GOOGLE SHEET
+   ----------------------------------------------------------------
+   Papan timeline di Student Portal membaca alamat ini. Dikosongkan
+   ('') = papan tidak tampil sebagai kotak rusak, melainkan menampilkan
+   petunjuk pemasangan. Jadi aman dibiarkan kosong sampai siap.
+
+   CARA MENGISI (langkah lengkap di PANDUAN-TIMELINE-BIMBINGAN.md):
+     Google Sheet → File → Share → Publish to web
+     → pilih tab "Timeline", format "Comma-separated values (.csv)"
+     → Publish → salin alamat yang muncul ke sini.
+
+   Alamatnya berbentuk:
+     https://docs.google.com/spreadsheets/d/e/2PACX-.../pub?gid=0&single=true&output=csv
+
+   ⚠️ KENAPA LEWAT CSV, BUKAN APPS SCRIPT
+   Penerbitan Apps Script sedang ditahan (apps-script/.deploy-hold),
+   jadi endpoint baru di sana belum bisa hidup. CSV berjalan sekarang
+   juga. Lihat catatan panjang di src/lib/timelineBimbingan.js.
+
+   ⚠️ APA YANG IKUT TERBUKA
+   Tab yang di-publish bisa dibaca siapa pun yang tahu alamatnya,
+   TANPA login — termasuk orang yang tidak punya kode Student Portal.
+   Yang terbuka hanya tab itu, bukan seluruh spreadsheet. Karena itu:
+   jangan menaruh nilai, penilaian, nomor telepon, atau catatan
+   pribadi di tab Timeline. Simpan hal-hal itu di tab lain yang tidak
+   di-publish. Untuk menutupnya kembali: Publish to web → Stop publishing,
+   lalu kosongkan baris di bawah. */
+const TIMELINE_CSV_URL = '';
+
+/* ================================================================
    STATISTIK PENGUNJUNG — KODE BERBAGI UMAMI
    ----------------------------------------------------------------
    CARA MENGISI:
@@ -97,5 +127,5 @@ const HERO_VIDEO_POSTER = 'images/Homepage/Homepage-1.jpg';
 
 export {
   WEBAPI_URL, STUDENT_PORTAL_CODE, NO_WEBP, HERO_VIDEO, HERO_VIDEO_POSTER,
-  UMAMI_SHARE_ID, STATISTIK_AMBANG_MINIMUM
+  UMAMI_SHARE_ID, STATISTIK_AMBANG_MINIMUM, TIMELINE_CSV_URL
 };

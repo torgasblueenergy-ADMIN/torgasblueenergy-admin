@@ -6,6 +6,7 @@ import { PortalMentoringModal } from '../components/modals/PortalMentoringModal'
 import { PortalProcurementModal } from '../components/modals/PortalProcurementModal';
 import { PortalProgressModal } from '../components/modals/PortalProgressModal';
 import { ActivityCalendar } from '../components/portal/ActivityCalendar';
+import { BimbinganTimeline } from '../components/portal/BimbinganTimeline';
 
 /* ================================================================
    HALAMAN KHUSUS STUDENT PORTAL (DASBOR BIMBINGAN & LAB)
@@ -139,6 +140,17 @@ function StudentPortalPage({ onBackToMain }) {
             <div className="text-[11px] font-extrabold text-slate-400 uppercase tracking-widest">APPROVED</div>
           </div>
         </div>
+
+        {/* TIMELINE BIMBINGAN
+            Ditaruh paling atas setelah kartu angka karena inilah yang
+            paling sering dicari saat membuka portal: sudah sampai mana
+            tiap anak bimbingan, dan siapa yang tersendat. Kalender dan
+            formulir di bawahnya adalah tindakan lanjutan dari apa yang
+            terbaca di sini.
+
+            Baca-saja. Mengubah isinya lewat Google Sheet — lihat
+            PANDUAN-TIMELINE-BIMBINGAN.md. */}
+        <BimbinganTimeline />
 
         {/* KALENDER KEGIATAN & KETERSEDIAAN
             Ditaruh SEBELUM kartu pengajuan supaya mahasiswa melihat slot
