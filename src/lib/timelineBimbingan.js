@@ -1,0 +1,340 @@
+import { TIMELINE_CSV_URL } from '../config';
+
+/* ================================================================
+   TIMELINE BIMBINGAN — DIBACA DARI GOOGLE SHEET (CSV)
+   ----------------------------------------------------------------
+   KENAPA CSV, BUKAN APPS SCRIPT
+
+   Pengajuan, publikasi, dan ketersediaan semuanya lewat Apps Script
+   (lihat lib/pengajuan.js). Timeline ini SENGAJA tidak ikut ke sana.
+
+   Penerbitan Apps Script sedang ditahan — lihat apps-script/.deploy-hold.
+   Selama berkas itu ada, menambah `action=timeline` di Code.js berarti
+   fiturnya baru hidup entah kapan. Tab yang di-publish ke web sebagai
+   CSV berjalan hari ini juga, tanpa menyentuh Apps Script sama sekali.
+
+   Efek sampingnya justru pas dengan yang diminta: alamat CSV itu
+   HANYA BISA DIBACA. Tidak ada cara menulis balik ke Sheet lewatnya.
+   Jadi sifat "web cuma lihat, ubah lewat Sheet" bukan aturan yang
+   kita tegakkan di kode — ia memang satu-satunya yang mungkin.
+
+   ⚠️ Konsekuensi yang harus disadari: tab yang di-publish bisa dibaca
+   siapa pun yang tahu alamatnya, tanpa login. Jangan menaruh nilai,
+   catatan pribadi, atau apa pun yang tidak boleh dilihat mahasiswa
+   lain di tab ini. Taruh di tab terpisah yang tidak di-publish.
+
+   Kalau nanti deploy hold dicabut dan ingin pindah ke Apps Script,
+   yang perlu diganti hanya fungsi ambilCsv() di bawah — bentuk data
+   yang dikembalikan ambilTimeline() tetap sama.
+================================================================ */
+
+const TIMEOUT_MS = 15000;
+
+/* ================================================================
+   KOLOM TETAP vs KOLOM TAHAPAN
+   ----------------------------------------------------------------
+   Nama tahapan TIDAK ditulis di kode ini. Semua kolom yang BUKAN
+   kolom tetap di bawah dianggap sebagai satu tahapan, urut sesuai
+   urutan kolom di Sheet.
+
+   Jadi menambah tahap baru = menambah kolom di Sheet. Tidak perlu
+   mengubah berkas ini, tidak perlu build ulang.
+================================================================ */
+const KOLOM_TETAP = {
+  nama:       ['nama', 'nama lengkap', 'mahasiswa', 'name'],
+  nim:        ['nim', 'npm', 'id', 'nomor induk'],
+  pembimbing: ['pembimbing', 'dosen', 'dosen pembimbing', 'supervisor', 'advisor'],
+  topik:      ['topik', 'judul', 'topik riset', 'judul skripsi', 'penelitian', 'topic'],
+  catatan:    ['catatan', 'keterangan', 'note', 'notes'],
+  tampilkan:  ['tampilkan', 'aktif', 'show', 'active'],
+};
+
+function kenaliKolom(judul) {
+  const bersih = String(judul || '').trim().toLowerCase();
+  for (const kunci of Object.keys(KOLOM_TETAP)) {
+    if (KOLOM_TETAP[kunci].includes(bersih)) return kunci;
+  }
+  return null;
+}
+
+/* ================================================================
+   PENGURAI CSV
+   ----------------------------------------------------------------
+   Ditulis sendiri, bukan split(',').
+
+   Topik riset hampir selalu mengandung koma — "Analisis mikroplastik
+   pada sedimen mangrove, Pangandaran". Dengan split(',') baris itu
+   pecah di tengah judul dan seluruh kolom setelahnya bergeser satu,
+   sehingga tahap "Pengolahan Data" membaca isi kolom sebelahnya.
+   Rusaknya diam-diam: tabel tetap tampil, isinya saja yang salah.
+
+   Google juga menulis tanda kutip ganda di dalam sel sebagai "" —
+   itu ikut ditangani di sini.
+================================================================ */
+function uraiCsv(teks) {
+  const baris = [];
+  let sel = '';
+  let kolom = [];
+  let dalamKutip = false;
+
+  // Samakan akhir baris Windows/Mac lama supaya satu aturan saja di bawah
+  const s = String(teks || '').replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+
+  for (let i = 0; i < s.length; i++) {
+    const c = s[i];
+
+    if (dalamKutip) {
+      if (c === '"') {
+        if (s[i + 1] === '"') { sel += '"'; i++; }  // "" = satu tanda kutip literal
+        else dalamKutip = false;
+      } else sel += c;
+      continue;
+    }
+
+    if (c === '"') { dalamKutip = true; continue; }
+    if (c === ',') { kolom.push(sel); sel = ''; continue; }
+    if (c === '\n') { kolom.push(sel); baris.push(kolom); kolom = []; sel = ''; continue; }
+    sel += c;
+  }
+  // Baris terakhir biasanya tidak diakhiri newline
+  if (sel !== '' || kolom.length) { kolom.push(sel); baris.push(kolom); }
+
+  // Buang baris yang seluruh selnya kosong (Sheet sering menyisakan ratusan)
+  return baris.filter((r) => r.some((v) => String(v).trim() !== ''));
+}
+
+/* ================================================================
+   MEMBACA ISI SEL TAHAPAN
+   ----------------------------------------------------------------
+   Sengaja dibuat longgar. Yang mengisi Sheet adalah manusia yang
+   sedang buru-buru, bukan formulir dengan dropdown. "Selesai",
+   "selesai 12/10/2026", "100%", "v", dan "✓" semuanya harus berarti
+   hal yang sama, kalau tidak orang berhenti mengisinya.
+
+   Empat keadaan yang dikenali:
+     belum      — sel kosong atau "-"
+     berjalan   — "proses", "60%", "mulai"
+     selesai    — "selesai", "done", "100%", "v", atau sebuah tanggal
+     terkendala — "kendala", "revisi", "blocked"
+================================================================ */
+const KATA_SELESAI    = ['selesai', 'done', 'ok', 'tuntas', 'beres', 'finish', 'finished', 'complete', 'v', '✓', 'ya', 'yes'];
+const KATA_BERJALAN   = ['proses', 'berjalan', 'jalan', 'mulai', 'ongoing', 'wip', 'progress', 'in progress', 'berlangsung'];
+const KATA_TERKENDALA = ['kendala', 'terkendala', 'blocked', 'block', 'revisi', 'ulang', 'stuck', 'tertunda', 'pending'];
+
+/** Cari tanggal di dalam teks bebas. Mengembalikan teks tampilan, bukan Date —
+ *  yang dibutuhkan tampilan hanya "12 Okt 2026", bukan perhitungan apa pun. */
+const NAMA_BULAN_PENDEK = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
+
+function cariTanggal(teks) {
+  const s = String(teks);
+
+  // 2026-10-12  (bentuk yang dipakai Sheet kalau selnya bertipe tanggal)
+  let m = s.match(/(\d{4})-(\d{1,2})-(\d{1,2})/);
+  if (m) return formatTanggal(+m[1], +m[2], +m[3]);
+
+  /* 12/10/2026 — DIBACA HARI/BULAN/TAHUN.
+     ⚠️ Ini keputusan sadar, bukan kelalaian. Google Sheet berbahasa
+     Indonesia menulis d/m/Y; Sheet berbahasa Inggris menulis m/d/Y.
+     Keduanya mustahil dibedakan dari teksnya saja untuk tanggal 1–12.
+     Dipilih d/m/Y karena itu yang dipakai pengisi Sheet ini.
+     Kalau suatu saat tanggalnya tampak meleset sebulan, di sinilah
+     penyebabnya — dan jalan keluarnya adalah menulis 2026-10-12 di
+     Sheet, bukan menebak-nebak di kode. */
+  m = s.match(/(\d{1,2})\/(\d{1,2})\/(\d{4})/);
+  if (m) return formatTanggal(+m[3], +m[2], +m[1]);
+
+  return '';
+}
+
+function formatTanggal(tahun, bulan, tanggal) {
+  if (bulan < 1 || bulan > 12 || tanggal < 1 || tanggal > 31) return '';
+  return `${tanggal} ${NAMA_BULAN_PENDEK[bulan - 1]} ${tahun}`;
+}
+
+function bacaTahap(nilai) {
+  const asli = String(nilai == null ? '' : nilai).trim();
+  const kosong = { keadaan: 'belum', persen: 0, tanggal: '', teks: '' };
+
+  if (!asli || asli === '-' || asli === '–' || asli === '—') return kosong;
+
+  const rendah = asli.toLowerCase();
+  const tanggal = cariTanggal(asli);
+
+  // Angka persen di mana pun dalam sel: "60%", "progress 60%"
+  const persenCocok = rendah.match(/(\d{1,3})\s*%/);
+  const persen = persenCocok ? Math.min(100, Math.max(0, +persenCocok[1])) : null;
+
+  const adaKata = (daftar) => daftar.some((k) => rendah.includes(k));
+
+  /* Urutan pemeriksaan penting: "revisi 60%" harus jatuh ke terkendala,
+     bukan ke berjalan, karena yang perlu terlihat adalah masalahnya. */
+  if (adaKata(KATA_TERKENDALA)) {
+    return { keadaan: 'terkendala', persen: persen == null ? 40 : persen, tanggal, teks: asli };
+  }
+
+  if (persen != null) {
+    return {
+      keadaan: persen >= 100 ? 'selesai' : persen > 0 ? 'berjalan' : 'belum',
+      persen, tanggal, teks: asli
+    };
+  }
+
+  if (adaKata(KATA_SELESAI)) return { keadaan: 'selesai', persen: 100, tanggal, teks: asli };
+  if (adaKata(KATA_BERJALAN)) return { keadaan: 'berjalan', persen: 50, tanggal, teks: asli };
+
+  /* Sel berisi tanggal saja, tanpa kata apa pun — misalnya "12/10/2026".
+     Dibaca sebagai "tahap ini rampung pada tanggal itu", karena itulah
+     yang dimaksud orang ketika hanya menulis tanggal di kolom tahapan. */
+  if (tanggal) return { keadaan: 'selesai', persen: 100, tanggal, teks: asli };
+
+  /* Ada isinya tapi tidak dikenali. Jangan dibuang dan jangan ditebak
+     sebagai "selesai" — tampilkan apa adanya sebagai sedang berjalan,
+     supaya pengisi Sheet melihat tulisannya muncul dan bisa memperbaiki. */
+  return { keadaan: 'berjalan', persen: 50, tanggal, teks: asli };
+}
+
+
+/* ================================================================
+   ALAMAT CSV
+   ----------------------------------------------------------------
+   Diterima tiga bentuk, supaya siapa pun yang menyalin alamat dari
+   Google tidak perlu tahu bentuk mana yang "benar":
+
+     1. Hasil Publish to web  → .../pub?gid=0&single=true&output=csv
+     2. Alamat Sheet biasa    → .../edit#gid=0
+     3. Sudah berupa CSV lain → dipakai apa adanya
+
+   Bentuk 2 diubah ke alamat gviz. Itu HANYA bekerja kalau spreadsheet
+   dibagikan "Anyone with the link". Bentuk 1 lebih aman karena yang
+   terbuka cuma satu tab, bukan seluruh spreadsheet — itu sebabnya
+   panduan menyuruh memakai Publish to web.
+================================================================ */
+function normalkanAlamat(url) {
+  const s = String(url || '').trim();
+  if (!s) return '';
+  if (s.includes('output=csv') || s.includes('tqx=out:csv')) return s;
+
+  const m = s.match(/\/spreadsheets\/d\/([a-zA-Z0-9-_]+)/);
+  if (!m) return s;
+
+  const gid = (s.match(/[#&?]gid=(\d+)/) || [])[1] || '0';
+  return `https://docs.google.com/spreadsheets/d/${m[1]}/gviz/tq?tqx=out:csv&gid=${gid}`;
+}
+
+
+/**
+ * Ambil timeline bimbingan dari Google Sheet.
+ *
+ * @returns {Promise<{ok: boolean, siap: boolean, tahapan?: string[], mahasiswa?: array, message?: string}>}
+ *   siap=false berarti alamat CSV belum diisi di config.js. Itu BUKAN
+ *   galat — komponen menampilkan petunjuk pemasangan, bukan pesan merah.
+ */
+export async function ambilTimeline() {
+  const alamat = normalkanAlamat(TIMELINE_CSV_URL);
+  if (!alamat) {
+    return { ok: false, siap: false, message: 'Alamat CSV timeline belum diisi di src/config.js.' };
+  }
+
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
+
+  try {
+    const res = await fetch(alamat, { method: 'GET', redirect: 'follow', signal: controller.signal });
+    if (!res.ok) {
+      return { ok: false, siap: true, message: `Sheet menolak permintaan (kode ${res.status}). Pastikan tab sudah di-publish ke web.` };
+    }
+
+    const teks = await res.text();
+
+    /* Kalau tab belum di-publish, Google membalas halaman HTML (login
+       atau "you need permission") dengan status 200 — jadi res.ok saja
+       tidak cukup untuk menyimpulkan berhasil. */
+    if (/^\s*<(!doctype|html)/i.test(teks)) {
+      return {
+        ok: false, siap: true,
+        message: 'Sheet membalas halaman HTML, bukan data. Tab-nya kemungkinan belum di-publish ke web sebagai CSV.'
+      };
+    }
+
+    const baris = uraiCsv(teks);
+    if (baris.length < 2) {
+      return { ok: true, siap: true, tahapan: [], mahasiswa: [] };
+    }
+
+    const judul = baris[0];
+    const petaTetap = {};   // nama kolom tetap → indeks
+    const tahapan = [];     // { judul, indeks } urut sesuai Sheet
+
+    judul.forEach((j, i) => {
+      const bersih = String(j || '').trim();
+      if (!bersih) return;
+      const tetap = kenaliKolom(bersih);
+      if (tetap) {
+        // Kolom tetap pertama yang menang, kalau kebetulan ada dua yang mirip
+        if (petaTetap[tetap] === undefined) petaTetap[tetap] = i;
+      } else {
+        tahapan.push({ judul: bersih, indeks: i });
+      }
+    });
+
+    const mahasiswa = baris.slice(1).map((r, nomor) => {
+      const ambil = (kunci) => {
+        const i = petaTetap[kunci];
+        return i === undefined ? '' : String(r[i] == null ? '' : r[i]).trim();
+      };
+
+      const nama = ambil('nama');
+      if (!nama) return null;   // baris tanpa nama = baris sisa, bukan data
+
+      // Kolom Tampilkan diisi "n"/"tidak"/"no"/"FALSE" → baris disembunyikan
+      const tampil = ambil('tampilkan').toLowerCase();
+      if (['n', 'no', 'tidak', 'false', '0', 'arsip', 'lulus'].includes(tampil)) return null;
+
+      const langkah = tahapan.map((t) => ({
+        judul: t.judul,
+        ...bacaTahap(r[t.indeks])
+      }));
+
+      /* Persentase keseluruhan = rata-rata progres semua tahap.
+         Tahap "terkendala" ikut dihitung dengan progres apa adanya —
+         kalau tidak, mahasiswa yang satu tahapnya macet akan tampak
+         mundur dibanding yang tahapnya belum disentuh sama sekali. */
+      const total = langkah.length
+        ? Math.round(langkah.reduce((a, l) => a + l.persen, 0) / langkah.length)
+        : 0;
+
+      return {
+        kunci:      ambil('nim') || `baris-${nomor}`,
+        nama,
+        nim:        ambil('nim'),
+        pembimbing: ambil('pembimbing'),
+        topik:      ambil('topik'),
+        catatan:    ambil('catatan'),
+        langkah,
+        persen:     total,
+        adaKendala: langkah.some((l) => l.keadaan === 'terkendala'),
+        // Tahap yang sedang dikerjakan = tahap berjalan/terkendala pertama,
+        // atau tahap belum pertama kalau tidak ada yang sedang jalan.
+        tahapSekarang:
+          langkah.find((l) => l.keadaan === 'berjalan' || l.keadaan === 'terkendala')
+          || langkah.find((l) => l.keadaan === 'belum')
+          || null,
+      };
+    }).filter(Boolean);
+
+    return {
+      ok: true,
+      siap: true,
+      tahapan: tahapan.map((t) => t.judul),
+      mahasiswa,
+    };
+
+  } catch (err) {
+    if (err.name === 'AbortError') {
+      return { ok: false, siap: true, message: 'Permintaan terlalu lama. Periksa koneksi internet.' };
+    }
+    return { ok: false, siap: true, message: 'Tidak bisa menghubungi Google Sheet. Periksa koneksi, atau pengaturan publish tab-nya.' };
+  } finally {
+    clearTimeout(timer);
+  }
+}
