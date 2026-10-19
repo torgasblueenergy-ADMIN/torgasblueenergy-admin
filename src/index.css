@@ -113,6 +113,12 @@ body { font-family: 'Manrope', sans-serif; background: var(--canvas); color: var
 .badge-orange { background: rgba(255,173,38,0.15); color: #d97706; }
 .badge-green { background: rgba(46,204,113,0.15); color: #27ae60; }
 
+/* Abu-abu untuk pengajuan yang tanggalnya sudah lewat (EXPIRED).
+   Sengaja TIDAK merah: merah berarti ditolak, dan pengajuan ini tidak
+   pernah ditolak oleh siapa pun — jendela waktunya saja yang tutup.
+   Abu-abu membacanya sebagai "sudah tidak relevan", bukan "gagal". */
+.badge-slate { background: rgba(100,116,139,0.14); color: #64748b; }
+
 /* ── LAYOUT & TYPOGRAPHY ── */
 .max-grid { max-width: 1440px; margin: 0 auto; padding: 0 24px; }
 .section-band { padding: 80px 0; }

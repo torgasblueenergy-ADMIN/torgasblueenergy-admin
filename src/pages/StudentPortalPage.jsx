@@ -51,7 +51,19 @@ function StudentPortalPage({ onBackToMain }) {
         setStats({
           bookingsToday: s.bookingsToday || 0,
           mentoringToday: s.mentoringToday || 0,
-          pendingApproval: s.pendingApproval || 0,
+
+          /* ⚠️ s.pendingApproval dari Apps Script TIDAK dipakai.
+             Angka itu menghitung semua baris berstatus PENDING di Sheet,
+             termasuk permohonan untuk tanggal yang sudah lewat. Sejak
+             tanggal lampau ditandai EXPIRED (lihat lib/pengajuan.js),
+             memakainya membuat kartu ini menampilkan 12 sementara tabel
+             di bawahnya hanya memperlihatkan 3 baris PENDING.
+
+             Kartu ini seharusnya menjawab "berapa yang masih perlu saya
+             tindak", dan pengajuan untuk hari Senin lalu tidak termasuk.
+             Jadi dihitung ulang dari data yang sudah ditandai. */
+          pendingApproval: (hasil.data || []).filter((r) => r.status === 'PENDING').length,
+
           // Apps Script mengirim "upcoming", bukan jumlah yang disetujui —
           // sedangkan label kartunya "APPROVED". Jadi dihitung dari datanya.
           approved: (hasil.data || []).filter((r) => r.status === 'APPROVED').length
