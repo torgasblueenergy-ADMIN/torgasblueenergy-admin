@@ -14,7 +14,12 @@ import { ambilTimeline } from '../../lib/timelineBimbingan';
    Tidak ada tombol simpan di sini, dan tidak boleh ditambahkan.
    Sumbernya alamat CSV hasil "Publish to web" — alamat itu secara
    teknis hanya melayani permintaan baca. Mengubah data dilakukan di
-   Google Sheet, lalu halaman ini di-muat ulang.
+   Google Sheet; papan ini menariknya sendiri tiap lima menit.
+
+   ⚠️ Perubahan di Sheet TIDAK muncul seketika. Google menyajikan
+   alamat terbitan dari salinan yang diperbarui dalam hitungan menit,
+   dan itu tidak bisa dilewati dari sisi ini. Penyegaran lima menit di
+   bawah menghapus jeda di sisi papan, bukan jeda di sisi Google.
 
    ⚠️ Jangan menambahkan kolom nilai, IPK, atau catatan penilaian ke
    tab yang di-publish. Papan ini dilihat semua pemegang kode akses
