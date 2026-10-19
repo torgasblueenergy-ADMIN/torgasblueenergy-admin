@@ -10,11 +10,21 @@ permintaan baca. Tidak ada jalan menulis balik ke Sheet lewat website.
 
 ---
 
-## Bagian 1. Membuat tabnya
+## Bagian 1. Spreadsheetnya
 
-Buka spreadsheet yang sama dengan yang dipakai portal
-(`18seiQwjbwOiXWbqtwYS4zIogftVo_Yd3u-DbDb46jbQ`), lalu buat tab baru bernama
-**Timeline**.
+Sudah dibuatkan, berdiri sendiri, terpisah dari spreadsheet portal:
+
+**Timeline Bimbingan Torgas**
+`https://docs.google.com/spreadsheets/d/1mQ3HqqOmClhA_FdKzDRFIsTjkxf784TPnyDTUlapROI/edit`
+
+Sengaja dipisah dari spreadsheet portal
+(`18seiQwjbwOiXWbqtwYS4zIogftVo_Yd3u-DbDb46jbQ`). Tab timeline nantinya
+dipublikasikan ke web, dan memisahkannya berarti data Pengajuan, Magang, dan
+Part Time tidak berada di dokumen yang sama dengan yang dipublikasikan sama
+sekali.
+
+Isinya sudah ada baris judul dan tiga baris contoh. Hapus baris contoh itu
+kalau sudah mau diisi data sungguhan.
 
 Baris pertama adalah baris judul. Isinya dua kelompok kolom:
 
@@ -77,7 +87,10 @@ suatu saat tanggal di papan tampak meleset sebulan, tulis dalam bentuk
 ## Bagian 3. Menerbitkan tab
 
 1. Di spreadsheet: **File → Share → Publish to web**
-2. Tab dropdown kiri: pilih **Timeline** (jangan "Entire document")
+2. Tab dropdown kiri: pilih tab yang berisi tabelnya (jangan "Entire document").
+   Tab hasil impor biasanya bernama `Timeline Bimbingan Torgas`. Boleh
+   diganti jadi `Timeline` supaya enak dibaca, website tidak mempermasalahkan
+   namanya.
 3. Dropdown kanan: pilih **Comma-separated values (.csv)**
 4. Tekan **Publish**, lalu salin alamat yang muncul
 
@@ -103,8 +116,9 @@ pemasangan ini.
 Tab yang di-publish bisa dibaca **siapa pun yang tahu alamatnya, tanpa login**,
 termasuk orang yang tidak punya kode Student Portal.
 
-Yang terbuka hanya tab Timeline, bukan seluruh spreadsheet. Tab Pengajuan,
-Magang, dan Part Time tetap tertutup.
+Yang terbuka hanya tab itu, bukan seluruh spreadsheet, dan spreadsheet ini
+memang terpisah dari spreadsheet portal. Tab Pengajuan, Magang, dan Part Time
+ada di dokumen lain dan tidak tersentuh sama sekali.
 
 Karena itu, jangan menaruh di tab Timeline:
 

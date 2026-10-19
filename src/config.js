@@ -23,9 +23,17 @@ const STUDENT_PORTAL_CODE = 'TORGAS18JAYA';
    ('') = papan tidak tampil sebagai kotak rusak, melainkan menampilkan
    petunjuk pemasangan. Jadi aman dibiarkan kosong sampai siap.
 
+   SPREADSHEET SUMBERNYA (sudah dibuat, berdiri sendiri):
+     Timeline Bimbingan Torgas
+     docs.google.com/spreadsheets/d/1mQ3HqqOmClhA_FdKzDRFIsTjkxf784TPnyDTUlapROI
+
+   Sengaja TERPISAH dari spreadsheet portal. Tab timeline akan dipublikasikan
+   ke web; memisahkannya berarti data Pengajuan, Magang, dan Part Time tidak
+   berada di dokumen yang sama dengan yang dipublikasikan.
+
    CARA MENGISI (langkah lengkap di PANDUAN-TIMELINE-BIMBINGAN.md):
-     Google Sheet → File → Share → Publish to web
-     → pilih tab "Timeline", format "Comma-separated values (.csv)"
+     Buka spreadsheet di atas → File → Share → Publish to web
+     → pilih tab tabelnya, format "Comma-separated values (.csv)"
      → Publish → salin alamat yang muncul ke sini.
 
    Alamatnya berbentuk:
