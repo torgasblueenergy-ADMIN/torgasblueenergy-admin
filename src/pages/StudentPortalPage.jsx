@@ -26,6 +26,16 @@ function StudentPortalPage({ onBackToMain }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [filterDate, setFilterDate] = useState('');
 
+  /* ================================================================
+     HALAMAN TABEL — 10 BARIS SEKALI TAMPIL
+     ----------------------------------------------------------------
+     Sebelumnya seluruh pengajuan dituang dalam satu daftar panjang,
+     dan tiga tombol di kaki tabel (< 1 >) hanya gambar — ditekan
+     tidak melakukan apa pun. Sekarang tombolnya benar-benar bekerja.
+  ================================================================ */
+  const BARIS_PER_HALAMAN = 10;
+  const [halaman, setHalaman] = useState(1);
+
   /* 1. Data pengajuan — dibaca dari Google Sheet lewat Apps Script.
         Sebelumnya bagian ini berisi 3 baris CONTOH yang ditulis di kode,
         sehingga pengajuan sungguhan tidak pernah muncul di tabel. */
