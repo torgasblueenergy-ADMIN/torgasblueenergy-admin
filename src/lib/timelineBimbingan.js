@@ -47,6 +47,34 @@ const KOLOM_TETAP = {
   topik:      ['topik', 'judul', 'topik riset', 'judul skripsi', 'penelitian', 'topic'],
   catatan:    ['catatan', 'keterangan', 'note', 'notes'],
   tampilkan:  ['tampilkan', 'aktif', 'show', 'active'],
+
+  /* ================================================================
+     KOLOM PROGRES — OPSIONAL, TAPI DIANJURKAN
+     ----------------------------------------------------------------
+     Kalau tidak ada, persentase besar di kolom kiri papan dihitung
+     sendiri: rata-rata datar semua kolom tahapan.
+
+     Rata-rata datar itu MELESET dari angka di workbook, karena dua hal:
+
+       1. Workbook menimbang tiap kegiatan dengan bobotnya (durasi
+          minggu). Rata-rata datar menganggap semua tahap sama berat,
+          padahal "Pelaksanaan Penelitian" 14 minggu dan "Sidang"
+          9 minggu.
+
+       2. Kolom "Pengolahan Data" di tab Web sebenarnya kegiatan B3,
+          yang SUDAH termasuk di dalam tahap B. Ikut dirata-ratakan
+          berarti bagian itu dihitung dua kali.
+
+     Terbukti 19 Okt 2026: papan menampilkan 7 / 7 / 21 / 93 persen,
+     sedangkan Laporan Progres di workbook 10 / 10 / 29 / 94 persen.
+     Dua angka berbeda untuk hal yang sama membuat papan sulit
+     dipercaya.
+
+     Dengan kolom ini terisi, papan memakai angka workbook apa adanya
+     dan kedua masalah di atas hilang sekaligus. Isi kolomnya di tab
+     Web (Publish) dengan:  =TEXT('Laporan Progres'!F8,"0%")
+  ================================================================ */
+  progres:    ['progres', 'progres keseluruhan', 'progress', 'total', 'persen', 'persentase'],
 };
 
 function kenaliKolom(judul) {
@@ -357,13 +385,23 @@ export async function ambilTimeline() {
         ...bacaTahap(r[t.indeks])
       }));
 
-      /* Persentase keseluruhan = rata-rata progres semua tahap.
-         Tahap "terkendala" ikut dihitung dengan progres apa adanya —
-         kalau tidak, mahasiswa yang satu tahapnya macet akan tampak
-         mundur dibanding yang tahapnya belum disentuh sama sekali. */
-      const total = langkah.length
-        ? Math.round(langkah.reduce((a, l) => a + l.persen, 0) / langkah.length)
-        : 0;
+      /* Persentase besar di kolom kiri papan.
+
+         Kalau Sheet menyediakan kolom Progres, angka ITU yang dipakai —
+         ia datang dari perhitungan berbobot di workbook dan merupakan
+         satu-satunya angka yang benar. Lihat catatan panjang di
+         KOLOM_TETAP.progres.
+
+         Kalau tidak ada, jatuh ke rata-rata datar semua tahap. Tahap
+         "terkendala" ikut dihitung dengan progres apa adanya — kalau
+         tidak, mahasiswa yang satu tahapnya macet akan tampak mundur
+         dibanding yang tahapnya belum disentuh sama sekali. */
+      const dariSheet = bacaPersen(ambil('progres'));
+      const total = dariSheet !== null
+        ? dariSheet
+        : langkah.length
+          ? Math.round(langkah.reduce((a, l) => a + l.persen, 0) / langkah.length)
+          : 0;
 
       return {
         kunci:      ambil('nim') || `baris-${nomor}`,
