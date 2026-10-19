@@ -176,16 +176,32 @@ function BimbinganTimeline() {
           </p>
           <p className="text-xs text-slate-400 mt-2 max-w-xl leading-relaxed">
             Papan ini <strong className="font-bold text-slate-500">hanya menampilkan</strong> data.
-            Perubahan dan penambahan dilakukan di Google Sheet, lalu tekan Refresh di sini.
+            Perubahan dan penambahan dilakukan di Google Sheet.
           </p>
         </div>
-        <button
-          onClick={muat}
-          disabled={memuat}
-          className="btn-outline text-xs py-2 px-5 whitespace-nowrap disabled:opacity-50"
-        >
-          {memuat ? 'Memuat…' : '↻ Refresh'}
-        </button>
+
+        <div className="flex flex-col items-end gap-1.5">
+          <button
+            onClick={() => muat()}
+            disabled={memuat}
+            className="btn-outline text-xs py-2 px-5 whitespace-nowrap disabled:opacity-50"
+          >
+            {memuat ? 'Memuat…' : '↻ Refresh'}
+          </button>
+
+          {/* Jam pembaruan terakhir. Dipasang karena papan ini menyegarkan
+              diri diam-diam — tanpa penanda apa pun, pembacanya tidak punya
+              cara tahu apakah angka di depannya baru atau sisa sejam lalu.
+
+              Kalimat kedua sengaja menyebut jeda Google. Lebih baik orang
+              tahu sejak awal bahwa perubahan butuh beberapa menit, daripada
+              menekan Refresh berkali-kali dan mengira papannya rusak. */}
+          {terakhir && (
+            <span className="text-[10px] font-bold text-slate-400 whitespace-nowrap">
+              Diperbarui {jamSingkat(terakhir)} · otomatis tiap 5 menit
+            </span>
+          )}
+        </div>
       </div>
 
       {/* ── BELUM DIPASANG ───────────────────────────────────── */}
