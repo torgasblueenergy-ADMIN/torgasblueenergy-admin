@@ -23,18 +23,31 @@ const STUDENT_PORTAL_CODE = 'TORGAS18JAYA';
    ('') = papan tidak tampil sebagai kotak rusak, melainkan menampilkan
    petunjuk pemasangan. Jadi aman dibiarkan kosong sampai siap.
 
-   SPREADSHEET SUMBERNYA (sudah dibuat, berdiri sendiri):
-     Timeline Bimbingan Torgas
-     docs.google.com/spreadsheets/d/1mQ3HqqOmClhA_FdKzDRFIsTjkxf784TPnyDTUlapROI
+   SPREADSHEET SUMBERNYA:
+     Timeline-Bimbingan-Torgas.xlsx  (ada di folder proyek ini)
 
-   Sengaja TERPISAH dari spreadsheet portal. Tab timeline akan dipublikasikan
-   ke web; memisahkannya berarti data Pengajuan, Magang, dan Part Time tidak
-   berada di dokumen yang sama dengan yang dipublikasikan.
+   Strukturnya meniru "Tracking Skripsi Microplastic.xlsx" milik Sri:
+   enam tab, 23 kegiatan berbobot, laporan progres otomatis.
+
+   Sengaja TERPISAH dari spreadsheet portal
+   (18seiQwjbwOiXWbqtwYS4zIogftVo_Yd3u-DbDb46jbQ). Satu tabnya akan
+   dipublikasikan ke web; memisahkannya berarti data Pengajuan, Magang,
+   dan Part Time tidak berada di dokumen yang sama dengan yang terbuka.
 
    CARA MENGISI (langkah lengkap di PANDUAN-TIMELINE-BIMBINGAN.md):
-     Buka spreadsheet di atas → File → Share → Publish to web
-     → pilih tab tabelnya, format "Comma-separated values (.csv)"
-     → Publish → salin alamat yang muncul ke sini.
+     1. Seret berkas .xlsx itu ke Google Drive
+     2. Buka dengan Google Sheets → File → Save as Google Sheets
+        (wajib; berkas .xlsx tidak punya menu Publish to web)
+     3. File → Share → Publish to web
+     4. Pilih tab "Web (Publish)" — BUKAN "Entire document", dan bukan
+        tab Input Status. Format "Comma-separated values (.csv)"
+     5. Publish → salin alamat yang muncul ke sini.
+
+   ⚠️ Tab "Web (Publish)" ada karena tab Input Status punya lima baris
+   keterangan di atas baris judulnya, sedangkan pembaca CSV di
+   src/lib/timelineBimbingan.js mengharapkan judul di baris pertama.
+   Tab Web juga memangkas isinya: tanggal SK, catatan, dan peringatan
+   tidak ikut terbuka.
 
    Alamatnya berbentuk:
      https://docs.google.com/spreadsheets/d/e/2PACX-.../pub?gid=0&single=true&output=csv
