@@ -98,6 +98,31 @@ Status mahasiswa: **Selesai** (100%) / **Tertinggal** (selisih melewati ambang
 Selama baris itu masih kosong, papan tidak rusak. Ia menampilkan petunjuk
 pemasangan.
 
+### Satu kolom yang sebaiknya ditambahkan
+
+Persentase besar di kolom kiri papan dihitung sendiri oleh website sebagai
+rata-rata datar semua kolom tahapan. Angkanya **tidak sama** dengan Progres
+Keseluruhan di workbook, karena dua hal:
+
+1. Workbook menimbang tiap kegiatan dengan bobotnya; rata-rata datar
+   menganggap semua tahap sama berat
+2. Kolom Pengolahan Data sebenarnya kegiatan B3, yang sudah termasuk di dalam
+   tahap B, jadi bagian itu terhitung dua kali
+
+Terlihat 19 Oktober 2026: papan menampilkan 7 / 7 / 21 / 93 persen, workbook
+10 / 10 / 29 / 94 persen.
+
+Untuk menyamakannya, tambahkan satu kolom di tab **Web (Publish)** dengan judul
+`Progres`, letakkan sesudah kolom `Tampilkan`, lalu isi barisnya dengan:
+
+```
+=TEXT('Laporan Progres'!F8,"0%")
+```
+
+(ganti `F8` mengikuti barisnya, lalu tarik ke bawah). Website akan memakai angka
+itu apa adanya dan berhenti menghitung sendiri. Tanpa kolom ini papan tetap
+jalan, hanya angkanya yang berbeda dari workbook.
+
 ### Kenapa lewat tab Web, bukan Input Status
 
 Tab Input Status punya lima baris keterangan di atas baris judulnya, sedangkan
