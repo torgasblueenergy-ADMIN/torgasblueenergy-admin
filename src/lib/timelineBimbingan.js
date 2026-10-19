@@ -190,6 +190,29 @@ function formatTanggal(tahun, bulan, tanggal) {
   return `${tanggal} ${NAMA_BULAN_PENDEK[bulan - 1]} ${tahun}`;
 }
 
+/** Baca sel kolom Progres. Menerima "46%", "46", dan "0,46".
+ *  Mengembalikan null kalau selnya kosong atau tidak berisi angka,
+ *  supaya pemanggilnya tahu harus memakai cara hitung cadangan —
+ *  bukan menganggapnya nol dan menampilkan 0% untuk semua orang. */
+function bacaPersen(nilai) {
+  const s = String(nilai == null ? '' : nilai).trim().replace(',', '.');
+  if (!s) return null;
+
+  const m = s.match(/(\d+(?:\.\d+)?)/);
+  if (!m) return null;
+
+  const n = parseFloat(m[1]);
+  if (Number.isNaN(n)) return null;
+
+  /* Google kadang mengirim 0.46 alih-alih 46% kalau selnya angka biasa
+     tanpa format persen. Angka di bawah 1 tanpa tanda % diperlakukan
+     sebagai pecahan. "1" tanpa % tetap dibaca 1%, bukan 100% — menebak
+     di titik itu lebih berisiko daripada menampilkan angka kecil yang
+     jelas salah dan langsung ketahuan. */
+  const pecahan = !s.includes('%') && n > 0 && n < 1;
+  return Math.max(0, Math.min(100, Math.round(pecahan ? n * 100 : n)));
+}
+
 function bacaTahap(nilai) {
   const asli = String(nilai == null ? '' : nilai).trim();
   const kosong = { keadaan: 'belum', persen: 0, tanggal: '', teks: '' };
