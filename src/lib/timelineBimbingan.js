@@ -177,6 +177,11 @@ function bacaTahap(nilai) {
 
   const adaKata = (daftar) => daftar.some((k) => rendah.includes(k));
 
+  /* Review diperiksa paling dulu — lihat catatan di atas KATA_REVIEW. */
+  if (adaKata(KATA_REVIEW)) {
+    return { keadaan: 'berjalan', persen: persen == null ? 75 : persen, tanggal, teks: asli };
+  }
+
   /* Urutan pemeriksaan penting: "revisi 60%" harus jatuh ke terkendala,
      bukan ke berjalan, karena yang perlu terlihat adalah masalahnya. */
   if (adaKata(KATA_TERKENDALA)) {
