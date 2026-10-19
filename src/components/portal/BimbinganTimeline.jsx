@@ -218,7 +218,13 @@ function BimbinganTimeline() {
       ) : galat ? (
         <div className="px-6 md:px-8 py-14 text-center">
           <p className="text-red-600 font-bold mb-4">❌ {galat}</p>
-          <button onClick={muat} className="btn-primary text-xs py-2 px-6">Coba Lagi</button>
+          {/* ⚠️ Harus dibungkus panah. onClick={muat} akan meneruskan objek
+              klik sebagai argumen pertama, dan argumen itu adalah `diam` —
+              sehingga percobaan ulang berjalan senyap: tidak menampilkan
+              "Memuat…" dan, kalau gagal lagi, tidak memperbarui pesan
+              galatnya. Tombol yang ditekan tapi tampak tidak melakukan
+              apa-apa. */}
+          <button onClick={() => muat()} className="btn-primary text-xs py-2 px-6">Coba Lagi</button>
         </div>
 
       ) : memuat ? (
