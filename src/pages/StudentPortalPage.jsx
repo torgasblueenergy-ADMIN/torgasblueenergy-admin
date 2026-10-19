@@ -375,8 +375,15 @@ function StudentPortalPage({ onBackToMain }) {
                     </td>
                   </tr>
                 ) : dataHalaman.length > 0 ? (
+                  /* key memakai ID pengajuan, bukan nomor urut.
+                     Dengan paginasi, nomor urut selalu 0-9 di SETIAP
+                     halaman — React lalu mengira baris pertama halaman 2
+                     adalah baris pertama halaman 1 yang berubah isinya,
+                     dan menyusun ulang sel alih-alih menggantinya. ID
+                     pengajuan unik dan tidak berubah, jadi perpindahan
+                     halaman terbaca sebagai baris yang memang berbeda. */
                   dataHalaman.map((row, index) => (
-                    <tr key={index} className="hover:bg-blue-50/50 transition-colors group cursor-default">
+                    <tr key={row.id || index} className="hover:bg-blue-50/50 transition-colors group cursor-default">
                       <td className="px-6 md:px-8 py-5 text-xs font-bold text-slate-400 group-hover:text-[#0096d7]">{row.id}</td>
                       <td className="px-6 py-5">
                         <div className="font-extrabold text-[#041b2e]">{row.displayDate}</div>
