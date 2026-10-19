@@ -107,6 +107,40 @@ function StudentPortalPage({ onBackToMain }) {
     return matchTab && matchSearch && matchDate;
   });
 
+  /* ⚠️ Kembali ke halaman 1 setiap kali penyaringnya berubah.
+     Tanpa ini: pengguna di halaman 4, lalu mengetik sesuatu di kolom
+     pencarian yang menyisakan 3 hasil. Halamannya masih 4, sehingga
+     potongan yang ditampilkan kosong — tabel tampak "tidak menemukan
+     apa-apa" padahal hasilnya ada, hanya ada di halaman 1. */
+  useEffect(() => { setHalaman(1); }, [activeTab, searchQuery, filterDate]);
+
+  const totalHalaman = Math.max(1, Math.ceil(filteredData.length / BARIS_PER_HALAMAN));
+
+  /* Jaga-jaga kalau jumlah data menyusut saat penyegaran otomatis
+     berjalan sementara pengguna sedang di halaman terakhir. */
+  const halamanAman = Math.min(halaman, totalHalaman);
+  const mulai = (halamanAman - 1) * BARIS_PER_HALAMAN;
+  const dataHalaman = filteredData.slice(mulai, mulai + BARIS_PER_HALAMAN);
+
+  /* Daftar nomor halaman. Di atas tujuh halaman, yang jauh diringkas
+     jadi "…" supaya deretan tombolnya tidak melebar keluar layar. */
+  const nomorHalaman = (() => {
+    if (totalHalaman <= 7) {
+      return Array.from({ length: totalHalaman }, (_, i) => i + 1);
+    }
+    const kumpulan = new Set([1, totalHalaman, halamanAman]);
+    if (halamanAman - 1 > 1) kumpulan.add(halamanAman - 1);
+    if (halamanAman + 1 < totalHalaman) kumpulan.add(halamanAman + 1);
+
+    const urut = [...kumpulan].sort((a, b) => a - b);
+    const hasil = [];
+    urut.forEach((n, i) => {
+      if (i > 0 && n - urut[i - 1] > 1) hasil.push('…');
+      hasil.push(n);
+    });
+    return hasil;
+  })();
+
   return (
     <div className="min-h-screen bg-[#f2f7fb] text-[#041b2e] pb-16">
       
