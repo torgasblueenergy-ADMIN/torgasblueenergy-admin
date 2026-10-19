@@ -36,6 +36,35 @@ const GAYA = {
 const LEBAR_TAHAP = 150;   // px per kolom tahapan
 const LEBAR_NAMA  = 230;   // px kolom nama yang menempel di kiri
 
+/* ================================================================
+   PENYEGARAN OTOMATIS
+   ----------------------------------------------------------------
+   Lima menit, bukan lebih cepat. Alamat "publish to web" disajikan
+   Google dari salinan yang baru diperbarui dalam hitungan menit,
+   jadi menarik data tiap 30 detik hanya menghasilkan jawaban yang
+   sama persis berulang kali — membebani jaringan tanpa menampilkan
+   apa pun yang baru.
+
+   Dua aturan yang membuatnya tidak boros:
+
+     1. Berhenti saat tab tidak terlihat. Portal ini sering
+        ditinggal terbuka semalaman; tanpa aturan ini ia akan
+        menghubungi Google ratusan kali untuk layar yang tidak
+        ada yang melihat.
+
+     2. Menyegarkan saat tab dibuka kembali, kalau datanya sudah
+        lewat dua menit. Inilah saat orang benar-benar melihat
+        papannya, dan saat angka basi paling terasa mengganggu.
+================================================================ */
+const JEDA_SEGARKAN = 5 * 60 * 1000;
+const UMUR_BASI     = 2 * 60 * 1000;
+
+function jamSingkat(waktu) {
+  if (!waktu) return '';
+  const d = new Date(waktu);
+  return `${String(d.getHours()).padStart(2, '0')}.${String(d.getMinutes()).padStart(2, '0')}`;
+}
+
 function BimbinganTimeline() {
   const [tahapan, setTahapan] = useState([]);
   const [mahasiswa, setMahasiswa] = useState([]);
@@ -47,22 +76,68 @@ function BimbinganTimeline() {
   const [pembimbing, setPembimbing] = useState('Semua');
   const [hanyaKendala, setHanyaKendala] = useState(false);
 
-  const muat = () => {
-    setMemuat(true);
-    setGalat('');
+  const [terakhir, setTerakhir] = useState(null);
+
+  /* hidup.current dipakai agar hasil permintaan yang datang terlambat
+     tidak menulis ke state komponen yang sudah dilepas React. */
+  const hidup = useRef(true);
+  const terakhirRef = useRef(null);
+
+  /**
+   * @param {boolean} diam  true = penyegaran latar belakang.
+   *   Tidak menampilkan "Memuat…" dan tidak mengosongkan papan, supaya
+   *   isinya tidak berkedip tiap lima menit di depan orang yang sedang
+   *   membacanya. Kegagalannya juga ditelan: data lama yang masih
+   *   terpampang lebih berguna daripada pesan merah yang muncul
+   *   sendiri karena sekejap jaringan goyah.
+   */
+  const muat = useCallback((diam = false) => {
+    if (!diam) {
+      setMemuat(true);
+      setGalat('');
+    }
     ambilTimeline().then((h) => {
+      if (!hidup.current) return;
       setSiap(h.siap !== false);
       if (h.ok) {
         setTahapan(h.tahapan || []);
         setMahasiswa(h.mahasiswa || []);
-      } else {
+        setGalat('');
+        const kini = Date.now();
+        setTerakhir(kini);
+        terakhirRef.current = kini;
+      } else if (!diam) {
         setGalat(h.message || 'Gagal memuat timeline.');
       }
-      setMemuat(false);
+      if (!diam) setMemuat(false);
     });
-  };
+  }, []);
 
-  useEffect(() => { muat(); }, []);
+  useEffect(() => {
+    hidup.current = true;
+    muat();
+
+    const bolehSegarkan = () =>
+      typeof document === 'undefined' || document.visibilityState !== 'hidden';
+
+    const jam = setInterval(() => { if (bolehSegarkan()) muat(true); }, JEDA_SEGARKAN);
+
+    /* Tab dibuka kembali: segarkan hanya kalau datanya sudah basi.
+       Tanpa pemeriksaan umur, berpindah-pindah tab sebentar akan
+       memicu permintaan beruntun yang tidak ada gunanya. */
+    const saatTerlihat = () => {
+      if (document.visibilityState !== 'visible') return;
+      const umur = Date.now() - (terakhirRef.current || 0);
+      if (umur > UMUR_BASI) muat(true);
+    };
+    document.addEventListener('visibilitychange', saatTerlihat);
+
+    return () => {
+      hidup.current = false;
+      clearInterval(jam);
+      document.removeEventListener('visibilitychange', saatTerlihat);
+    };
+  }, [muat]);
 
   /* Daftar pembimbing dibuat dari datanya sendiri, bukan ditulis di kode —
      supaya pembimbing baru langsung muncul di penyaring tanpa build ulang. */
