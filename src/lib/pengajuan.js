@@ -52,7 +52,7 @@ export async function ambilPengajuan(filter = {}) {
 
     return {
       ok: true,
-      data: urutkanTerbaru(json.data || []),
+      data: tandaiKadaluarsa(urutkanTerbaru(json.data || [])),
       stats: json.stats || {}
     };
   } catch (err) {
@@ -120,4 +120,83 @@ function waktuKirim(nilai) {
 
 function urutkanTerbaru(data) {
   return [...data].sort((a, b) => waktuKirim(b.submittedAt) - waktuKirim(a.submittedAt));
+}
+
+
+/* ================================================================
+   PENGAJUAN YANG TANGGALNYA SUDAH LEWAT
+   ----------------------------------------------------------------
+   MASALAHNYA
+
+   Status di Sheet hanya berubah kalau admin menekan SETUJUI atau
+   TOLAK di email. Pengajuan yang tidak pernah ditindak akan bertahan
+   PENDING selamanya — termasuk permohonan bimbingan untuk tanggal
+   yang sudah berlalu berminggu-minggu.
+
+   Akibatnya tabel menumpuk baris PENDING untuk tanggal lampau, dan
+   kartu "Pending Approval" di atasnya menghitung semuanya. Angka itu
+   seolah menyuruh admin mengerjakan sesuatu yang sudah tidak ada
+   gunanya dikerjakan: menyetujui bimbingan untuk hari Senin lalu
+   tidak membuat bimbingannya terjadi.
+
+   YANG DILAKUKAN DI SINI
+
+   Baris PENDING yang tanggalnya sudah lewat ditandai EXPIRED untuk
+   TAMPILAN SAJA. Isi Sheet tidak disentuh sama sekali — memang tidak
+   bisa, alur ini hanya membaca.
+
+   ⚠️ Statusnya di Sheet tetap PENDING, dan itu benar: tidak ada
+   seorang pun yang pernah memutuskan apa-apa atas pengajuan ini.
+   Yang berubah hanya kenyataan bahwa jendela waktunya sudah tutup.
+   Nilai aslinya disimpan di `statusAsli` supaya tidak ada yang
+   hilang, dan supaya kalau kelak Apps Script diberi tugas menutup
+   sendiri pengajuan basi, perbandingannya masih bisa dilakukan.
+
+   YANG SENGAJA TIDAK IKUT
+
+   • APPROVED dan REJECTED dibiarkan apa adanya. Keduanya keputusan
+     yang memang pernah diambil; lewat tanggal tidak membatalkannya.
+   • Baris tanpa tanggal (mis. sebagian RAB dan Progress) dibiarkan
+     PENDING. Tidak ada tanggal berarti tidak ada tenggat yang bisa
+     terlewat — menandainya kadaluarsa justru mengarang tenggat.
+================================================================ */
+
+/** YYYY-MM-DD menurut jam setempat.
+ *
+ *  ⚠️ Bukan toISOString(). Itu memakai UTC, sehingga di WIB (UTC+7)
+ *  sepanjang pukul 00.00–06.59 tanggalnya mundur sehari. Pengajuan
+ *  untuk HARI INI akan tampak kadaluarsa bagi siapa pun yang membuka
+ *  portal pagi-pagi — persis kesalahan yang paling merugikan, karena
+ *  bimbingannya belum terjadi. Masalah yang sama sudah pernah dicatat
+ *  di ActivityCalendar.jsx. */
+function tanggalHariIni() {
+  const d = new Date();
+  const bln = String(d.getMonth() + 1).padStart(2, '0');
+  const tgl = String(d.getDate()).padStart(2, '0');
+  return `${d.getFullYear()}-${bln}-${tgl}`;
+}
+
+const POLA_TANGGAL = /^\d{4}-\d{2}-\d{2}$/;
+
+function tandaiKadaluarsa(data) {
+  const hariIni = tanggalHariIni();
+
+  return data.map((row) => {
+    const tanggal = String(row.rawDate || '').trim();
+
+    /* Tanggal yang bentuknya tidak dikenali diperlakukan seperti tanpa
+       tanggal: dibiarkan. Menebak lalu menyatakan kadaluarsa lebih
+       berbahaya daripada membiarkan satu baris tetap PENDING. */
+    if (row.status !== 'PENDING') return row;
+    if (!POLA_TANGGAL.test(tanggal)) return row;
+    if (tanggal >= hariIni) return row;
+
+    return {
+      ...row,
+      status: 'EXPIRED',
+      statusAsli: row.status,
+      statusBadge: 'badge-slate',
+      kadaluarsa: true,
+    };
+  });
 }
