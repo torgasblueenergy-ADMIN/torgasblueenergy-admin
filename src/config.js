@@ -47,7 +47,7 @@ const STUDENT_PORTAL_CODE = 'TORGAS18JAYA';
    ⚠️ APA YANG IKUT TERBUKA
    Tab yang di-publish bisa dibaca siapa pun yang tahu alamatnya,
    TANPA login — termasuk orang yang tidak punya kode Student Portal.
-   Yang terbuka hanya tab itu, bukan seluruh spreadsheet. Karena itu:
+   Yang terbuka hanya tab itu di spreadsheet timeline. Karena itu:
    jangan menaruh nilai, penilaian, nomor telepon, atau catatan
    pribadi di tab Timeline. Simpan hal-hal itu di tab lain yang tidak
    di-publish. Untuk menutupnya kembali: Publish to web → Stop publishing,
