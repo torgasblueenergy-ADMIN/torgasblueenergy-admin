@@ -213,28 +213,48 @@ function bacaTahap(nilai) {
 /* ================================================================
    ALAMAT CSV
    ----------------------------------------------------------------
-   Diterima tiga bentuk, supaya siapa pun yang menyalin alamat dari
+   Diterima empat bentuk, supaya siapa pun yang menyalin alamat dari
    Google tidak perlu tahu bentuk mana yang "benar":
 
-     1. Hasil Publish to web  → .../pub?gid=0&single=true&output=csv
-     2. Alamat Sheet biasa    → .../edit#gid=0
-     3. Sudah berupa CSV lain → dipakai apa adanya
+     1. Sudah CSV           → .../pub?gid=0&single=true&output=csv
+     2. Hasil Publish to web → .../d/e/2PACX-.../pubhtml?gid=0&single=true
+     3. Alamat Sheet biasa   → .../d/<id>/edit#gid=0
+     4. Bentuk CSV lain      → dipakai apa adanya
 
-   Bentuk 2 diubah ke alamat gviz. Itu HANYA bekerja kalau spreadsheet
-   dibagikan "Anyone with the link". Bentuk 1 lebih aman karena yang
-   terbuka cuma satu tab, bukan seluruh spreadsheet — itu sebabnya
-   panduan menyuruh memakai Publish to web.
+   ⚠️ KENAPA BENTUK 2 DITANGANI KHUSUS
+   Setelah menekan Publish, yang Google tampilkan di layar adalah
+   alamat `pubhtml` — halaman HTML, bukan data. Itulah yang paling
+   mungkin disalin orang, dan memang itu yang terjadi 19 Okt 2026.
+
+   Versi lama mencocokkan `/spreadsheets/d/([a-zA-Z0-9-_]+)`. Pada
+   alamat terbitan, ruas setelah `/d/` adalah huruf `e` (jalurnya
+   `/d/e/2PACX-.../pubhtml`), sehingga yang tertangkap sebagai ID
+   spreadsheet adalah "e". Hasilnya alamat gviz yang menunjuk ke
+   spreadsheet yang tidak ada, dan papan menampilkan galat yang
+   menyesatkan: seolah tab belum di-publish, padahal sudah.
+
+   Sekarang bentuk terbitan dikenali lebih dulu dan diubah menjadi
+   `pub?...&output=csv`, yang memang alamat data dari tab yang sama.
 ================================================================ */
 function normalkanAlamat(url) {
   const s = String(url || '').trim();
   if (!s) return '';
   if (s.includes('output=csv') || s.includes('tqx=out:csv')) return s;
 
-  const m = s.match(/\/spreadsheets\/d\/([a-zA-Z0-9-_]+)/);
-  if (!m) return s;
-
   const gid = (s.match(/[#&?]gid=(\d+)/) || [])[1] || '0';
-  return `https://docs.google.com/spreadsheets/d/${m[1]}/gviz/tq?tqx=out:csv&gid=${gid}`;
+
+  // Bentuk terbitan: /spreadsheets/d/e/<token>/pubhtml  atau  /pub
+  const terbit = s.match(/\/spreadsheets\/d\/e\/([a-zA-Z0-9-_]+)\/pub/);
+  if (terbit) {
+    return `https://docs.google.com/spreadsheets/d/e/${terbit[1]}/pub?gid=${gid}&single=true&output=csv`;
+  }
+
+  // Alamat Sheet biasa → gviz. Hanya bekerja bila spreadsheet dibagikan
+  // "Anyone with the link"; Publish to web lebih sempit dan lebih aman.
+  const biasa = s.match(/\/spreadsheets\/d\/([a-zA-Z0-9-_]+)/);
+  if (!biasa) return s;
+
+  return `https://docs.google.com/spreadsheets/d/${biasa[1]}/gviz/tq?tqx=out:csv&gid=${gid}`;
 }
 
 

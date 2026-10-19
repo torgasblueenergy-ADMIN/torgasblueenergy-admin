@@ -65,7 +65,13 @@ const STUDENT_PORTAL_CODE = 'TORGAS18JAYA';
    pribadi di tab Timeline. Simpan hal-hal itu di tab lain yang tidak
    di-publish. Untuk menutupnya kembali: Publish to web → Stop publishing,
    lalu kosongkan baris di bawah. */
-const TIMELINE_CSV_URL = '';
+/* Terpasang 19 Okt 2026 — tab "Web (Publish)", gid 892565914.
+   Ditulis dalam bentuk CSV langsung. Alamat `pubhtml` yang Google
+   tampilkan setelah menekan Publish juga diterima (timelineBimbingan.js
+   mengubahnya sendiri), tapi bentuk di bawah ini yang paling jelas
+   terbaca sebagai alamat data, bukan halaman. */
+const TIMELINE_CSV_URL =
+  'https://docs.google.com/spreadsheets/d/e/2PACX-1vTOuEGqxFMXFOFCCKMjKWWuL93zpDOwogvTuyXK6Oq5krUu83kfGX5knxUYx5QrIA/pub?gid=892565914&single=true&output=csv';
 
 /* ================================================================
    STATISTIK PENGUNJUNG — KODE BERBAGI UMAMI
