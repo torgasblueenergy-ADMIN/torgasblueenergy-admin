@@ -118,8 +118,19 @@ function uraiCsv(teks) {
      terkendala — "kendala", "revisi", "blocked"
 ================================================================ */
 const KATA_SELESAI    = ['selesai', 'done', 'ok', 'tuntas', 'beres', 'finish', 'finished', 'complete', 'v', '✓', 'ya', 'yes'];
-const KATA_BERJALAN   = ['proses', 'berjalan', 'jalan', 'mulai', 'ongoing', 'wip', 'progress', 'in progress', 'berlangsung'];
-const KATA_TERKENDALA = ['kendala', 'terkendala', 'blocked', 'block', 'revisi', 'ulang', 'stuck', 'tertunda', 'pending'];
+const KATA_BERJALAN   = ['proses', 'berjalan', 'jalan', 'mulai', 'ongoing', 'wip', 'progress', 'in progress', 'berlangsung', 'dikerjakan'];
+const KATA_TERKENDALA = ['kendala', 'terkendala', 'terhambat', 'hambat', 'blocked', 'block', 'revisi', 'ulang', 'stuck', 'tertunda', 'pending'];
+
+/* ⚠️ "Menunggu Review" harus diperiksa SEBELUM kata terkendala.
+   Alasannya: daftar terkendala memuat 'pending', dan sebagian orang
+   menulis "pending review" yang maksudnya menunggu ACC dosen, bukan
+   macet. Kalau urutannya terbalik, pekerjaan yang sebenarnya sudah
+   rampung dan tinggal ditandatangani akan tampil oranye seolah
+   bermasalah — persis kebalikan dari keadaannya.
+
+   Nilainya 75% mengikuti tab Pengaturan di spreadsheet: pekerjaan
+   mahasiswa sudah selesai, yang belum hanya masukan dosen. */
+const KATA_REVIEW = ['menunggu review', 'menunggu', 'review', 'pending review', 'acc'];
 
 /** Cari tanggal di dalam teks bebas. Mengembalikan teks tampilan, bukan Date —
  *  yang dibutuhkan tampilan hanya "12 Okt 2026", bukan perhitungan apa pun. */
