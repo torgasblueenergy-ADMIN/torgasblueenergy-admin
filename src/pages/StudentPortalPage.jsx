@@ -400,13 +400,57 @@ function StudentPortalPage({ onBackToMain }) {
             </table>
           </div>
           
-          <div className="px-6 md:px-8 py-4 border-t border-slate-100 text-xs font-bold text-slate-400 bg-slate-50 flex justify-between items-center">
-            <span>{filteredData.length} ENTRIES FOUND</span>
-            {filteredData.length > 0 && (
-              <div className="flex gap-2">
-                 <button className="w-8 h-8 rounded bg-white border border-slate-200 flex items-center justify-center hover:bg-[#041b2e] hover:text-white transition-colors">&lt;</button>
-                 <button className="w-8 h-8 rounded bg-[#041b2e] text-white flex items-center justify-center font-bold">1</button>
-                 <button className="w-8 h-8 rounded bg-white border border-slate-200 flex items-center justify-center hover:bg-[#041b2e] hover:text-white transition-colors">&gt;</button>
+          <div className="px-6 md:px-8 py-4 border-t border-slate-100 text-xs font-bold text-slate-400 bg-slate-50 flex flex-wrap gap-3 justify-between items-center">
+            {/* "11–20 OF 37" lebih berguna daripada "37 ENTRIES FOUND":
+                pembacanya tahu sedang melihat potongan yang mana, bukan
+                cuma tahu totalnya ada berapa. */}
+            <span>
+              {filteredData.length === 0
+                ? '0 ENTRIES'
+                : `${mulai + 1}–${mulai + dataHalaman.length} OF ${filteredData.length} ENTRIES`}
+            </span>
+
+            {totalHalaman > 1 && (
+              <div className="flex gap-1.5 items-center">
+                <button
+                  onClick={() => setHalaman((h) => Math.max(1, h - 1))}
+                  disabled={halamanAman === 1}
+                  aria-label="Halaman sebelumnya"
+                  className="w-8 h-8 rounded bg-white border border-slate-200 flex items-center justify-center hover:bg-[#041b2e] hover:text-white transition-colors disabled:opacity-40 disabled:hover:bg-white disabled:hover:text-slate-400 disabled:cursor-not-allowed"
+                >
+                  &lt;
+                </button>
+
+                {nomorHalaman.map((n, i) =>
+                  n === '…' ? (
+                    /* Elipsis bukan tombol — jangan dijadikan <button>,
+                       karena pembaca layar akan menawarkannya sebagai
+                       sesuatu yang bisa ditekan padahal tidak. */
+                    <span key={`sela-${i}`} className="w-8 h-8 flex items-center justify-center text-slate-300">…</span>
+                  ) : (
+                    <button
+                      key={n}
+                      onClick={() => setHalaman(n)}
+                      aria-current={n === halamanAman ? 'page' : undefined}
+                      className={`w-8 h-8 rounded flex items-center justify-center font-bold transition-colors ${
+                        n === halamanAman
+                          ? 'bg-[#041b2e] text-white'
+                          : 'bg-white border border-slate-200 hover:bg-[#041b2e] hover:text-white'
+                      }`}
+                    >
+                      {n}
+                    </button>
+                  )
+                )}
+
+                <button
+                  onClick={() => setHalaman((h) => Math.min(totalHalaman, h + 1))}
+                  disabled={halamanAman === totalHalaman}
+                  aria-label="Halaman berikutnya"
+                  className="w-8 h-8 rounded bg-white border border-slate-200 flex items-center justify-center hover:bg-[#041b2e] hover:text-white transition-colors disabled:opacity-40 disabled:hover:bg-white disabled:hover:text-slate-400 disabled:cursor-not-allowed"
+                >
+                  &gt;
+                </button>
               </div>
             )}
           </div>
