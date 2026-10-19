@@ -321,8 +321,38 @@ async function ambilCsv(alamat) {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
 
+  /* ================================================================
+     MELEWATI SIMPANAN BROWSER
+     ----------------------------------------------------------------
+     Tanpa ini, permintaan kedua ke alamat yang sama bisa dijawab dari
+     simpanan browser, bukan dari Google. Akibatnya tombol Refresh
+     terasa bekerja padahal tidak mengambil apa pun yang baru, dan
+     penyegaran otomatis jadi sia-sia.
+
+     Dua lapis sengaja dipakai bersama:
+       • cache: 'no-store'  — cara yang benar, didukung browser modern
+       • &_=<waktu>         — alamatnya berbeda tiap permintaan, jadi
+                              tidak ada simpanan yang bisa dicocokkan
+                              sekalipun no-store diabaikan
+
+     Diuji 19 Okt 2026: Google mengabaikan parameter `_` dan tetap
+     membalas CSV yang sama, jadi menambahkannya aman.
+
+     ⚠️ Ini HANYA menghapus simpanan di sisi browser. Simpanan di sisi
+     Google — alamat "publish to web" disajikan dari salinan, bukan
+     dari Sheet langsung — tidak bisa dilewati dengan cara apa pun dari
+     sini. Jeda beberapa menit setelah mengubah Sheet tetap ada. Yang
+     benar-benar menghapusnya hanya pindah ke Apps Script; lihat
+     catatan di atas ambilTimeline(). */
+  const pemutusSimpanan = (alamat.includes('?') ? '&' : '?') + '_=' + Date.now();
+
   try {
-    const res = await fetch(alamat, { method: 'GET', redirect: 'follow', signal: controller.signal });
+    const res = await fetch(alamat + pemutusSimpanan, {
+      method: 'GET',
+      redirect: 'follow',
+      cache: 'no-store',
+      signal: controller.signal
+    });
     if (!res.ok) {
       return { ok: false, message: `Sheet menolak permintaan (kode ${res.status}). Pastikan tab sudah di-publish ke web.` };
     }
