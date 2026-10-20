@@ -398,6 +398,29 @@ const LAB_SECTIONS = [
            bisa dibaca siapa saja. Sebaiknya minta izin ketiganya dulu,
            atau pakai versi CV yang kontaknya sudah disamarkan. */
         cvPdf: "https://drive.google.com/file/d/1r0ybcMwXsitZMaZ0A4HnESgLsFwBtzIn/preview"
+      },
+      {
+        id: "mg-7",
+        /* Nama lengkap dan CV dari isian pendaftaran magang MGG-PQZWD
+           di Spreadsheet DATABASE TORGAS WEBSITE (29 Agu 2026).
+
+           ⚠️ STATUSNYA MASIH PENDING di sheet Magang per 21 Okt 2026 —
+           belum ada approver dan belum ada waktu approval. Ditambahkan
+           ke sini atas permintaan Mahdan. Kalau pendaftarannya ternyata
+           tidak jadi diterima, hapus entri ini beserta foto dan CV-nya.
+           (Berry, mg-5, berada dalam keadaan yang sama.) */
+        name: "Zaidan Rafi Fadhlih",
+        role: "Intern",
+        /* `focus` dikosongkan mengikuti keputusan Mahdan 20 Okt 2026
+           untuk angkatan magang ini. Topik risetnya di formulir —
+           AMDAL sebagai indikator kesehatan lingkungan untuk budidaya —
+           belum tentu sama dengan bidang kerjanya di Torgas, jadi tidak
+           dipakai begitu saja. CvModal.jsx punya kalimat cadangan. */
+        photo: "images/People/Head/zaidan-head.jpg",
+        detailPhoto: "images/People/Body/zaidan-body.jpg",
+        /* Alasan memakai alamat Drive, bukan berkas di cvs/: lihat
+           catatan panjang di entri Ridho (mg-6) di atas. */
+        cvPdf: "https://drive.google.com/file/d/1Ms5_sTsPGfpuNue05Cp1KpU5QdeDt0Gw/preview"
       }
     ]
   }
