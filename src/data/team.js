@@ -339,7 +339,10 @@ const LAB_SECTIONS = [
              focus: "...",
            dan `cvPdf: "cvs/prima.pdf"` kalau CV-nya sudah ada. */
         photo: "images/People/Head/prima-head.jpg",
-        detailPhoto: "images/People/Body/prima-body.jpg"
+        detailPhoto: "images/People/Body/prima-body.jpg",
+        /* CV dari pendaftaran magang MGG-ASQEB. Lihat catatan tentang
+           alamat Drive di entri Ridho di bawah. */
+        cvPdf: "https://drive.google.com/file/d/13B4FGnesB1s-6IvkiP5mzOtDIjm3KEcD/preview"
       },
       {
         id: "mg-5",
