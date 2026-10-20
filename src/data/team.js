@@ -337,6 +337,24 @@ const LAB_SECTIONS = [
            dan `cvPdf: "cvs/prima.pdf"` kalau CV-nya sudah ada. */
         photo: "images/People/Head/prima-head.jpg",
         detailPhoto: "images/People/Body/prima-body.jpg"
+      },
+      {
+        id: "mg-5",
+        /* ⚠️ NAMA PERLU DIKONFIRMASI — 20 Okt 2026.
+           Yang disebutkan saat menambahkan hanya "berry". Nama lengkap
+           di bawah diambil dari pengajuan BIM-J2UR7 di tabel Student
+           Portal, bukan dari orangnya langsung. Kemungkinan besar benar
+           (satu lab, nama Berry tidak umum), tapi belum dipastikan.
+           Kalau ejaannya meleset, betulkan di sini — ini nama orang
+           sungguhan yang terpampang di situs resmi. */
+        name: "Berry Dzaikra Suherman Hibatullah",
+        role: "Intern",
+        /* `focus` dikosongkan dengan alasan yang sama seperti Prima:
+           tidak ada CV atau keterangan bidang yang diberikan, dan
+           menebaknya berarti mengarang. CvModal.jsx punya kalimat
+           cadangan untuk keadaan ini. */
+        photo: "images/People/Head/berry-head.jpg",
+        detailPhoto: "images/People/Body/berry-body.jpg"
       }
     ]
   }
