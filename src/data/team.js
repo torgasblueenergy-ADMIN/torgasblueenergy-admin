@@ -318,6 +318,25 @@ const LAB_SECTIONS = [
         photo: "images/People/Head/hanna-head.jpg",
         detailPhoto: "images/People/Body/hanna-body.jpg",
         cvPdf: "cvs/hanna.pdf"
+      },
+      {
+        id: "mg-4",
+        name: "Prima Ardito Rheza Gunawan",
+        role: "Intern",
+        /* ⚠️ `focus` SENGAJA DIKOSONGKAN — 20 Okt 2026.
+           Tidak ada CV maupun keterangan bidang yang diberikan untuk
+           Prima, dan tiga entri di atas bidangnya diringkas dari CV
+           masing-masing. Menuliskan tebakan di sini sama saja mengarang
+           keterangan tentang orang sungguhan yang dipajang di situs
+           resmi. CvModal.jsx sudah menyiapkan kalimat umum
+           ("Marine Science & Technology Research") untuk keadaan ini,
+           jadi tampilannya tetap rapi.
+
+           Begitu bidangnya diketahui, tambahkan baris:
+             focus: "...",
+           dan `cvPdf: "cvs/prima.pdf"` kalau CV-nya sudah ada. */
+        photo: "images/People/Head/prima-head.jpg",
+        detailPhoto: "images/People/Body/prima-body.jpg"
       }
     ]
   }
