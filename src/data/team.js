@@ -346,13 +346,9 @@ const LAB_SECTIONS = [
       },
       {
         id: "mg-5",
-        /* ⚠️ NAMA PERLU DIKONFIRMASI — 20 Okt 2026.
-           Yang disebutkan saat menambahkan hanya "berry". Nama lengkap
-           di bawah diambil dari pengajuan BIM-J2UR7 di tabel Student
-           Portal, bukan dari orangnya langsung. Kemungkinan besar benar
-           (satu lab, nama Berry tidak umum), tapi belum dipastikan.
-           Kalau ejaannya meleset, betulkan di sini — ini nama orang
-           sungguhan yang terpampang di situs resmi. */
+        /* Nama lengkap TERKONFIRMASI 20 Okt 2026 dari isian pendaftaran
+           magang MGG-8LAH8 di Spreadsheet DATABASE TORGAS WEBSITE —
+           persis sama dengan dugaan awal dari pengajuan BIM-J2UR7. */
         name: "Berry Dzaikra Suherman Hibatullah",
         role: "Intern",
         /* `focus` dikosongkan dengan alasan yang sama seperti Prima:
