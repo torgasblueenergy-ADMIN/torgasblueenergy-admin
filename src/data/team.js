@@ -356,17 +356,17 @@ const LAB_SECTIONS = [
            menebaknya berarti mengarang. CvModal.jsx punya kalimat
            cadangan untuk keadaan ini. */
         photo: "images/People/Head/berry-head.jpg",
-        detailPhoto: "images/People/Body/berry-body.jpg"
+        detailPhoto: "images/People/Body/berry-body.jpg",
+        /* CV dari pendaftaran magang MGG-8LAH8. Lihat catatan tentang
+           alamat Drive di entri Ridho di bawah. */
+        cvPdf: "https://drive.google.com/file/d/1COt4DzGpD0lQHcmDjptdA0TXc4-AjH3x/preview"
       },
       {
         id: "mg-6",
-        /* ⚠️ NAMA BELUM LENGKAP — 20 Okt 2026.
-           Yang disebutkan saat menambahkan hanya "ridho", dan tidak ada
-           sumber lain yang bisa dipakai untuk melengkapinya. Ditulis apa
-           adanya, bukan ditebak-tebak — lima anggota lain memakai nama
-           lengkap, jadi begitu nama lengkapnya diketahui sebaiknya
-           disamakan. */
-        name: "Ridho",
+        /* Nama lengkap dari isian pendaftaran magang MGG-JRJZY di
+           Spreadsheet DATABASE TORGAS WEBSITE, diisi 20 Okt 2026
+           menggantikan "Ridho" yang sebelumnya ditulis apa adanya. */
+        name: "Muhammad Ridho Fazli Rabbani",
         role: "Intern",
         /* `focus` dikosongkan atas permintaan Mahdan (20 Okt 2026):
            yang penting orangnya tampil dulu. CvModal.jsx punya kalimat
