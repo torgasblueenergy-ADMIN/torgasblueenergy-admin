@@ -372,7 +372,32 @@ const LAB_SECTIONS = [
            yang penting orangnya tampil dulu. CvModal.jsx punya kalimat
            cadangan untuk keadaan ini. */
         photo: "images/People/Head/ridho-head.jpg",
-        detailPhoto: "images/People/Body/ridho-body.jpg"
+        detailPhoto: "images/People/Body/ridho-body.jpg",
+        /* CV dari pendaftaran magang MGG-JRJZY.
+
+           ⚠️ KENAPA ALAMAT DRIVE, BUKAN BERKAS DI cvs/
+           Anggota lain memakai `cvPdf: "cvs/nama.pdf"` — berkas PDF
+           yang ikut dipasang bersama situs. Tiga CV magang ini masih
+           berada di Drive dan tidak bisa saya pindahkan sendiri ke
+           folder cvs/, jadi yang dipakai sementara adalah alamat
+           pratinjau Drive.
+
+           Bedanya yang perlu diketahui:
+           - Butuh koneksi ke Drive; kalau berkasnya dipindah, di-rename
+             pemiliknya, atau izinnya diubah dari "anyone with link",
+             pratinjau di situs ikut mati — berkas di cvs/ tidak begitu.
+           - Pratinjau Drive memasang kerangka halaman Google di dalam
+             iframe CvModal, tampilannya tidak seragam dengan CV lain.
+
+           Supaya seragam: unduh ketiganya dari Drive, taruh di folder
+           cvs/ (mis. cvs/ridho.pdf), lalu ganti baris ini menjadi
+           `cvPdf: "cvs/ridho.pdf"`.
+
+           Catatan privasi: CV biasanya memuat nomor HP, alamat surel,
+           dan alamat rumah. Begitu tertaut di situs publik, semuanya
+           bisa dibaca siapa saja. Sebaiknya minta izin ketiganya dulu,
+           atau pakai versi CV yang kontaknya sudah disamarkan. */
+        cvPdf: "https://drive.google.com/file/d/1r0ybcMwXsitZMaZ0A4HnESgLsFwBtzIn/preview"
       }
     ]
   }
