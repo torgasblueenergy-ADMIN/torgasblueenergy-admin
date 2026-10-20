@@ -321,7 +321,10 @@ const LAB_SECTIONS = [
       },
       {
         id: "mg-4",
-        name: "Prima Ardito Rheza Gunawan",
+        /* Ejaan "Ardhito" (pakai h) sesuai isian pendaftaran magang
+           MGG-ASQEB, 5 Agu 2026. Sempat tertulis "Ardito" dan dibetulkan
+           20 Okt 2026. */
+        name: "Prima Ardhito Rheza Gunawan",
         role: "Intern",
         /* ⚠️ `focus` SENGAJA DIKOSONGKAN — 20 Okt 2026.
            Tidak ada CV maupun keterangan bidang yang diberikan untuk
