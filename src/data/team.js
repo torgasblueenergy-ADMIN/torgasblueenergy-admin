@@ -355,6 +355,22 @@ const LAB_SECTIONS = [
            cadangan untuk keadaan ini. */
         photo: "images/People/Head/berry-head.jpg",
         detailPhoto: "images/People/Body/berry-body.jpg"
+      },
+      {
+        id: "mg-6",
+        /* ⚠️ NAMA BELUM LENGKAP — 20 Okt 2026.
+           Yang disebutkan saat menambahkan hanya "ridho", dan tidak ada
+           sumber lain yang bisa dipakai untuk melengkapinya. Ditulis apa
+           adanya, bukan ditebak-tebak — lima anggota lain memakai nama
+           lengkap, jadi begitu nama lengkapnya diketahui sebaiknya
+           disamakan. */
+        name: "Ridho",
+        role: "Intern",
+        /* `focus` dikosongkan atas permintaan Mahdan (20 Okt 2026):
+           yang penting orangnya tampil dulu. CvModal.jsx punya kalimat
+           cadangan untuk keadaan ini. */
+        photo: "images/People/Head/ridho-head.jpg",
+        detailPhoto: "images/People/Body/ridho-body.jpg"
       }
     ]
   }
