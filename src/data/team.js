@@ -404,11 +404,11 @@ const LAB_SECTIONS = [
         /* Nama lengkap dan CV dari isian pendaftaran magang MGG-PQZWD
            di Spreadsheet DATABASE TORGAS WEBSITE (29 Agu 2026).
 
-           ⚠️ STATUSNYA MASIH PENDING di sheet Magang per 21 Okt 2026 —
-           belum ada approver dan belum ada waktu approval. Ditambahkan
-           ke sini atas permintaan Mahdan. Kalau pendaftarannya ternyata
-           tidak jadi diterima, hapus entri ini beserta foto dan CV-nya.
-           (Berry, mg-5, berada dalam keadaan yang sama.) */
+           Mahdan menyatakan 21 Okt 2026 bahwa keempat pemagang sudah
+           diterima. Catat bahwa kolom Status di sheet Magang saat itu
+           masih tertulis PENDING untuk Zaidan (MGG-PQZWD) dan Berry
+           (MGG-8LAH8) — jadi sheet-nya yang perlu disusulkan, bukan
+           keterangan ini. */
         name: "Zaidan Rafi Fadhlih",
         role: "Intern",
         /* `focus` dikosongkan mengikuti keputusan Mahdan 20 Okt 2026
