@@ -65,7 +65,8 @@ const LAB_SECTIONS = [
       },
       {
         id: "lt-3",
-        name: "Talita Risa Margharedna",
+        /* Gelar A.Md.Si ditambahkan 21 Okt 2026 atas permintaan Mahdan. */
+        name: "Talita Risa Margharedna, A.Md.Si",
         role: "Chief Financial Officer",
         focus: "Chemistry & Biochemistry Laboratory Management",
         photo: "images/People/Head/talita-head.jpg",
