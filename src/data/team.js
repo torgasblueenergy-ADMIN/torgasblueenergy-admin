@@ -31,6 +31,30 @@ const LAB_SECTIONS = [
         cvPdf: "cvs/david.pdf"
       },
       {
+        /* Ditambahkan 21 Okt 2026 atas permintaan Mahdan, diletakkan
+           tepat setelah CEO sesuai instruksinya.
+
+           Id-nya lt-6, bukan lt-2, supaya lt-2 sampai lt-5 yang sudah
+           ada tidak perlu digeser — urutan tampilan ditentukan posisi
+           di dalam array ini, bukan angka pada id. Penomoran jadi tidak
+           berurutan, tapi id lama tetap menunjuk orang yang sama. */
+        id: "lt-6",
+        name: "Ingghrid Ranesti Clarita Hadi, S.Si., M.Si.",
+        role: "Head of Torgas Laboratory",
+        /* `focus` dan `cvPdf` dikosongkan: tidak ada keterangan bidang
+           maupun CV yang diberikan, dan menebaknya berarti mengarang.
+           Empat anggota Leadership lain punya keduanya, jadi kartunya
+           akan terlihat lebih kosong sampai data itu ditambahkan.
+           CvModal.jsx punya kalimat cadangan untuk keadaan ini. */
+        photo: "images/People/Head/ingghrid-head.jpg",
+        /* Hanya satu foto yang dikirim, jadi foto kartu dan foto detail
+           berasal dari berkas yang sama: `-head` dipotong rapat di
+           kepala-bahu mengikuti gaya kartu anggota lain, `-body`
+           memakai potongan tengah seluruh badan. Kalau nanti ada sesi
+           foto terpisah, ganti saja kedua berkasnya. */
+        detailPhoto: "images/People/Body/ingghrid-body.jpg"
+      },
+      {
         id: "lt-2",
         name: "Raziq Aldin",
         role: "Head of the Pangandaran Laboratory",
