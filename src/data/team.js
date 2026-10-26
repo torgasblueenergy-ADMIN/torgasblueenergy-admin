@@ -173,7 +173,8 @@ const LAB_SECTIONS = [
       },
       {
         id: "rtj-5",
-        name: "Kathryn Trijatha Putri Rahayu",
+        /* Gelar S.Kel. ditambahkan 26 Okt 2026 atas permintaan Mahdan. */
+        name: "Kathryn Trijatha Putri Rahayu, S.Kel.",
         role: "Research Scientist",
         focus: "Heavy Metal Analysis & Water Quality Assessment",
         photo: "images/People/Head/kathryn-head.jpg",
