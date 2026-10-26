@@ -162,7 +162,8 @@ const LAB_SECTIONS = [
       },
       {
         id: "rtj-4",
-        name: "Galuh Pramudya",
+        /* Gelar S.Kel. ditambahkan 26 Okt 2026 atas permintaan Mahdan. */
+        name: "Galuh Pramudya, S.Kel.",
         role: "Research Scientist",
         focus: "Carbon Sequestration & Modeling of Blue Carbon Ecosystems",
         photo: "images/People/Head/galuh-head.jpg",
