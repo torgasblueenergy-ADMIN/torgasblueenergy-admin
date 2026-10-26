@@ -23,7 +23,8 @@ const LAB_SECTIONS = [
     members: [
       {
         id: "lt-1",
-        name: "David Ferdinand Sinaga",
+        /* Gelar S.Kel. ditambahkan 26 Okt 2026 atas permintaan Mahdan. */
+        name: "David Ferdinand Sinaga, S.Kel.",
         role: "CEO And Head of the Jatinangor Laboratory",
         focus: "Ocean Atmosphere Interaction And Carbon Sequestration",
         photo: "images/People/Head/david-head.jpg",
@@ -141,7 +142,8 @@ const LAB_SECTIONS = [
       },
       {
         id: "rtj-2",
-        name: "Bagus Dwi Cahyo",
+        /* Gelar S.Kel. ditambahkan 26 Okt 2026 atas permintaan Mahdan. */
+        name: "Bagus Dwi Cahyo, S.Kel.",
         role: "Research Engineer",
         focus: "Modeling & Simulation of Marine Systems",
         photo: "images/People/Head/bagus-head.jpg",
@@ -150,7 +152,8 @@ const LAB_SECTIONS = [
       },
       {
         id: "rtj-3",
-        name: "Fataya Alif Rahmani Priatna",
+        /* Gelar S.Kel. ditambahkan 26 Okt 2026 atas permintaan Mahdan. */
+        name: "Fataya Alif Rahmani Priatna, S.Kel.",
         role: "Research Scientist",
         focus: "Drone-based Coastal Survey & Remote Sensing",
         photo: "images/People/Head/fataya-head.jpg",
