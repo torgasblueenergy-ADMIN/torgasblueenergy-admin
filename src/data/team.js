@@ -57,7 +57,8 @@ const LAB_SECTIONS = [
       },
       {
         id: "lt-2",
-        name: "Raziq Aldin",
+        /* Gelar S.Pi. ditambahkan 26 Okt 2026 atas permintaan Mahdan. */
+        name: "Raziq Aldin, S.Pi.",
         role: "Head of the Pangandaran Laboratory",
         focus: "Microplastics, Marine Pollution & Coastal Ecosystem Health",
         photo: "images/People/Head/raziq-head.jpg",
@@ -77,7 +78,8 @@ const LAB_SECTIONS = [
       },
       {
         id: "lt-4",
-        name: "Alifannursin Mahdan Atsarak",
+        /* Gelar S.Pi. ditambahkan 26 Okt 2026 atas permintaan Mahdan. */
+        name: "Alifannursin Mahdan Atsarak, S.Pi.",
         role: "Human Resources & Field Operations Manager",
         focus: "Coral Reef Survey & Coastal Biodiversity Assessment",
         photo: "images/People/Head/alifannursin-head.jpg",
@@ -86,7 +88,9 @@ const LAB_SECTIONS = [
       },
       {
         id: "lt-5",
-        name: "Yolando Ambarita",
+        /* Gelar S.Pi. ditambahkan 26 Okt 2026 atas permintaan Mahdan
+           ("lando"). */
+        name: "Yolando Ambarita, S.Pi.",
         role: "Chief Technology Officer",
         focus: "Marine Technology & IoT Sensor Integration",
         photo: "images/People/Head/yolando-head.jpg",
@@ -183,7 +187,8 @@ const LAB_SECTIONS = [
       },
       {
         id: "rtj-6",
-        name: "Sri Dewi",
+        /* Gelar S.Kel. ditambahkan 26 Okt 2026 atas permintaan Mahdan. */
+        name: "Sri Dewi, S.Kel.",
         role: "Research Assistant",
         focus: "Heavy Metal Analysis & Laboratory Support",
         photo: "images/People/Head/sridewi-head.jpg",
