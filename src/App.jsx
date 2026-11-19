@@ -171,7 +171,13 @@ function App() {
 
       {/* Modals */}
       <BookingModal isOpen={isBookingOpen} onClose={() => setIsBookingOpen(false)} />
-      <ArticleModal article={selectedArticle} onClose={() => setSelectedArticle(null)} />
+      {/* onApply hanya berpengaruh pada artikel lowongan; ArticleModal
+          sendiri yang memutuskan kapan tombolnya ditampilkan. */}
+      <ArticleModal
+        article={selectedArticle}
+        onClose={() => setSelectedArticle(null)}
+        onApply={() => bukaHalaman('career')}
+      />
     </div>
   );
 }
