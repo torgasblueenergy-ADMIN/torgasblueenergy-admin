@@ -129,6 +129,11 @@ function App() {
   // RENDER HALAMAN 4: Part-Time Form
   if (halaman === 'part-time') return <PartTimeFormPage onBackToMain={backToMain} />;
 
+  /* RENDER HALAMAN 4B: Career Form (19 Nov 2026)
+     Punya alamat sendiri (#/career) supaya tautannya bisa dibagikan di
+     Instagram dan WhatsApp, bukan cuma dicapai lewat tombol di beranda. */
+  if (halaman === 'career') return <CareerFormPage onBackToMain={backToMain} />;
+
   // RENDER HALAMAN 5: Kebijakan Privasi / Ketentuan Layanan
   if (halaman === 'privacy' || halaman === 'terms') {
     return <LegalPage type={halaman} onBackToMain={backToMain} />;
@@ -154,9 +159,10 @@ function App() {
         <LabTeamSection />
         <NewsSection onSelectArticle={(art) => setSelectedArticle(art)} />
 
-        {/* Melempar dua fungsi untuk masing-masing formulir kerja */}
+        {/* Melempar tiga fungsi untuk masing-masing formulir kerja */}
         <InternshipSection
           onOpenInternshipForm={() => bukaHalaman('internship')}
+          onOpenCareerForm={() => bukaHalaman('career')}
           onOpenPartTimeForm={() => bukaHalaman('part-time')}
         />
       </main>
