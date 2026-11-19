@@ -1,5 +1,7 @@
+import { SmartImage } from '../SmartImage';
+
 /* ================================================================
-   KOMPONEN 9: INTERNSHIP & PART-TIME SECTION
+   KOMPONEN 9: INTERNSHIP, CAREER & PART-TIME SECTION
    Diperbarui: Tombol presisi ukuran sama & Ikon Two-Tone Profesional
 ================================================================ */
 function InternshipSection({ onOpenInternshipForm, onOpenPartTimeForm, onOpenCareerForm }) {
