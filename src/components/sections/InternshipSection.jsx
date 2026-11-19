@@ -16,26 +16,40 @@ function InternshipSection({ onOpenInternshipForm, onOpenPartTimeForm, onOpenCar
         <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-3xl overflow-hidden shadow-2xl">
           
           {/* ────────────────────────────────────────────────────────────────
-              POSTER MAGANG SEDANG DITURUNKAN — 4 Agu 2026
+              DUA KOLOM LAGI — 19 Nov 2026
 
-              Dulu bagian ini dua kolom: teks di kiri, poster di kanan.
-              Posternya diturunkan atas permintaan, jadi sekarang satu kolom
-              agar tidak menyisakan ruang kosong yang janggal.
+              Riwayat: 4 Agu 2026 poster magang diturunkan dan bagian ini
+              dijadikan satu kolom. Sekarang kembali dua kolom atas
+              permintaan Mahdan, tapi isinya FLYER LOWONGAN, bukan poster
+              magang yang dulu — dan posisinya di KIRI teks, kebalikan
+              dari tata letak lama.
 
-              MENGEMBALIKAN POSTER NANTI:
-                1. Ubah baris di bawah menjadi:
-                   <div className="grid grid-cols-1 lg:grid-cols-2 items-stretch">
-                2. Kembalikan class kolom teks menjadi:
-                   "p-8 sm:p-12 lg:p-16 flex flex-col justify-center order-2 lg:order-1"
-                3. Pasang kembali blok <SmartImage> kolom kanan.
+              Di layar kecil flyer tampil DI ATAS teks (grid satu kolom,
+              flyer lebih dulu). Itu disengaja: flyer inilah yang menarik
+              perhatian, dan menaruhnya di bawah tombol berarti hampir
+              tidak ada yang melihatnya di ponsel.
 
-              Berkas gambarnya TIDAK dihapus — masih ada di
-              public/images/activities/, jadi tinggal dipakai lagi.
+              Flyer memakai object-contain, bukan object-cover. Rasionya
+              9:16 sedangkan kolom ini jauh lebih pendek — dengan cover,
+              yang tersisa hanya potongan tengah dan tulisan "WE ARE
+              HIRING" ikut terpotong.
           ──────────────────────────────────────────────────────────────── */}
-          <div className="grid grid-cols-1 items-stretch">
+          <div className="grid grid-cols-1 lg:grid-cols-2 items-stretch">
 
-            {/* KOLOM TUNGGAL: Teks & Tombol Pendaftaran */}
-            <div className="p-8 sm:p-12 lg:p-16 flex flex-col justify-center max-w-3xl mx-auto w-full">
+            {/* KOLOM KIRI: Flyer Lowongan */}
+            <div className="order-1 bg-[#02121f] flex items-center justify-center p-6 sm:p-8 lg:p-10">
+              <SmartImage
+                src="images/activities/hiring-2026-11-flyer.jpg"
+                alt="We Are Hiring: 7 Junior Scientist positions and 1 project-based contract at Torgas Laboratory. Application deadline 25 November 2026."
+                className="w-full max-w-sm lg:max-w-none max-h-[560px] lg:max-h-[640px] object-contain rounded-2xl shadow-2xl"
+                /* Kalau berkasnya hilang, kolom ini dikosongkan saja —
+                   lebih baik daripada ikon gambar rusak di samping teks. */
+                onError={(e) => { e.target.style.display = 'none'; }}
+              />
+            </div>
+
+            {/* KOLOM KANAN: Teks & Tombol Pendaftaran */}
+            <div className="order-2 p-8 sm:p-12 lg:p-16 flex flex-col justify-center w-full">
               <span className="text-[#FFAD26] font-extrabold text-xs uppercase tracking-widest mb-4 block flex items-center gap-2">
                 <span className="w-6 h-px bg-[#FFAD26]"></span> JOIN OUR TEAM
               </span>
