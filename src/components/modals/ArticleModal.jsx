@@ -4,10 +4,15 @@ import { SmartImage } from '../SmartImage';
    MODAL POP-UP ARTIKEL & BERITA (LANGSUNG KONTEN LENGKAP)
    Diperbarui: Menghapus keterangan "Author / Penulis" di dalam Pop-up
 ================================================================ */
-function ArticleModal({ article, onClose }) {
+/* `onApply` dipanggil saat pengunjung menekan tombol melamar pada
+   artikel lowongan. Dibiarkan opsional dengan sengaja: modal ini juga
+   dipakai di tempat lain yang tidak punya halaman form, dan di sana
+   tombolnya cukup tidak muncul daripada memunculkan tombol mati. */
+function ArticleModal({ article, onClose, onApply }) {
   if (!article) return null;
 
   const adaVideo = Boolean(article.youtubeId || article.driveId);
+  const adaLowongan = Boolean(article.lowongan && onApply);
 
   return (
     <div className="fixed inset-0 z-[9999] flex items-center justify-center p-3 sm:p-5 bg-[#041b2e]/80 backdrop-blur-md animate-fadeIn">
@@ -130,6 +135,28 @@ function ArticleModal({ article, onClose }) {
           <div className="text-slate-700 text-sm sm:text-base leading-relaxed text-justify space-y-4 pt-2 whitespace-pre-line font-medium">
             {article.content || "Full content for this article is not available yet."}
           </div>
+
+          {/* ── AJAKAN MELAMAR (19 Nov 2026) ───────────────────────────
+              Hanya tampil pada artikel yang dikenali sebagai lowongan
+              (lihat terapkanLowongan di src/lib/publikasi.js). Ditaruh
+              di dalam badan artikel, bukan di footer, supaya pembaca
+              menemukannya tepat setelah selesai membaca syaratnya. */}
+          {adaLowongan && (
+            <div className="mt-6 rounded-2xl border-2 border-[#FFAD26] bg-[#FFAD26]/10 p-5 sm:p-6">
+              <p className="text-[11px] font-extrabold uppercase tracking-widest text-[#b45309] mb-1.5">
+                Interested in this position?
+              </p>
+              <p className="text-sm text-slate-700 font-medium mb-4">
+                Submit your application through our career form. You will need your CV in PDF format.
+              </p>
+              <button
+                onClick={() => { onApply(); onClose(); }}
+                className="w-full sm:w-auto px-8 py-3.5 bg-[#041b2e] hover:bg-[#0096d7] text-white font-extrabold text-sm uppercase tracking-wider rounded-xl transition-colors shadow-lg hover:shadow-xl inline-flex items-center justify-center gap-2 cursor-pointer"
+              >
+                Apply Now →
+              </button>
+            </div>
+          )}
 
         </div>
 
