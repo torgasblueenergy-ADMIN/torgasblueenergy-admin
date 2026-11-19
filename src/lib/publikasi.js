@@ -240,6 +240,42 @@ function terapkanDoi(r) {
 }
 
 /* ================================================================
+   ARTIKEL LOWONGAN — TOMBOL APPLY DI DALAM POP-UP
+   ----------------------------------------------------------------
+   Dibuat 19 Nov 2026. Mengikuti pola yang sama seperti VIDEO dan DOI
+   di atas: penandanya dibaca DI SINI, bukan lewat kolom baru di
+   backend, supaya menambah lowongan berikutnya cukup dilakukan di
+   Spreadsheet tanpa menerbitkan ulang Apps Script.
+
+   Sebuah baris dianggap artikel lowongan bila SALAH SATU terpenuhi:
+
+     1. Kolom Tipe_Kategori memuat kata "lowongan", "hiring", "career",
+        atau "rekrutmen"  → cara utama, satu sel yang jelas
+     2. Judulnya memuat kata-kata itu → jaring pengaman, untuk baris
+        yang kategorinya telanjur ditulis "News" biasa
+
+   Artikelnya TETAP masuk tab News — penanda ini hanya menambahkan
+   tombol Apply di pop-up, tidak memindahkannya ke kategori lain.
+
+   ⚠️ Jangan ubah aturan 2 menjadi pencocokan kata "kerja" atau
+   "work": berita kegiatan lapangan ("fieldwork", "kerja bakti")
+   akan ikut tertangkap dan muncul tombol melamar di artikel yang
+   bukan lowongan.
+================================================================ */
+const KATA_LOWONGAN = ['lowongan', 'hiring', 'career', 'rekrutmen', 'recruitment'];
+
+function mengandungKataLowongan(teks) {
+  const s = String(teks || '').toLowerCase();
+  return KATA_LOWONGAN.some((k) => s.includes(k));
+}
+
+function terapkanLowongan(r) {
+  const lowongan =
+    mengandungKataLowongan(r.rawCategory) || mengandungKataLowongan(r.title);
+  return lowongan ? { ...r, lowongan: true } : r;
+}
+
+/* ================================================================
    URUTAN — YANG BARU DIUNGGAH DI DEPAN, BUKAN YANG TANGGALNYA MUDA
    ----------------------------------------------------------------
    Backend sudah mengurutkan hasilnya berdasarkan TANGGAL menurun, dan
@@ -318,7 +354,7 @@ async function cobaSatuAksi(aksi) {
     const data = urutkan(
       json.data
         .filter((r) => r && String(r.title || '').trim())
-        .map((r) => terapkanDoi(terapkanKategori({ ...r, date: tanggalInggris(r.sortKey, r.date) })))
+        .map((r) => terapkanLowongan(terapkanDoi(terapkanKategori({ ...r, date: tanggalInggris(r.sortKey, r.date) }))))
     );
 
     return { siap: true, data };
