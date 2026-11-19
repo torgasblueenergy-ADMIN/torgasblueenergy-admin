@@ -2,7 +2,7 @@
    KOMPONEN 9: INTERNSHIP & PART-TIME SECTION
    Diperbarui: Tombol presisi ukuran sama & Ikon Two-Tone Profesional
 ================================================================ */
-function InternshipSection({ onOpenInternshipForm, onOpenPartTimeForm }) {
+function InternshipSection({ onOpenInternshipForm, onOpenPartTimeForm, onOpenCareerForm }) {
   return (
     <section id="internship" className="section-band bg-[#041b2e] py-20 md:py-28 relative overflow-hidden">
       
