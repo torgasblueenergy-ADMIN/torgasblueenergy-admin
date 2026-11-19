@@ -64,8 +64,29 @@ function InternshipSection({ onOpenInternshipForm, onOpenPartTimeForm, onOpenCar
                   </svg>
                   Internship Application Form
                 </button>
-                
-                {/* Tombol 2: Part-Time */}
+
+                {/* ── Tombol 2: Career (19 Nov 2026) ──────────────────────
+                    Diletakkan tepat setelah Internship atas permintaan
+                    Mahdan. Dibuat PALING menonjol dari ketiganya (isi
+                    penuh, bukan garis tepi) karena inilah yang sedang
+                    dikampanyekan lewat flyer "We Are Hiring". */}
+                <button
+                  onClick={onOpenCareerForm}
+                  className="w-full px-6 py-4 bg-[#FFAD26] hover:bg-white text-[#041b2e] font-extrabold rounded-xl transition-all duration-300 shadow-[0_0_20px_rgba(255,173,38,0.35)] hover:shadow-lg flex items-center justify-center gap-3 text-sm uppercase tracking-wider group"
+                >
+                  {/* Ikon Two-Tone: Lencana / Identitas Pegawai */}
+                  <svg className="w-5 h-5 flex-shrink-0 transition-colors" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M3 7C3 5.89543 3.89543 5 5 5H19C20.1046 5 21 5.89543 21 7V18C21 19.1046 20.1046 20 19 20H5C3.89543 20 3 19.1046 3 18V7Z" fill="currentColor" fillOpacity="0.25"/>
+                    <path d="M3 7C3 5.89543 3.89543 5 5 5H19C20.1046 5 21 5.89543 21 7V18C21 19.1046 20.1046 20 19 20H5C3.89543 20 3 19.1046 3 18V7Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M9 2V5M15 2V5" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                    <circle cx="9" cy="11" r="2" stroke="currentColor" strokeWidth="2"/>
+                    <path d="M6 16C6 14.8954 7.34315 14 9 14C10.6569 14 12 14.8954 12 16" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                    <path d="M15 11H18M15 15H18" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                  </svg>
+                  Career — We Are Hiring
+                </button>
+
+                {/* Tombol 3: Part-Time */}
                 <button 
                   onClick={onOpenPartTimeForm}
                   className="w-full px-6 py-4 bg-transparent hover:bg-[#FFAD26] border-2 border-[#FFAD26] text-[#FFAD26] hover:text-[#041b2e] font-extrabold rounded-xl transition-all duration-300 hover:shadow-lg flex items-center justify-center gap-3 text-sm uppercase tracking-wider group"

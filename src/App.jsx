@@ -11,6 +11,7 @@ import { LabTeamSection } from './components/sections/LabTeamSection';
 import { NewsSection } from './components/sections/NewsSection';
 import { ProjectsSection } from './components/sections/ProjectsSection';
 import { useReveal } from './lib/useReveal';
+import { CareerFormPage } from './pages/CareerFormPage';
 import { CollaboratorPage } from './pages/CollaboratorPage';
 import { InternshipFormPage } from './pages/InternshipFormPage';
 import { LegalPage } from './pages/LegalPage';
@@ -52,6 +53,7 @@ const RUTE = {
   '#/collaborator':   'collaborator',
   '#/internship':     'internship',
   '#/part-time':      'part-time',
+  '#/career':         'career',
   '#/privacy':        'privacy',
   '#/terms':          'terms',
 };
