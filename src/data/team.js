@@ -23,6 +23,12 @@ const LAB_SECTIONS = [
     members: [
       {
         id: "lt-1",
+        /* DIARSIPKAN 20 Nov 2026 atas permintaan Mahdan — menunggu
+           penempatan ulang selama masa open hiring. Datanya sengaja
+           TIDAK dihapus: hapus satu baris `tampilkan: false` di bawah
+           dan orangnya kembali tampil persis seperti semula, lengkap
+           dengan foto, focus, dan CV-nya. */
+        tampilkan: false,
         /* Gelar S.Kel. ditambahkan 26 Okt 2026 atas permintaan Mahdan. */
         name: "David Ferdinand Sinaga, S.Kel.",
         role: "CEO And Head of the Jatinangor Laboratory",
@@ -57,6 +63,12 @@ const LAB_SECTIONS = [
       },
       {
         id: "lt-2",
+        /* DIARSIPKAN 20 Nov 2026 atas permintaan Mahdan — menunggu
+           penempatan ulang selama masa open hiring. Datanya sengaja
+           TIDAK dihapus: hapus satu baris `tampilkan: false` di bawah
+           dan orangnya kembali tampil persis seperti semula, lengkap
+           dengan foto, focus, dan CV-nya. */
+        tampilkan: false,
         /* Gelar S.Pi. ditambahkan 26 Okt 2026 atas permintaan Mahdan. */
         name: "Raziq Aldin, S.Pi.",
         role: "Head of the Pangandaran Laboratory",
@@ -88,6 +100,12 @@ const LAB_SECTIONS = [
       },
       {
         id: "lt-5",
+        /* DIARSIPKAN 20 Nov 2026 atas permintaan Mahdan — menunggu
+           penempatan ulang selama masa open hiring. Datanya sengaja
+           TIDAK dihapus: hapus satu baris `tampilkan: false` di bawah
+           dan orangnya kembali tampil persis seperti semula, lengkap
+           dengan foto, focus, dan CV-nya. */
+        tampilkan: false,
         /* Gelar S.Pi. ditambahkan 26 Okt 2026 atas permintaan Mahdan
            ("lando"). */
         name: "Yolando Ambarita, S.Pi.",
@@ -147,6 +165,12 @@ const LAB_SECTIONS = [
       },
       {
         id: "rtj-2",
+        /* DIARSIPKAN 20 Nov 2026 atas permintaan Mahdan — menunggu
+           penempatan ulang selama masa open hiring. Datanya sengaja
+           TIDAK dihapus: hapus satu baris `tampilkan: false` di bawah
+           dan orangnya kembali tampil persis seperti semula, lengkap
+           dengan foto, focus, dan CV-nya. */
+        tampilkan: false,
         /* Gelar S.Kel. ditambahkan 26 Okt 2026 atas permintaan Mahdan. */
         name: "Bagus Dwi Cahyo, S.Kel.",
         role: "Research Engineer",
@@ -157,6 +181,12 @@ const LAB_SECTIONS = [
       },
       {
         id: "rtj-3",
+        /* DIARSIPKAN 20 Nov 2026 atas permintaan Mahdan — menunggu
+           penempatan ulang selama masa open hiring. Datanya sengaja
+           TIDAK dihapus: hapus satu baris `tampilkan: false` di bawah
+           dan orangnya kembali tampil persis seperti semula, lengkap
+           dengan foto, focus, dan CV-nya. */
+        tampilkan: false,
         /* Gelar S.Kel. ditambahkan 26 Okt 2026 atas permintaan Mahdan. */
         name: "Fataya Alif Rahmani Priatna, S.Kel.",
         role: "Research Scientist",
@@ -167,6 +197,12 @@ const LAB_SECTIONS = [
       },
       {
         id: "rtj-4",
+        /* DIARSIPKAN 20 Nov 2026 atas permintaan Mahdan — menunggu
+           penempatan ulang selama masa open hiring. Datanya sengaja
+           TIDAK dihapus: hapus satu baris `tampilkan: false` di bawah
+           dan orangnya kembali tampil persis seperti semula, lengkap
+           dengan foto, focus, dan CV-nya. */
+        tampilkan: false,
         /* Gelar S.Kel. ditambahkan 26 Okt 2026 atas permintaan Mahdan. */
         name: "Galuh Pramudya, S.Kel.",
         role: "Research Scientist",
@@ -177,6 +213,12 @@ const LAB_SECTIONS = [
       },
       {
         id: "rtj-5",
+        /* DIARSIPKAN 20 Nov 2026 atas permintaan Mahdan — menunggu
+           penempatan ulang selama masa open hiring. Datanya sengaja
+           TIDAK dihapus: hapus satu baris `tampilkan: false` di bawah
+           dan orangnya kembali tampil persis seperti semula, lengkap
+           dengan foto, focus, dan CV-nya. */
+        tampilkan: false,
         /* Gelar S.Kel. ditambahkan 26 Okt 2026 atas permintaan Mahdan. */
         name: "Kathryn Trijatha Putri Rahayu, S.Kel.",
         role: "Research Scientist",
@@ -276,6 +318,12 @@ const LAB_SECTIONS = [
       /* ── Sebelumnya berdiri sendiri sebagai seksi RESEARCH TEAM PANGANDARAN ── */
       {
         id: "rtp-1",
+        /* DIARSIPKAN 20 Nov 2026 atas permintaan Mahdan — menunggu
+           penempatan ulang selama masa open hiring. Datanya sengaja
+           TIDAK dihapus: hapus satu baris `tampilkan: false` di bawah
+           dan orangnya kembali tampil persis seperti semula, lengkap
+           dengan foto, focus, dan CV-nya. */
+        tampilkan: false,
         name: "Yudi Ardiansyah Saputra",
         role: "Technical Specialist",
         focus: "Marine Engineering & Coastal Survey Operations",
