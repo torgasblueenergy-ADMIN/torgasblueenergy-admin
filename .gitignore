@@ -74,3 +74,8 @@ apps-script/.deploy-hold
 apps-script/.deploy-cooldown
 apps-script/.deploy-fails
 apps-script/.deploy-manual-needed
+
+# Dokumen internal HR dan sejenisnya. Sengaja TIDAK ikut ke git:
+# repositori ini terhubung ke GitHub, sedangkan isi map ini berisi
+# kunci jawaban wawancara dan catatan penilaian kandidat.
+dokumen-internal/
