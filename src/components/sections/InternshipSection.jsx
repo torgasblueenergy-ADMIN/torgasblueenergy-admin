@@ -1,10 +1,17 @@
 import { SmartImage } from '../SmartImage';
+import { pendaftaranDitutup } from '../../data/lowongan';
 
 /* ================================================================
    KOMPONEN 9: INTERNSHIP, CAREER & PART-TIME SECTION
    Diperbarui: Tombol presisi ukuran sama & Ikon Two-Tone Profesional
 ================================================================ */
 function InternshipSection({ onOpenInternshipForm, onOpenPartTimeForm, onOpenCareerForm }) {
+  /* Dihitung sekali saat bagian ini dirender. Tidak perlu diperbarui
+     berkala seperti di halaman formulir: pengunjung beranda yang
+     menekan tombol ini akan dibawa ke halaman Career, dan halaman
+     itulah yang memeriksa ulang serta menjelaskan penutupannya. */
+  const careerDitutup = pendaftaranDitutup();
+
   return (
     <section id="internship" className="section-band bg-[#041b2e] py-20 md:py-28 relative overflow-hidden">
       
@@ -88,7 +95,9 @@ function InternshipSection({ onOpenInternshipForm, onOpenPartTimeForm, onOpenCar
                     dikampanyekan lewat flyer "We Are Hiring". */}
                 <button
                   onClick={onOpenCareerForm}
-                  className="w-full px-6 py-4 bg-[#FFAD26] hover:bg-white text-[#041b2e] font-extrabold rounded-xl transition-all duration-300 shadow-[0_0_20px_rgba(255,173,38,0.35)] hover:shadow-lg flex items-center justify-center gap-3 text-sm uppercase tracking-wider group"
+                  className={careerDitutup
+                    ? "w-full px-6 py-4 bg-white/10 hover:bg-white/20 border border-white/25 text-slate-300 font-extrabold rounded-xl transition-all duration-300 flex items-center justify-center gap-3 text-sm uppercase tracking-wider group"
+                    : "w-full px-6 py-4 bg-[#FFAD26] hover:bg-white text-[#041b2e] font-extrabold rounded-xl transition-all duration-300 shadow-[0_0_20px_rgba(255,173,38,0.35)] hover:shadow-lg flex items-center justify-center gap-3 text-sm uppercase tracking-wider group"}
                 >
                   {/* Ikon Two-Tone: Lencana / Identitas Pegawai */}
                   <svg className="w-5 h-5 flex-shrink-0 transition-colors" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

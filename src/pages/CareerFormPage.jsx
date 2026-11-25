@@ -126,11 +126,55 @@ function CareerFormPage({ onBackToMain, posisiAwal = '' }) {
 
       <div className="max-w-3xl mx-auto px-4 sm:px-6 relative z-10">
 
+        {/* ── PENDAFTARAN SUDAH DITUTUP ────────────────────────────
+            Halaman tetap bisa dibuka, tidak dialihkan ke mana-mana.
+            Pelamar yang menyimpan tautannya berhak tahu apa yang
+            terjadi, bukan menemukan halaman kosong atau 404. */}
+        {ditutup ? (
+          <div className="bg-white/70 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/60 p-8 sm:p-12 border-t-4 border-t-slate-400 text-center">
+            <div className="w-16 h-16 mx-auto mb-5 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center">
+              <svg className="w-8 h-8 text-slate-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" aria-hidden="true">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+
+            <span className="text-xs font-extrabold text-slate-500 uppercase tracking-widest block mb-3">
+              Applications Closed
+            </span>
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-[#041b2e] mb-4">
+              This recruitment round has closed
+            </h1>
+            <p className="text-slate-600 text-sm sm:text-base leading-relaxed max-w-xl mx-auto mb-3">
+              Applications for our Junior Scientist positions and the project-based contract
+              closed on <span className="font-bold text-[#041b2e]">{TENGGAT_LOWONGAN} at 23:59 WIB</span>.
+              We are no longer accepting submissions for this round.
+            </p>
+            <p className="text-slate-600 text-sm sm:text-base leading-relaxed max-w-xl mx-auto mb-8">
+              If you submitted an application before the deadline, it has been received and is
+              being reviewed. We will contact every applicant by email, including those we are
+              unable to take forward.
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-3 justify-center">
+              <button onClick={onBackToMain} className="px-7 py-3 bg-[#041b2e] hover:bg-[#0096d7] text-white font-extrabold text-sm rounded-xl transition-colors shadow-lg">
+                Back to Homepage
+              </button>
+              <a
+                href="https://www.instagram.com/torgasblueenergy"
+                target="_blank" rel="noopener noreferrer"
+                className="px-7 py-3 bg-white border-2 border-slate-300 hover:border-[#0096d7] hover:text-[#0096d7] text-slate-600 font-extrabold text-sm rounded-xl transition-colors"
+              >
+                Follow for future openings
+              </a>
+            </div>
+          </div>
+        ) : (
+        <>
         <div className="mb-8 text-center sm:text-left">
           <span className="text-xs font-bold text-[#0096d7] uppercase tracking-widest block mb-2 drop-shadow-sm">JOIN THE TORGAS LABORATORY RESEARCH TEAM</span>
           <h1 className="text-3xl font-extrabold text-[#041b2e] mb-2 drop-shadow-sm">Career Application Form</h1>
           <p className="text-slate-600 text-sm font-semibold drop-shadow-sm">
-            Apply for one of our Junior Scientist positions or the project-based contract. Application deadline: {TENGGAT_LOWONGAN}.
+            Apply for one of our Junior Scientist positions or the project-based contract. Applications close {TENGGAT_LOWONGAN} at 23:59 WIB.
           </p>
         </div>
 
@@ -271,6 +315,8 @@ function CareerFormPage({ onBackToMain, posisiAwal = '' }) {
 
           </form>
         </div>
+        </>
+        )}
       </div>
     </div>
   );
