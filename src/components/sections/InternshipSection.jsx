@@ -108,7 +108,7 @@ function InternshipSection({ onOpenInternshipForm, onOpenPartTimeForm, onOpenCar
                     <path d="M6 16C6 14.8954 7.34315 14 9 14C10.6569 14 12 14.8954 12 16" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
                     <path d="M15 11H18M15 15H18" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
                   </svg>
-                  Career — We Are Hiring
+                  {careerDitutup ? 'Career — Applications Closed' : 'Career — We Are Hiring'}
                 </button>
 
                 {/* Tombol 3: Part-Time */}
