@@ -59,10 +59,38 @@ function namaPosisiLengkap(kode) {
   return p ? `${p.kelompok} — ${p.nama}` : '';
 }
 
-/* Tenggat yang tertulis di flyer. Dipakai hanya untuk DITAMPILKAN;
-   atas keputusan Mahdan (19 Nov 2026) formulir TIDAK menutup sendiri
-   setelah tanggal ini — penutupannya diputuskan manusia. Jangan
-   ubah ini menjadi penyaring tanpa memberi tahu dia. */
+/* Tenggat yang tertulis di flyer, untuk ditampilkan ke pelamar. */
 const TENGGAT_LOWONGAN = '25 November 2026';
 
-export { POSISI_LOWONGAN, POSISI_PER_KODE, namaPosisiLengkap, TENGGAT_LOWONGAN };
+/* ================================================================
+   PENUTUPAN OTOMATIS — diputuskan Mahdan 25 Nov 2026
+
+   Semula (19 Nov) formulir sengaja dibiarkan terbuka tanpa batas dan
+   penutupannya diserahkan ke manusia. Keputusan itu diubah: portal
+   menutup sendiri pada 25 Nov 2026 pukul 23.59 WIB.
+
+   ⚠️ KENAPA DITULIS LENGKAP DENGAN ZONA WAKTU
+   Nilai di bawah adalah SATU TITIK WAKTU MUTLAK, bukan "jam 23.59 di
+   tempat pengunjung". Pelamar bisa membuka situs dari mana saja, dan
+   jam di komputernya bisa salah atau beda zona. Dengan menulis
+   +07:00, pelamar di Makassar, Jayapura, maupun luar negeri semuanya
+   tertutup pada detik yang sama, yaitu 23.59 WIB.
+
+   ⚠️ INI BARU SEPARUH PENGAMANNYA
+   Pemeriksaan di sini hanya menyembunyikan formulir. Siapa pun bisa
+   memanggil endpoint backend langsung. Penolakan yang sesungguhnya
+   ada di handleCareer() pada apps-script/live/Code.js, yang memakai
+   tenggat yang sama. Kalau tanggal ini diubah, UBAH JUGA DI SANA.
+================================================================ */
+const TUTUP_PENDAFTARAN = '2026-11-25T23:59:59+07:00';
+
+function pendaftaranDitutup(sekarang = new Date()) {
+  const batas = Date.parse(TUTUP_PENDAFTARAN);
+  if (Number.isNaN(batas)) return false;   // salah tulis tanggal → jangan menutup diam-diam
+  return sekarang.getTime() > batas;
+}
+
+export {
+  POSISI_LOWONGAN, POSISI_PER_KODE, namaPosisiLengkap,
+  TENGGAT_LOWONGAN, TUTUP_PENDAFTARAN, pendaftaranDitutup,
+};

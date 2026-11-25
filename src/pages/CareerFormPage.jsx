@@ -1,8 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { SmartImage } from '../components/SmartImage';
 import { CvUploadField } from '../components/CvUploadField';
 import { submitForm } from '../lib/api';
-import { POSISI_LOWONGAN, POSISI_PER_KODE, namaPosisiLengkap, TENGGAT_LOWONGAN } from '../data/lowongan';
+import {
+  POSISI_LOWONGAN, POSISI_PER_KODE, namaPosisiLengkap,
+  TENGGAT_LOWONGAN, pendaftaranDitutup,
+} from '../data/lowongan';
 
 /* ================================================================
    HALAMAN FORM LAMARAN KERJA (CAREER)
