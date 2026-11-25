@@ -28,6 +28,21 @@ function CareerFormPage({ onBackToMain, posisiAwal = '' }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [cvFile, setCvFile] = useState(null); // {name, mimeType, base64} | null
 
+  /* Status buka-tutup disimpan di state, bukan dihitung sekali saat
+     render. Alasannya: halaman ini bisa saja dibiarkan terbuka di
+     ponsel pelamar melewati tengah malam. Tanpa pemeriksaan berkala,
+     formulirnya tetap tampil dan pelamar baru tahu sudah ditutup
+     setelah menulis panjang lebar lalu ditolak backend. */
+  const [ditutup, setDitutup] = useState(() => pendaftaranDitutup());
+
+  useEffect(() => {
+    if (ditutup) return;
+    const jam = setInterval(() => {
+      if (pendaftaranDitutup()) setDitutup(true);
+    }, 30000);
+    return () => clearInterval(jam);
+  }, [ditutup]);
+
   const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
   /* Posisi terpilih dipakai dua kali: untuk petunjuk keahlian teknis,
@@ -40,6 +55,13 @@ function CareerFormPage({ onBackToMain, posisiAwal = '' }) {
     /* CV diwajibkan. Backend tetap menyimpan lamaran tanpa CV supaya
        tidak ada yang hilang diam-diam, tapi dari formulir ini CV
        selalu ikut — lamaran tanpa CV praktis tidak bisa dinilai. */
+    /* Diperiksa lagi tepat saat tombol ditekan. Pemeriksaan di awal
+       bisa terlewat kalau halaman dibuka sebelum tengah malam. */
+    if (pendaftaranDitutup()) {
+      setDitutup(true);
+      return;
+    }
+
     if (!cvFile) {
       setStatusMsg('❌ A CV is required. Please choose a PDF file first.');
       return;
